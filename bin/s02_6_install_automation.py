@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from pyproject_ops.cli import pyops
+from pyproject_ops.init import pyops
 
-pyops.pip_install_automation(real_run=True, verbose=True)
+pyops.poetry_install_auto(real_run=True, verbose=True)

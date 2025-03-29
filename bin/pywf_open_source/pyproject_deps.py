@@ -20,7 +20,7 @@ from .helpers import sha256_of_bytes, print_command
 
 
 if T.TYPE_CHECKING:
-    from .ops import PyProjectOps
+    from .define import PyWfOps
 
 
 @dataclasses.dataclass
@@ -146,6 +146,8 @@ class PyProjectDeps:
         real_run: bool = True,
     ):
         """
+        Install dev dependencies.
+
         Run:
 
         .. code-block:: bash
@@ -156,10 +158,10 @@ class PyProjectDeps:
 
         - poetry install: https://python-poetry.org/docs/cli/#install
         """
-        with self.dir_project_root.temp_cwd():
-            args = [f"{self.path_bin_poetry}", "install", "--with", "dev"]
-            print_command(args)
-            if real_run:
+        args = [f"{self.path_bin_poetry}", "install", "--with", "dev"]
+        print_command(args)
+        if real_run:
+            with temp_cwd(self.dir_project_root):
                 subprocess.run(args, check=True)
 
     def poetry_install_dev(
@@ -180,6 +182,8 @@ class PyProjectDeps:
         real_run: bool = True,
     ):
         """
+        Install test dependencies.
+
         Run:
 
         .. code-block:: bash
@@ -190,10 +194,10 @@ class PyProjectDeps:
 
         - poetry install: https://python-poetry.org/docs/cli/#install
         """
-        with self.dir_project_root.temp_cwd():
-            args = [f"{self.path_bin_poetry}", "install", "--with", "test"]
-            print_command(args)
-            if real_run:
+        args = [f"{self.path_bin_poetry}", "install", "--with", "test"]
+        print_command(args)
+        if real_run:
+            with temp_cwd(self.dir_project_root):
                 subprocess.run(args, check=True)
 
     def poetry_install_test(
@@ -214,6 +218,8 @@ class PyProjectDeps:
         real_run: bool = True,
     ):
         """
+        Install doc dependencies.
+
         Run:
 
         .. code-block:: bash
@@ -224,10 +230,10 @@ class PyProjectDeps:
 
         - poetry install: https://python-poetry.org/docs/cli/#install
         """
-        with self.dir_project_root.temp_cwd():
-            args = [f"{self.path_bin_poetry}", "install", "--with", "doc"]
-            print_command(args)
-            if real_run:
+        args = [f"{self.path_bin_poetry}", "install", "--with", "doc"]
+        print_command(args)
+        if real_run:
+            with temp_cwd(self.dir_project_root):
                 subprocess.run(args, check=True)
 
     def poetry_install_doc(
@@ -243,6 +249,42 @@ class PyProjectDeps:
             real_run=real_run,
         )
 
+    def _poetry_install_auto(
+        self: "PyProjectOps",
+        real_run: bool = True,
+    ):
+        """
+        Install automation dependencies.
+
+        Run:
+
+        .. code-block:: bash
+
+            poetry install --with doc
+
+        Ref:
+
+        - poetry install: https://python-poetry.org/docs/cli/#install
+        """
+        args = [f"{self.path_bin_poetry}", "install", "--with", "auto"]
+        print_command(args)
+        if real_run:
+            with temp_cwd(self.dir_project_root):
+                subprocess.run(args, check=True)
+
+    def poetry_install_auto(
+        self: "PyProjectOps",
+        real_run: bool = True,
+        verbose: bool = False,
+    ):  # pragma: no cover
+        return self._with_logger(
+            method=self._poetry_install_auto,
+            msg="Install automation dependencies",
+            emoji=Emoji.install,
+            verbose=verbose,
+            real_run=real_run,
+        )
+
     def _poetry_install_all(
         self: "PyProjectOps",
         real_run: bool = True,
@@ -252,32 +294,17 @@ class PyProjectDeps:
 
         .. code-block:: bash
 
-            pip install -r requirements-automation.txt
-            poetry install
-            poetry install --with dev,test,doc
+            poetry install --all-groups
 
         Ref:
 
         - poetry install: https://python-poetry.org/docs/cli/#install
         """
-        args = [
-            f"{self.path_venv_bin_pip}",
-            "install",
-            "-r",
-            f"{self.path_requirements_automation}",
-        ]
-        _quite_pip_install(args)
+        args = [f"{self.path_bin_poetry}", "install", "--all-groups"]
         print_command(args)
         if real_run:
-            subprocess.run(args, check=True)
-        args = [f"{self.path_bin_poetry}", "install"]
-        print_command(args)
-        if real_run:
-            subprocess.run(args, check=True)
-        args = [f"{self.path_bin_poetry}", "install", "--with", "dev,test,doc"]
-        print_command(args)
-        if real_run:
-            subprocess.run(args, check=True)
+            with temp_cwd(self.dir_project_root):
+                subprocess.run(args, check=True)
 
     def poetry_install_all(
         self: "PyProjectOps",
@@ -341,7 +368,7 @@ class PyProjectDeps:
         :param with_hash: whether to include the hash of the dependencies in the
             requirements.txt file.
         """
-        self.path_requirements.remove_if_exists()
+        self.path_requirements.unlink(missing_ok=True)
         args = [
             f"{self.path_bin_poetry}",
             "export",
@@ -353,8 +380,8 @@ class PyProjectDeps:
         if with_hash is False:
             args.append("--without-hashes")
         print_command(args)
-        with self.dir_project_root.temp_cwd():
-            if real_run:
+        if real_run:
+            with temp_cwd(self.dir_project_root):
                 subprocess.run(args, check=True)
 
     def _poetry_export_group(
@@ -375,8 +402,8 @@ class PyProjectDeps:
             requirements.txt file.
         """
         if real_run:
-            path.remove_if_exists()
-        with self.dir_project_root.temp_cwd():
+            path.unlink(missing_ok=True)
+        with temp_cwd(self.dir_project_root):
             args = [
                 f"{self.path_bin_poetry}",
                 "export",
@@ -456,7 +483,6 @@ class PyProjectDeps:
     ):  # pragma: no cover
 
         if verbose:
-
             @logger.start_and_end(
                 msg="Install all dependencies for dev, test, doc",
                 start_emoji=Emoji.install,

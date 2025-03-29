@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from private_pyproject_ops.main import pyops
+from pyproject_ops.init import pyops
 
-pyops.run_unit_test()
+pyops.run_unit_test(real_run=True, verbose=True)

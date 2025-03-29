@@ -1,7 +1,7 @@
 {
     // the python package name, use lowercase, digits, and underscore only
     // this would be the name for ``pip install ${package_name}``
-    "package_name": "cookiecutter_pyproject_demo",
+    "package_name": "cookiecutter_pywf_open_source_demo",
     // the python major version you use for local development
     "dev_py_ver_major": 3,
     // the python minor version you use for local development

@@ -6,28 +6,28 @@ The namespace for all the pyproject_ops automation methods.
 
 import dataclasses
 
-from .pyproject_paths import PyProjectPaths
-from .pyproject_logger import PyProjectLogger
-from .pyproject_venv import PyProjectVenv
-from .pyproject_toml import PyProjectToml
-from .pyproject_deps import PyProjectDeps
-from .pyproject_tests import PyProjectTests
-from .pyproject_docs import PyProjectDocs
-from .pyproject_build import PyProjectBuild
-from .pyproject_publish import PyProjectPublish
+from .define_01_paths import PyWfPaths
+from .define_02_logger import PyWfLogger
+from .define_03_venv import PyWfVenv
+# from .pyproject_toml import PyProjectToml
+# from .pyproject_deps import PyProjectDeps
+# from .pyproject_tests import PyProjectTests
+# from .pyproject_docs import PyProjectDocs
+# from .pyproject_build import PyProjectBuild
+# from .pyproject_publish import PyProjectPublish
 
 
 @dataclasses.dataclass
-class PyProjectOps(
-    PyProjectPaths,
-    PyProjectLogger,
-    PyProjectVenv,
-    PyProjectToml,
-    PyProjectDeps,
-    PyProjectTests,
-    PyProjectDocs,
-    PyProjectBuild,
-    PyProjectPublish,
+class PyWf(
+    PyWfPaths,
+    PyWfLogger,
+    PyWfVenv,
+    # PyProjectToml,
+    # PyProjectDeps,
+    # PyProjectTests,
+    # PyProjectDocs,
+    # PyProjectBuild,
+    # PyProjectPublish,
 ):
     """
     The namespace for all the pyproject_ops automation methods.

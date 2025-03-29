@@ -12,7 +12,7 @@ from textwrap import dedent
 from .helpers import bump_version, print_command
 
 if T.TYPE_CHECKING:
-    from .ops import PyProjectOps
+    from .define import PyWfOps
 
 
 @dataclasses.dataclass

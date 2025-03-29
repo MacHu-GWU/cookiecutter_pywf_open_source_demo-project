@@ -120,14 +120,6 @@ rstobj = "1.2.1"
 docfly = "2.0.3"
 
 # ------------------------------------------------------------------------------
-# Automation (devops) dependenceies
-# ------------------------------------------------------------------------------
-[tool.poetry.group.auto]
-optional = true
-
-[tool.poetry.group.auto.dependencies]
-
-# ------------------------------------------------------------------------------
 # Test dependenceies
 # ------------------------------------------------------------------------------
 [tool.poetry.group.test]
@@ -137,6 +129,13 @@ optional = true
 pytest = ">=8.2.2,<9.0.0" # Testing framework
 pytest-cov = ">=6.0.0,<7.0.0" # Coverage reporting
 
+# ------------------------------------------------------------------------------
+# Automation (devops) dependenceies
+# ------------------------------------------------------------------------------
+[tool.poetry.group.auto]
+optional = true
+
+[tool.poetry.group.auto.dependencies]
 
 [tool.poetry.requires-plugins]
 poetry-plugin-export = ">=1.9.0,<2.0.0"

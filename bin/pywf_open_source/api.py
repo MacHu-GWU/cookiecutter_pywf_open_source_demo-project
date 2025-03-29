@@ -4,4 +4,4 @@
 Public API of pyproject_ops.
 """
 
-from .ops import PyProjectOps
+from .define import PyWf

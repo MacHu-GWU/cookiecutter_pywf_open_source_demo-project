@@ -15,11 +15,11 @@ from .logger import logger
 from .helpers import print_command
 
 if T.TYPE_CHECKING:  # pragma: no cover
-    from .ops import PyProjectOps
+    from .define import PyWf
 
 
 @dataclasses.dataclass
-class PyProjectVenv:
+class PyWfVenv:
     """
     Namespace class for Virtualenv management related automation.
 
@@ -28,7 +28,7 @@ class PyProjectVenv:
 
     python_version: str = dataclasses.field()
 
-    def _validate_python_version(self: "PyProjectOps"):
+    def _validate_python_version(self: "PyWf"):
         value_error = ValueError(
             f"'python_version' has to be in format of '3.7', '3.8', ..."
         )
@@ -42,7 +42,7 @@ class PyProjectVenv:
             raise ValueError("python_version has to be >= 3.7")
 
     def _create_virtualenv(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
     ) -> bool:
         """
@@ -81,7 +81,7 @@ class PyProjectVenv:
             return True
 
     def create_virtualenv(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
         verbose: bool = False,
     ) -> bool:  # pragma: no cover
@@ -107,7 +107,7 @@ class PyProjectVenv:
             return self._create_virtualenv(real_run=real_run)
 
     def _remove_virtualenv(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
     ) -> bool:
         """
@@ -133,7 +133,7 @@ class PyProjectVenv:
             return False
 
     def remove_virtualenv(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
         verbose: bool = False,
     ):  # pragma: no cover

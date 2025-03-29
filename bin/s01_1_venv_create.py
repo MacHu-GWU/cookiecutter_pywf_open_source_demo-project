@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from pyproject_ops.cli import pyops
+from pywf_open_source.init import pywf
 
-pyops.create_virtualenv(real_run=True, verbose=True)
+pywf.create_virtualenv(real_run=True, verbose=True)

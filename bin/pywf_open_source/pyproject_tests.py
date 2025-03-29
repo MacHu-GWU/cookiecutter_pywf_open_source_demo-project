@@ -10,11 +10,12 @@ import dataclasses
 
 from .vendor.emoji import Emoji
 from .vendor.os_platform import OPEN_COMMAND
+from .vendor.better_pathlib import temp_cwd
 
 from .helpers import print_command
 
 if T.TYPE_CHECKING:  # pragma: no cover
-    from .ops import PyProjectOps
+    from .define import PyWfOps
 
 
 @dataclasses.dataclass
@@ -36,9 +37,9 @@ class PyProjectTests:
             "-s",
             f"--rootdir={self.dir_project_root}",
         ]
-        with self.dir_project_root.temp_cwd():
-            print_command(args)
-            if real_run:
+        print_command(args)
+        if real_run:
+            with temp_cwd(self.dir_project_root):
                 subprocess.run(args, check=True)
 
     def run_unit_test(
@@ -73,9 +74,9 @@ class PyProjectTests:
             f"html:{self.dir_htmlcov}",
             f"{self.dir_tests}",
         ]
-        with self.dir_project_root.temp_cwd():
-            print_command(args)
-            if real_run:
+        print_command(args)
+        if real_run:
+            with temp_cwd(self.dir_project_root):
                 subprocess.run(args, check=True)
 
     def run_cov_test(

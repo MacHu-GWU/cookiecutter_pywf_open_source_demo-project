@@ -9,15 +9,14 @@ import sys
 import subprocess
 import dataclasses
 from pathlib import Path
-
-from .compat import cached_property
+from functools import cached_property
 
 if T.TYPE_CHECKING:  # pragma: no cover
-    from .ops import PyProjectOps
+    from .define import PyWf
 
 
 @dataclasses.dataclass
-class PyProjectPaths:
+class PyWfPaths:
     """
     Namespace class for accessing important paths.
 
@@ -32,7 +31,7 @@ class PyProjectPaths:
     dir_project_root: Path = dataclasses.field()
     package_name: str = dataclasses.field()
 
-    def _validate_paths(self):
+    def _validate_paths(self: "PyWf"):
         if isinstance(self.dir_project_root, Path) is False:
             self.dir_project_root = Path(self.dir_project_root)
 
@@ -51,7 +50,7 @@ class PyProjectPaths:
             )
 
     @cached_property
-    def dir_home(self) -> Path:
+    def dir_home(self: "PyWf") -> Path:
         """
         The user home directory.
 
@@ -65,7 +64,7 @@ class PyProjectPaths:
     _VENV_RELATED = None
 
     @property
-    def dir_venv(self) -> Path:
+    def dir_venv(self: "PyWf") -> Path:
         """
         The virtualenv directory.
 
@@ -74,7 +73,7 @@ class PyProjectPaths:
         return self.dir_project_root.joinpath(".venv")
 
     @property
-    def dir_venv_bin(self) -> Path:
+    def dir_venv_bin(self: "PyWf") -> Path:
         """
         The bin folder in virtualenv.
 
@@ -91,7 +90,7 @@ class PyProjectPaths:
         return self.dir_venv_bin.joinpath(cmd)
 
     @property
-    def path_venv_bin_python(self) -> Path:
+    def path_venv_bin_python(self: "PyWf") -> Path:
         """
         The python executable in virtualenv.
 
@@ -100,7 +99,7 @@ class PyProjectPaths:
         return self.get_path_venv_bin_cli("python")
 
     @property
-    def path_venv_bin_pip(self) -> Path:
+    def path_venv_bin_pip(self: "PyWf") -> Path:
         """
         The pip command in virtualenv.
 
@@ -109,7 +108,7 @@ class PyProjectPaths:
         return self.get_path_venv_bin_cli("pip")
 
     @property
-    def path_venv_bin_pytest(self) -> Path:
+    def path_venv_bin_pytest(self: "PyWf") -> Path:
         """
         The pytest command in virtualenv.
 
@@ -118,7 +117,7 @@ class PyProjectPaths:
         return self.get_path_venv_bin_cli("pytest")
 
     @property
-    def path_sys_executable(self) -> Path:
+    def path_sys_executable(self: "PyWf") -> Path:
         """
         The current Python interpreter path.
         """
@@ -144,7 +143,7 @@ class PyProjectPaths:
         return Path(cmd)
 
     @property
-    def path_bin_virtualenv(self) -> Path:
+    def path_bin_virtualenv(self: "PyWf") -> Path:
         """
         The virtualenv CLI command path.
 
@@ -153,7 +152,7 @@ class PyProjectPaths:
         return self.get_path_dynamic_bin_cli("virtualenv")
 
     @property
-    def path_bin_poetry(self) -> Path:
+    def path_bin_poetry(self: "PyWf") -> Path:
         """
         The poetry CLI command path.
 
@@ -162,7 +161,7 @@ class PyProjectPaths:
         return self.get_path_dynamic_bin_cli("poetry")
 
     @property
-    def path_bin_twine(self) -> Path:
+    def path_bin_twine(self: "PyWf") -> Path:
         """
         The twine CLI command path.
 
@@ -174,7 +173,7 @@ class PyProjectPaths:
     # Source code
     # --------------------------------------------------------------------------
     @property
-    def dir_python_lib(self) -> Path:
+    def dir_python_lib(self: "PyWf") -> Path:
         """
         The current Python library directory.
 
@@ -183,7 +182,7 @@ class PyProjectPaths:
         return self.dir_project_root.joinpath(self.package_name)
 
     @property
-    def path_version_py(self) -> Path:
+    def path_version_py(self: "PyWf") -> Path:
         """
         Path to the ``_version.py`` file where the package version is defined.
 
@@ -192,7 +191,7 @@ class PyProjectPaths:
         return self.dir_python_lib.joinpath("_version.py")
 
     @cached_property
-    def package_version(self) -> str:
+    def package_version(self: "PyWf") -> str:
         """
         Version of the current Python library defined in ``_version.py`` file.
         """
@@ -206,7 +205,7 @@ class PyProjectPaths:
     _PYTEST_RELATED = None
 
     @property
-    def dir_tests(self) -> Path:
+    def dir_tests(self: "PyWf") -> Path:
         """
         Unit test folder.
 
@@ -215,7 +214,7 @@ class PyProjectPaths:
         return self.dir_project_root.joinpath("tests")
 
     @property
-    def dir_tests_int(self) -> Path:
+    def dir_tests_int(self: "PyWf") -> Path:
         """
         Integration test folder.
 
@@ -224,7 +223,7 @@ class PyProjectPaths:
         return self.dir_project_root.joinpath("tests_int")
 
     @property
-    def dir_tests_load(self) -> Path:
+    def dir_tests_load(self: "PyWf") -> Path:
         """
         Load test folder.
 
@@ -233,7 +232,7 @@ class PyProjectPaths:
         return self.dir_project_root.joinpath("tests_load")
 
     @property
-    def dir_htmlcov(self) -> Path:
+    def dir_htmlcov(self: "PyWf") -> Path:
         """
         The code coverage test results HTML output folder.
 
@@ -242,7 +241,7 @@ class PyProjectPaths:
         return self.dir_project_root.joinpath("htmlcov")
 
     @property
-    def path_htmlcov_index_html(self) -> Path:
+    def path_htmlcov_index_html(self: "PyWf") -> Path:
         """
         The code coverage test results HTML file.
 
@@ -256,7 +255,7 @@ class PyProjectPaths:
     _SPHINX_DOC_RELATED = None
 
     @property
-    def dir_sphinx_doc(self) -> Path:
+    def dir_sphinx_doc(self: "PyWf") -> Path:
         """
         Sphinx docs folder.
 
@@ -265,7 +264,7 @@ class PyProjectPaths:
         return self.dir_project_root.joinpath("docs")
 
     @property
-    def dir_sphinx_doc_source(self) -> Path:
+    def dir_sphinx_doc_source(self: "PyWf") -> Path:
         """
         Sphinx docs source code folder.
 
@@ -274,7 +273,7 @@ class PyProjectPaths:
         return self.dir_sphinx_doc.joinpath("source")
 
     @property
-    def dir_sphinx_doc_source_conf_py(self) -> Path:
+    def dir_sphinx_doc_source_conf_py(self: "PyWf") -> Path:
         """
         Sphinx docs ``conf.py`` file path.
 
@@ -283,7 +282,7 @@ class PyProjectPaths:
         return self.dir_sphinx_doc_source.joinpath("conf.py")
 
     @property
-    def dir_sphinx_doc_source_python_lib(self) -> Path:
+    def dir_sphinx_doc_source_python_lib(self: "PyWf") -> Path:
         """
         The generated Python library API reference Sphinx docs folder.
 
@@ -292,7 +291,7 @@ class PyProjectPaths:
         return self.dir_sphinx_doc_source.joinpath(self.package_name)
 
     @property
-    def dir_sphinx_doc_build(self) -> Path:
+    def dir_sphinx_doc_build(self: "PyWf") -> Path:
         """
         The temp Sphinx doc build folder.
 
@@ -301,7 +300,7 @@ class PyProjectPaths:
         return self.dir_sphinx_doc.joinpath("build")
 
     @property
-    def dir_sphinx_doc_build_html(self) -> Path:
+    def dir_sphinx_doc_build_html(self: "PyWf") -> Path:
         """
         The built Sphinx doc build HTML folder.
 
@@ -310,7 +309,7 @@ class PyProjectPaths:
         return self.dir_sphinx_doc_build.joinpath("html")
 
     @property
-    def path_sphinx_doc_build_index_html(self) -> Path:  # pragma: no cover
+    def path_sphinx_doc_build_index_html(self: "PyWf") -> Path:  # pragma: no cover
         """
         The built Sphinx doc site entry HTML file path.
 
@@ -332,7 +331,7 @@ class PyProjectPaths:
     _POETRY_RELATED = None
 
     @property
-    def path_requirements(self) -> Path:
+    def path_requirements(self: "PyWf") -> Path:
         """
         The requirements.txt file path.
 
@@ -341,7 +340,7 @@ class PyProjectPaths:
         return self.dir_project_root.joinpath("requirements.txt")
 
     @property
-    def path_requirements_dev(self) -> Path:
+    def path_requirements_dev(self: "PyWf") -> Path:
         """
         The requirements-dev.txt file path.
 
@@ -350,7 +349,7 @@ class PyProjectPaths:
         return self.dir_project_root.joinpath("requirements-dev.txt")
 
     @property
-    def path_requirements_test(self) -> Path:
+    def path_requirements_test(self: "PyWf") -> Path:
         """
         The requirements-test.txt file path.
 
@@ -359,7 +358,7 @@ class PyProjectPaths:
         return self.dir_project_root.joinpath("requirements-test.txt")
 
     @property
-    def path_requirements_doc(self) -> Path:
+    def path_requirements_doc(self: "PyWf") -> Path:
         """
         The requirements-doc.txt file path.
 
@@ -368,7 +367,7 @@ class PyProjectPaths:
         return self.dir_project_root.joinpath("requirements-doc.txt")
 
     @property
-    def path_requirements_automation(self) -> Path:
+    def path_requirements_automation(self: "PyWf") -> Path:
         """
         The requirements-automation.txt file path.
 
@@ -377,7 +376,7 @@ class PyProjectPaths:
         return self.dir_project_root.joinpath("requirements-automation.txt")
 
     @property
-    def path_poetry_lock(self) -> Path:
+    def path_poetry_lock(self: "PyWf") -> Path:
         """
         The poetry.lock file path.
 
@@ -386,7 +385,7 @@ class PyProjectPaths:
         return self.dir_project_root.joinpath("poetry.lock")
 
     @property
-    def path_poetry_lock_hash_json(self) -> Path:
+    def path_poetry_lock_hash_json(self: "PyWf") -> Path:
         """
         The poetry-lock-hash.json file path. It is the cache of the poetry.lock file hash.
 
@@ -400,7 +399,7 @@ class PyProjectPaths:
     _BUILD_RELATED = None
 
     @property
-    def path_pyproject_toml(self) -> Path:
+    def path_pyproject_toml(self: "PyWf") -> Path:
         """
         The pyproject.toml file path.
 
@@ -409,7 +408,7 @@ class PyProjectPaths:
         return self.dir_project_root.joinpath("pyproject.toml")
 
     @property
-    def dir_build(self) -> Path:
+    def dir_build(self: "PyWf") -> Path:
         """
         The build folder for Python or artifacts build.
 
@@ -418,7 +417,7 @@ class PyProjectPaths:
         return self.dir_project_root.joinpath("build")
 
     @property
-    def dir_dist(self) -> Path:
+    def dir_dist(self: "PyWf") -> Path:
         """
         The dist folder for Python package distribution (.whl file).
 

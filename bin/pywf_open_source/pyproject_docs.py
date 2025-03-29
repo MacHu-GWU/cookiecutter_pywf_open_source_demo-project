@@ -16,7 +16,7 @@ from .vendor.os_platform import OPEN_COMMAND
 from .helpers import print_command
 
 if T.TYPE_CHECKING:  # pragma: no cover
-    from .ops import PyProjectOps
+    from .define import PyWfOps
 
 
 @dataclasses.dataclass

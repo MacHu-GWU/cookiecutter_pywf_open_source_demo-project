@@ -15,7 +15,7 @@ from .vendor.build_dist import (
 )
 
 if T.TYPE_CHECKING:
-    from .ops import PyProjectOps
+    from .define import PyWfOps
 
 
 @dataclasses.dataclass

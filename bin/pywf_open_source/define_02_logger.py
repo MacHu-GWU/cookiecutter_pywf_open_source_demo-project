@@ -1,23 +1,21 @@
 # -*- coding: utf-8 -*-
 
 """
-Virtualenv management related automation.
+Logging related automation.
 """
 
 import typing as T
-import shutil
-import subprocess
 import dataclasses
 
 from .logger import logger
 from .vendor.emoji import Emoji
 
 if T.TYPE_CHECKING:  # pragma: no cover
-    from .ops import PyProjectOps
+    from .define import PyWf
 
 
 @dataclasses.dataclass
-class PyProjectLogger:
+class PyWfLogger:
     """
     Namespace class for Virtualenv management related automation.
 
@@ -25,7 +23,7 @@ class PyProjectLogger:
     """
 
     def _with_logger(
-        self: "PyProjectOps",
+        self: "PyWf",
         method,
         msg: str,
         emoji: str,
