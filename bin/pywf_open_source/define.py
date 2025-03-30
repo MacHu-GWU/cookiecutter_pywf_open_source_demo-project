@@ -11,7 +11,7 @@ from .define_02_logger import PyWfLogger
 from .define_03_venv import PyWfVenv
 from .define_04_toml import PyWfToml
 from .define_05_deps import PyWfDeps
-# from .pyproject_tests import PyProjectTests
+from .define_06_tests import PyWfTests
 # from .pyproject_docs import PyProjectDocs
 # from .pyproject_build import PyProjectBuild
 # from .pyproject_publish import PyProjectPublish
@@ -24,7 +24,7 @@ class PyWf(
     PyWfVenv,
     PyWfToml,
     PyWfDeps,
-    # PyProjectTests,
+    PyWfTests,
     # PyProjectDocs,
     # PyProjectBuild,
     # PyProjectPublish,
