@@ -23,17 +23,16 @@
 from __future__ import unicode_literals
 import os
 from datetime import datetime
-import cookiecutter_pyproject_demo as package
+import cookiecutter_pywf_open_source_demo as package
 
 package_name = package.__name__
 package_author = package.__author__
 package_version = package.__version__
 
 # -- General configuration ------------------------------------------------
-
 # If your documentation needs a minimal Sphinx version, state it here.
 
-# needs_sphinx = '5.0'
+# needs_sphinx = '8.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -221,7 +220,7 @@ rst_prolog = "\n" + custom_style_file_content + "\n"
 
 # Add data for Jinja2
 try:
-    from cookiecutter_pyproject_demo.docs import doc_data
+    from cookiecutter_pywf_open_source_demo.docs import doc_data
 except:
     doc_data = dict()
 

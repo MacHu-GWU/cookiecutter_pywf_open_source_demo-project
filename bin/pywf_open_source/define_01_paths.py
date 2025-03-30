@@ -28,27 +28,6 @@ class PyWfPaths:
         And it has to have a ``__init__.py`` file in it.
     """
 
-    dir_project_root: Path = dataclasses.field()
-    package_name: str = dataclasses.field()
-
-    def _validate_paths(self: "PyWf"):
-        if isinstance(self.dir_project_root, Path) is False:
-            self.dir_project_root = Path(self.dir_project_root)
-
-        if (self.dir_project_root.joinpath("pyproject.toml").exists() is False) and (
-            self.dir_project_root.joinpath("setup.py").exists() is False
-        ):
-            raise ValueError(
-                f"{self.dir_project_root} does not have a pyproject.toml or setup.py file "
-                f"it might not be a valid project root directory."
-            )
-        dir_python_lib = self.dir_project_root.joinpath(self.package_name)
-        if dir_python_lib.joinpath("__init__.py").exists() is False:
-            raise ValueError(
-                f"{dir_python_lib} does not have a __init__.py file, "
-                f"the package name {self.package_name} might be invalid."
-            )
-
     @cached_property
     def dir_home(self: "PyWf") -> Path:
         """
@@ -115,6 +94,15 @@ class PyWfPaths:
         Example: ``${dir_project_root}/.venv/bin/pytest``
         """
         return self.get_path_venv_bin_cli("pytest")
+
+    @property
+    def path_venv_bin_sphinx_build(self: "PyWf") -> Path:
+        """
+        The sphinx-build executable in virtualenv.
+
+        Example: ``${dir_project_root}/.venv/bin/sphinx-build``
+        """
+        return self.get_path_venv_bin_cli("sphinx-build")
 
     @property
     def path_sys_executable(self: "PyWf") -> Path:
@@ -424,3 +412,17 @@ class PyWfPaths:
         Example: ``${dir_project_root}/dist``
         """
         return self.dir_project_root.joinpath("dist")
+
+    # ------------------------------------------------------------------------------
+    # AWS Related
+    # ------------------------------------------------------------------------------
+    _AWS_RELATED = None
+
+    @property
+    def path_bin_aws(self: "PyWf") -> Path:
+        """
+        The AWS CLI executable path.
+
+        Example: ``${dir_project_root}/.venv/bin/aws``
+        """
+        return self.get_path_dynamic_bin_cli("aws")

@@ -14,20 +14,26 @@ from .vendor.emoji import Emoji
 from .vendor.os_platform import OPEN_COMMAND
 
 from .helpers import print_command
+from .logger import logger
 
 if T.TYPE_CHECKING:  # pragma: no cover
-    from .define import PyWfOps
+    from .define import PyWf
 
 
 @dataclasses.dataclass
-class PyProjectDocs:
+class PyWfDocs:
     """
     Namespace class for document related automation.
     """
 
+    @logger.emoji_block(
+        msg="Build Documentation Site Locally",
+        emoji=Emoji.doc,
+    )
     def _build_doc(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
+        quiet: bool = False,
     ):
         """
         Use sphinx doc to build documentation site locally. It set the
@@ -35,43 +41,45 @@ class PyProjectDocs:
         can build the HTML successfully.
         """
         if real_run:
-            shutil.rmtree(f"{self.dir_sphinx_doc_build}", ignore_errors=True)
             shutil.rmtree(
-                f"{self.dir_sphinx_doc_source_python_lib}", ignore_errors=True
+                f"{self.dir_sphinx_doc_build}",
+                ignore_errors=True,
+            )
+            shutil.rmtree(
+                f"{self.dir_sphinx_doc_source_python_lib}",
+                ignore_errors=True,
             )
 
-        # this allows the ``make html`` command knows which python virtualenv to use
-        # see more information at: https://docs.python.org/3/library/venv.html
-        os.environ["PATH"] = (
-            f"{self.dir_venv_bin}" + os.pathsep + os.environ.get("PATH", "")
-        )
-        os.environ["VIRTUAL_ENV"] = f"{self.dir_venv}"
         args = [
-            "make",
-            "-C",
-            f"{self.dir_sphinx_doc}",
+            f"{self.path_venv_bin_sphinx_build}",
+            "-M",
             "html",
+            f"{self.dir_sphinx_doc_source}",
+            f"{self.dir_sphinx_doc_build}",
         ]
         print_command(args)
         if real_run:
-            subprocess.run(args)
+            subprocess.run(args, check=True)
 
     def build_doc(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
         verbose: bool = False,
     ):  # pragma: no cover
-        return self._with_logger(
-            method=self._build_doc,
-            msg="Build Documentation Site Locally",
-            emoji=Emoji.doc,
-            verbose=verbose,
-            real_run=real_run,
-        )
+        with logger.disabled(not verbose):
+            return self._build_doc(
+                real_run=real_run,
+                quiet=not verbose,
+            )
 
+    @logger.emoji_block(
+        msg="View Documentation Site Locally",
+        emoji=Emoji.doc,
+    )
     def _view_doc(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
+        quiet: bool = False,
     ):
         """
         View documentation site built locally in web browser.
@@ -84,31 +92,41 @@ class PyProjectDocs:
             subprocess.run(args)
 
     def view_doc(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
         verbose: bool = False,
     ):  # pragma: no cover
-        return self._with_logger(
-            method=self._view_doc,
-            msg="View Documentation Site Locally",
-            emoji=Emoji.doc,
-            verbose=verbose,
-            real_run=real_run,
-        )
+        with logger.disabled(not verbose):
+            return self._view_doc(
+                real_run=real_run,
+                quiet=not verbose,
+            )
 
+    @logger.emoji_block(
+        msg="Deploy Documentation Site To S3 as Versioned Doc",
+        emoji=Emoji.doc,
+    )
     def _deploy_versioned_doc(
-        self: "PyProjectOps",
-        bucket: str,
+        self: "PyWf",
+        bucket: T.Optional[str] = None,
         prefix: str = "projects/",
         aws_profile: T.Optional[str] = None,
         real_run: bool = True,
-    ):
+        quiet: bool = False,
+    ) -> bool:
         """
         Deploy versioned document to AWS S3.
 
         The S3 bucket has to enable static website hosting. The document site
         will be uploaded to ``s3://${bucket}/${prefix}${package_name}/${package_version}/``
         """
+        if bool(self.doc_host_s3_bucket) is False:
+            logger.info(f"{Emoji.red_circle} doc_host_s3_bucket is not set, skip.")
+            return False
+        if bucket is None:
+            bucket = self.doc_host_s3_bucket
+        if aws_profile is None:
+            aws_profile = self.doc_host_aws_profile
         args = [
             f"{self.path_bin_aws}",
             "s3",
@@ -121,39 +139,50 @@ class PyProjectDocs:
         print_command(args)
         if real_run:
             subprocess.run(args, check=True)
+        return real_run
 
     def deploy_versioned_doc(
-        self: "PyProjectOps",
-        bucket: str,
+        self: "PyWf",
+        bucket: T.Optional[str] = None,
         prefix: str = "projects/",
         aws_profile: T.Optional[str] = None,
         real_run: bool = True,
         verbose: bool = False,
-    ):  # pragma: no cover
-        return self._with_logger(
-            method=self._deploy_versioned_doc,
-            msg="Deploy Documentation Site To S3 as Versioned Doc",
-            emoji=Emoji.doc,
-            bucket=bucket,
-            prefix=prefix,
-            aws_profile=aws_profile,
-            real_run=real_run,
-            verbose=verbose,
-        )
+    ) -> bool:  # pragma: no cover
+        with logger.disabled(not verbose):
+            return self._deploy_versioned_doc(
+                bucket=bucket,
+                prefix=prefix,
+                aws_profile=aws_profile,
+                real_run=real_run,
+                quiet=not verbose,
+            )
 
+    @logger.emoji_block(
+        msg="Deploy Documentation Site To S3 as Latest Doc",
+        emoji=Emoji.doc,
+    )
     def _deploy_latest_doc(
-        self: "PyProjectOps",
-        bucket: str,
+        self: "PyWf",
+        bucket: T.Optional[str] = None,
         prefix: str = "projects/",
         aws_profile: T.Optional[str] = None,
         real_run: bool = True,
-    ):
+        quiet: bool = False,
+    ) -> bool:
         """
         Deploy the latest document to AWS S3.
 
         The S3 bucket has to enable static website hosting. The document site
         will be uploaded to ``s3://${bucket}/${prefix}${package_name}/latest/``
         """
+        if bool(self.doc_host_s3_bucket) is False:
+            logger.info(f"{Emoji.red_circle} doc_host_s3_bucket is not set, skip.")
+            return False
+        if bucket is None:
+            bucket = self.doc_host_s3_bucket
+        if aws_profile is None:
+            aws_profile = self.doc_host_aws_profile
         args = [
             f"{self.path_bin_aws}",
             "s3",
@@ -166,31 +195,35 @@ class PyProjectDocs:
         print_command(args)
         if real_run:
             subprocess.run(args, check=True)
+        return real_run
 
     def deploy_latest_doc(
-        self: "PyProjectOps",
-        bucket: str,
+        self: "PyWf",
+        bucket: T.Optional[str] = None,
         prefix: str = "projects/",
         aws_profile: T.Optional[str] = None,
         real_run: bool = True,
         verbose: bool = False,
-    ):  # pragma: no cover
-        return self._with_logger(
-            method=self._deploy_latest_doc,
-            msg="Deploy Documentation Site To S3 as Latest Doc",
-            emoji=Emoji.doc,
-            bucket=bucket,
-            prefix=prefix,
-            aws_profile=aws_profile,
-            verbose=verbose,
-            real_run=real_run,
-        )
+    ) -> bool:  # pragma: no cover
+        with logger.disabled(not verbose):
+            return self._deploy_latest_doc(
+                bucket=bucket,
+                prefix=prefix,
+                aws_profile=aws_profile,
+                real_run=real_run,
+                quiet=not verbose,
+            )
 
+    @logger.emoji_block(
+        msg="View Latest Doc on AWS S3",
+        emoji=Emoji.doc,
+    )
     def _view_latest_doc(
-        self: "PyProjectOps",
-        bucket: str,
+        self: "PyWf",
+        bucket: T.Optional[str] = None,
         prefix: str = "projects/",
         real_run: bool = True,
+        quiet: bool = False,
     ):
         """
         Open the latest document that hosted on AWS S3 in web browser.
@@ -198,9 +231,14 @@ class PyProjectDocs:
         Here's a sample document site url
         https://my-bucket.s3.amazonaws.com/my-prefix/my_package/latest/index.html
         """
+        if bool(self.doc_host_s3_bucket) is False:
+            logger.info(f"{Emoji.red_circle} doc_host_s3_bucket is not set, skip.")
+            return False
+        if bucket is None:
+            bucket = self.doc_host_s3_bucket
         url = (
             f"https://{bucket}.s3.amazonaws.com/{prefix}{self.package_name}"
-            f"/latest/{self.path_sphinx_doc_build_index_html.basename}"
+            f"/latest/{self.path_sphinx_doc_build_index_html.name}"
         )
         args = [OPEN_COMMAND, url]
         print_command(args)
@@ -208,8 +246,8 @@ class PyProjectDocs:
             subprocess.run(args, check=True)
 
     def view_latest_doc(
-        self: "PyProjectOps",
-        bucket: str,
+        self: "PyWf",
+        bucket: T.Optional[str] = None,
         prefix: str = "projects/",
         real_run: bool = True,
         verbose: bool = False,
@@ -220,12 +258,10 @@ class PyProjectDocs:
         Here's a sample document site url
         https://my-bucket.s3.amazonaws.com/my-prefix/my_package/latest/index.html
         """
-        return self._with_logger(
-            method=self._view_latest_doc,
-            msg="View Latest Doc on AWS S3",
-            emoji=Emoji.doc,
-            bucket=bucket,
-            prefix=prefix,
-            verbose=verbose,
-            real_run=real_run,
-        )
+        with logger.disabled(not verbose):
+            return self._view_latest_doc(
+                bucket=bucket,
+                prefix=prefix,
+                real_run=real_run,
+                quiet=not verbose,
+            )

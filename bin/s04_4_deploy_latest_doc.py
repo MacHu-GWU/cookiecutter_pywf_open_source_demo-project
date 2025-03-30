@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from private_pyproject_ops.main import pyops
+from pywf_open_source.init import pywf
 
-pyops.deploy_latest_doc()
+pywf.deploy_latest_doc(real_run=True, verbose=True)

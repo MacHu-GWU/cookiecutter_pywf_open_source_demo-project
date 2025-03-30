@@ -1,41 +1,15 @@
 # -*- coding: utf-8 -*-
 
-import typing as T
-import sys
-import subprocess
-import dataclasses
 from pathlib import Path
 
-from .vendor.jsonutils import json_loads
-from ._version import __version__ as pyproject_version
 from .define import PyWf
 
 
-@dataclasses.dataclass
-class PyWfConfig:
+def find_pyproject_toml(dir_cwd: Path) -> Path:
     """
-    ``pyproject_ops.json`` file stores the configuration for ``pyproject_ops`` CLI
-    for your project.
-
-    If you don't want to use the CLI, instead you want to use pyproject_ops
-    as a Python library in your own automation script, you can create the
-    :class:`PyProjectOps` object yourself.
+    Try to locate the ``pyproject.toml`` file by searching all the way up.
     """
-
-    package_name: str = dataclasses.field()
-    dev_py_ver_major: int = dataclasses.field()
-    dev_py_ver_minor: int = dataclasses.field()
-    dev_py_ver_micro: int = dataclasses.field()
-    doc_host_aws_profile: T.Optional[str] = dataclasses.field(default=None)
-    doc_host_s3_bucket: T.Optional[str] = dataclasses.field(default=None)
-    doc_host_s3_prefix: T.Optional[str] = dataclasses.field(default="projects/")
-
-
-def find_config_file(dir_cwd: Path) -> Path:
-    """
-    Try to locate the ``pyproject_ops.json`` file by searching all the way up.
-    """
-    filename = "pywf_open_source.json"
+    filename = "pyproject.toml"
     if dir_cwd.parent == dir_cwd:
         raise FileNotFoundError(
             f"Cannot find {filename!r} in {dir_cwd} or its parent directory."
@@ -44,17 +18,12 @@ def find_config_file(dir_cwd: Path) -> Path:
     if path.exists():
         return path
     else:
-        return find_config_file(dir_cwd.parent)
+        return find_pyproject_toml(dir_cwd.parent)
 
 
 dir_cwd = Path.cwd()
-path_config_json = find_config_file(dir_cwd)
-pywf_config = PyWfConfig(**json_loads(path_config_json.read_text(encoding="utf-8")))
-pywf = PyWf(
-    dir_project_root=path_config_json.parent,
-    package_name=pywf_config.package_name,
-    python_version=f"{pywf_config.dev_py_ver_major}.{pywf_config.dev_py_ver_minor}",
-)
+path_pyproject_toml = find_pyproject_toml(dir_cwd)
+pywf = PyWf.from_pyproject_toml(path_pyproject_toml)
 
 
 # class Command:

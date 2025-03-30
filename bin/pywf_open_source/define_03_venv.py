@@ -26,21 +26,6 @@ class PyWfVenv:
     :param python_version: example "3.7", "3.8", ...
     """
 
-    python_version: str = dataclasses.field()
-
-    def _validate_python_version(self: "PyWf"):
-        value_error = ValueError(
-            f"'python_version' has to be in format of '3.7', '3.8', ..."
-        )
-        if self.python_version[0] not in ["3"]:
-            raise value_error
-        if self.python_version[1] != ".":
-            raise value_error
-        if not self.python_version[2:].isdigit():
-            raise value_error
-        if int(self.python_version[2:]) < 7:
-            raise ValueError("python_version has to be >= 3.7")
-
     @logger.emoji_block(
         msg="Create Virtual Environment",
         emoji=Emoji.python,
@@ -64,23 +49,12 @@ class PyWfVenv:
             return False
         else:
             # Ref: https://python-poetry.org/docs/managing-environments/
-            args = [
-                f"{self.path_bin_poetry}",
-                "config",
-                "virtualenvs.in-project",
-                "true",
-            ]
-            if quiet:
-                args.append("--quiet")
-            print_command(args)
-            if real_run is True:
-                subprocess.run(args, check=True)
-
+            # note that we defined to use in-project = true in poetry.toml file
             args = [
                 f"{self.path_bin_poetry}",
                 "env",
                 "use",
-                f"python{self.python_version}",
+                f"python{self.py_ver_major}.{self.py_ver_micro}",
             ]
             if quiet:
                 args.append("--quiet")
