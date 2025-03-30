@@ -9,21 +9,24 @@ import subprocess
 import dataclasses
 from textwrap import dedent
 
+from .vendor.better_pathlib import temp_cwd
+
 from .helpers import bump_version, print_command
 
 if T.TYPE_CHECKING:
-    from .define import PyWfOps
+    from .define import PyWf
 
 
 @dataclasses.dataclass
-class PyProjectPublish:
+class PyWfPublish:
     """
     Namespace class for publishing to Python repository related automation.
     """
 
     def twine_upload(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
+        quiet: bool = False,
     ):
         """
         Publish to PyPI repository using
@@ -34,13 +37,13 @@ class PyProjectPublish:
             "upload",
             f"{self.dir_dist}/*",
         ]
-        with self.dir_project_root.temp_cwd():
-            print_command(args)
-            if real_run:
+        print_command(args)
+        if real_run:
+            with temp_cwd(self.dir_project_root):
                 subprocess.run(args, check=True)
 
     def poetry_publish(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
     ):
         """
@@ -51,13 +54,13 @@ class PyProjectPublish:
             f"{self.path_bin_poetry}",
             "publish",
         ]
-        with self.dir_project_root.temp_cwd():
-            print_command(args)
-            if real_run:
+        print_command(args)
+        if real_run:
+            with temp_cwd(self.dir_project_root):
                 subprocess.run(args, check=True)
 
     def bump_version(
-        self: "PyProjectOps",
+        self: "PyWf",
         major: bool = False,
         minor: bool = False,
         patch: bool = False,
@@ -109,7 +112,7 @@ class PyProjectPublish:
                 action = "patch"
             else:  # pragma: no cover
                 raise NotImplementedError
-            with self.dir_project_root.temp_cwd():
+            with temp_cwd(self.dir_project_root):
                 args = [
                     f"{self.path_bin_poetry}",
                     "version",

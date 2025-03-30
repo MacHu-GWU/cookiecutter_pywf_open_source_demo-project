@@ -99,7 +99,3 @@ build: ## Build Python library distribution package
 
 publish: ## Publish Python library to AWS CodeArtifact
 	./.venv/bin/python ./bin/s05_2_publish_package.py
-
-
-remove: ## Remove Python package version from AWS CodeArtifact
-	./.venv/bin/python ./bin/s05_3_remove_package_version.py

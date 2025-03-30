@@ -14,19 +14,26 @@ from .vendor.build_dist import (
     build_dist_with_poetry_build,
 )
 
+from .logger import logger
+
 if T.TYPE_CHECKING:
-    from .define import PyWfOps
+    from .define import PyWf
 
 
 @dataclasses.dataclass
-class PyProjectBuild:
+class PyWfBuild:
     """
     Namespace class for build related automation.
     """
 
+    @logger.emoji_block(
+        msg="Build python distribution using pypa-build",
+        emoji=Emoji.build,
+    )
     def _python_build(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
+        quiet: bool = False,
     ):
         """
         Build python source distribution using
@@ -38,26 +45,30 @@ class PyProjectBuild:
         build_dist_with_python_build(
             dir_project_root=self.dir_project_root,
             path_bin_python=self.path_venv_bin_python,
-            verbose=True,
+            log_func=logger.info,
             real_run=real_run,
+            verbose=not quiet,
         )
 
     def python_build(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
         verbose: bool = False,
     ):  # pragma: no cover
-        return self._with_logger(
-            method=self._python_build,
-            msg="Build python distribution using pypa-build",
-            emoji=Emoji.build,
-            verbose=verbose,
-            real_run=real_run,
-        )
+        with logger.disabled(not verbose):
+            return self._python_build(
+                real_run=real_run,
+                quiet=not verbose,
+            )
 
+    @logger.emoji_block(
+        msg="Build python distribution using poetry",
+        emoji=Emoji.build,
+    )
     def _poetry_build(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
+        quiet: bool = False,
     ):
         """
         Build python source distribution using
@@ -70,19 +81,18 @@ class PyProjectBuild:
         build_dist_with_poetry_build(
             dir_project_root=self.dir_project_root,
             path_bin_poetry=self.path_bin_poetry,
-            verbose=True,
+            log_func=logger.info,
             real_run=real_run,
+            verbose=not quiet,
         )
 
     def poetry_build(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
         verbose: bool = False,
     ):  # pragma: no cover
-        return self._with_logger(
-            method=self._poetry_build,
-            msg="Build python distribution using poetry",
-            emoji=Emoji.build,
-            verbose=verbose,
-            real_run=real_run,
-        )
+        with logger.disabled(not verbose):
+            return self._poetry_build(
+                real_run=real_run,
+                quiet=not verbose,
+            )

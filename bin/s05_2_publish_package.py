@@ -1,7 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from private_pyproject_ops.main import pyops
+"""
+We primarily use poetry to publish the package.
+"""
 
-pyops.twine_authorization()
-pyops.publish_to_codeartifact()
+from pywf import pywf
+
+# pywf.twine_upload()
+pywf.poetry_publish()

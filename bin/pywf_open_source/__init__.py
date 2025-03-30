@@ -7,15 +7,10 @@ Python project Ops automation.
 
 from ._version import __version__
 
-__short_description__ = "Python project Ops automation."
-__license__ = "MIT"
-__author__ = "Sanhe Hu"
-__author_email__ = "husanhe@gmail.com"
-__maintainer__ = "Sanhe Hu"
-__maintainer_email__ = "husanhe@gmail.com"
-
-
-try:
-    from . import api
-except ImportError:  # pragma: no cover
-    pass
+from ._version import __version__
+from ._version import __short_description__
+from ._version import __license__
+from ._version import __author__
+from ._version import __author_email__
+from ._version import __maintainer__
+from ._version import __maintainer_email__

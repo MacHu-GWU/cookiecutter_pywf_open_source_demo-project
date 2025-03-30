@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from private_pyproject_ops.main import pyops
+"""
+We primarily use poetry to build the package.
+"""
 
-pyops.poetry_build()
+from pywf import pywf
+
+# pywf.python_build(real_run=True, verbose=True)
+pywf.poetry_build(real_run=True, verbose=True)

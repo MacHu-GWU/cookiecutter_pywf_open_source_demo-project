@@ -39,6 +39,7 @@ def temp_cwd(path: T.Union[str, Path]):
 def build_dist_with_python_build(
     dir_project_root: T.Union[str, Path],
     path_bin_python: T.Union[str, Path],
+    log_func: T.Callable = print,
     real_run: bool = True,
     verbose: bool = False,
 ):
@@ -63,7 +64,7 @@ def build_dist_with_python_build(
             "--sdist",
             "--wheel",
         ]
-        print("run command: {}".format(" ".join(args)))
+        log_func("run command: {}".format(" ".join(args)))
         if real_run:
             subprocess.run(args, check=True, capture_output=not verbose)
 
@@ -71,6 +72,7 @@ def build_dist_with_python_build(
 def build_dist_with_poetry_build(
     dir_project_root: T.Union[str, Path],
     path_bin_poetry: T.Union[str, Path],
+    log_func: T.Callable = print,
     real_run: bool = True,
     verbose: bool = False,
 ):
@@ -93,6 +95,6 @@ def build_dist_with_poetry_build(
         ]
         if verbose is False:
             args.append("--quiet")
-        print("run command: {}".format(" ".join(args)))
+        log_func("run command: {}".format(" ".join(args)))
         if real_run:
             subprocess.run(args, check=True)

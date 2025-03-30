@@ -1,7 +1,17 @@
 # -*- coding: utf-8 -*-
 
 """
-The namespace for all the pyproject_ops automation methods.
+Comprehensive Automation Namespace for Python Project Operations
+
+This module provides a unified interface for managing various aspects of a Python project
+lifecycle, including virtual environment, dependencies, testing, documentation,
+build, and publishing processes.
+
+The PyWf (Python Workflow) class consolidates multiple operational concerns into a
+single, cohesive management system, enabling streamlined project automation.
+
+The class uses a composition-based approach, inheriting from multiple specialized
+namespace classes to provide a comprehensive project management toolkit.
 """
 
 import typing as T
@@ -15,9 +25,8 @@ from .define_03_venv import PyWfVenv
 from .define_05_deps import PyWfDeps
 from .define_06_tests import PyWfTests
 from .define_07_docs import PyWfDocs
-
-# from .pyproject_build import PyProjectBuild
-# from .pyproject_publish import PyProjectPublish
+from .define_08_build import PyWfBuild
+from .define_09_publish import PyWfPublish
 
 
 @dataclasses.dataclass
@@ -29,28 +38,26 @@ class PyWf(
     PyWfDeps,
     PyWfTests,
     PyWfDocs,
-    # PyProjectBuild,
-    # PyProjectPublish,
+    PyWfBuild,
+    PyWfPublish,
 ):
     """
-    The namespace for all the pyproject_ops automation methods.
+    Unified Automation Interface for Python Project Management
 
-    :param dir_project_root: The root directory of the project, it is usually
-        the git root directory. It has to have a ``pyproject.toml`` file or
-        ``setup.py`` in it.
-    :param package_name: The name of the Python package you are working on.
-        There has to be a folder with the same name under ``dir_project_root``,
-        And it has to have a ``__init__.py`` file in it.
+    :param dir_project_root: Root directory of the project, typically the git
+        repository root. It has to have a ``pyproject.toml`` file in it.
+    :param toml_data: Parsed configuration data from ``pyproject.toml``
     """
 
     dir_project_root: Path = dataclasses.field()
     toml_data: T.Dict[str, T.Any] = dataclasses.field()
 
     # --------------------------------------------------------------------------
-    # [project]
+    # [project] Configuration Properties
     # --------------------------------------------------------------------------
     @property
     def package_name(self) -> str:
+        """Retrieve the package name from pyproject.toml."""
         return self.toml_data["project"]["name"]
 
     @property

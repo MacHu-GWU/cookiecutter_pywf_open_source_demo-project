@@ -1,10 +1,18 @@
 # -*- coding: utf-8 -*-
 
+"""
+Generate the AI knowledge base for the project.
+
+.. code-block:: bash
+
+    pip install "docpack>=0.1.1,<1.0.0"
+"""
+
 import shutil
 from pathlib import Path
 
 from cookiecutter_pywf_open_source_demo.paths import dir_project_root, PACKAGE_NAME
-from docpack.github_fetcher import GitHubPipeline
+from docpack.api import GitHubPipeline
 
 dir_here = Path(__file__).absolute().parent
 dir_tmp = dir_here / "tmp"
@@ -19,6 +27,11 @@ gh_pipeline = GitHubPipeline(
     dir_repo=dir_project_root,
     include=[
         "README.rst",
+        "Makefile",
+        "poetry.toml",
+        "pyproject.toml",
+        "bin/**/*.py",
+        "bin/**/*.rst",
         f"{PACKAGE_NAME}/**/*.py",
         "tests/**/*.py",
         "docs/source/**/index.rst",
@@ -35,3 +48,10 @@ gh_pipeline = GitHubPipeline(
     dir_out=dir_tmp,
 )
 gh_pipeline.fetch()
+
+filename = "all_in_one_knowledge_base.txt"
+lines = [
+    path.read_text()
+    for path in dir_tmp.glob("*.xml")
+]
+dir_tmp.joinpath(filename).write_text("\n".join(lines), encoding="utf-8")
