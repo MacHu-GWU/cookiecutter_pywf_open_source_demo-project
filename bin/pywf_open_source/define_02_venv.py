@@ -22,8 +22,6 @@ if T.TYPE_CHECKING:  # pragma: no cover
 class PyWfVenv:
     """
     Namespace class for Virtualenv management related automation.
-
-    :param python_version: example "3.7", "3.8", ...
     """
 
     @logger.emoji_block(
@@ -40,7 +38,7 @@ class PyWfVenv:
 
         .. code-block:: bash
 
-            $ virtualenv -p python${X}.${Y} ./.venv
+            $ poetry env use python${X}.${Y}
 
         :return: a boolean flat to indicate whether a creation is performed.
         """
@@ -54,7 +52,7 @@ class PyWfVenv:
                 f"{self.path_bin_poetry}",
                 "env",
                 "use",
-                f"python{self.py_ver_major}.{self.py_ver_micro}",
+                f"python{self.py_ver_major}.{self.py_ver_minor}",
             ]
             if quiet:
                 args.append("--quiet")
@@ -70,6 +68,9 @@ class PyWfVenv:
         real_run: bool = True,
         verbose: bool = False,
     ) -> bool:  # pragma: no cover
+        """
+        See :meth:`_create_virtualenv`.
+        """
         with logger.disabled(not verbose):
             return self._create_virtualenv(
                 real_run=real_run,
@@ -92,7 +93,7 @@ class PyWfVenv:
 
             $ rm -r /path/to/.venv
 
-        :return: a boolean flat to indicate whether a deletion is performed.
+        :return: a boolean flag to indicate whether a deletion is performed.
         """
         if self.dir_venv.exists():
             args = [
@@ -114,6 +115,9 @@ class PyWfVenv:
         real_run: bool = True,
         verbose: bool = False,
     ):  # pragma: no cover
+        """
+        See :meth:`_remove_virtualenv`.
+        """
         with logger.disabled(not verbose):
             return self._remove_virtualenv(
                 real_run=real_run,

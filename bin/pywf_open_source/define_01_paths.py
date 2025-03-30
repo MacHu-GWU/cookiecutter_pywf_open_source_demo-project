@@ -19,13 +19,6 @@ if T.TYPE_CHECKING:  # pragma: no cover
 class PyWfPaths:
     """
     Namespace class for accessing important paths.
-
-    :param dir_project_root: The root directory of the project, it is usually
-        the git root directory. It has to have a ``pyproject.toml`` file or
-        ``setup.py`` in it.
-    :param package_name: The name of the Python package you are working on.
-        There has to be a folder with the same name under ``dir_project_root``,
-        And it has to have a ``__init__.py`` file in it.
     """
 
     @cached_property
@@ -114,7 +107,7 @@ class PyWfPaths:
     def get_path_dynamic_bin_cli(self, cmd: str) -> Path:
         """
         Search multiple locations to get the absolute path of the CLI command.
-        It search the following locations in order:
+        It searches the following locations in order:
 
         1. the bin folder in virtualenv.
         2. the global Python's bin folder.

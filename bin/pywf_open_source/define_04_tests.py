@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Testing related automation.
+Testing Automation for Python Projects.
 """
 
 import typing as T

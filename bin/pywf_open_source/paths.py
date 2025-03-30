@@ -3,6 +3,7 @@
 from pathlib_mate import Path
 
 dir_here = Path.dir_here(__file__)
+dir_package = dir_here.parent
 PACKAGE_NAME = dir_here.basename
 
 dir_project_root = Path.dir_here(__file__).parent

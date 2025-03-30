@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """
-Documentation build an deploy related automation.
+Document Build and Deploy Automation for Python Projects.
 """
 
 import typing as T
-import os
 import shutil
 import dataclasses
 import subprocess

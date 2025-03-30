@@ -20,21 +20,18 @@ import dataclasses
 from pathlib import Path
 
 from .define_01_paths import PyWfPaths
-from .define_02_logger import PyWfLogger
-from .define_03_venv import PyWfVenv
-from .define_05_deps import PyWfDeps
-from .define_06_tests import PyWfTests
-from .define_07_docs import PyWfDocs
-from .define_08_build import PyWfBuild
-from .define_09_publish import PyWfPublish
+from .define_02_venv import PyWfVenv
+from .define_03_deps import PyWfDeps
+from .define_04_tests import PyWfTests
+from .define_05_docs import PyWfDocs
+from .define_06_build import PyWfBuild
+from .define_07_publish import PyWfPublish
 
 
 @dataclasses.dataclass
 class PyWf(
     PyWfPaths,
-    PyWfLogger,
     PyWfVenv,
-    # PyWfToml,
     PyWfDeps,
     PyWfTests,
     PyWfDocs,
@@ -62,57 +59,75 @@ class PyWf(
 
     @property
     def package_version(self) -> str:
+        """Retrieve the package version from pyproject.toml."""
         return self.toml_data["project"]["version"]
 
     @property
     def package_license(self) -> str:
+        """Retrieve the package license from pyproject.toml."""
         return self.toml_data["project"]["license"]
 
     @property
     def package_description(self) -> str:
+        """Retrieve the package description from pyproject.toml."""
         return self.toml_data["project"]["description"]
 
     @property
     def package_author_name(self) -> str:
+        """Retrieve the primary author's name from pyproject.toml."""
         return self.toml_data["project"]["authors"][0]["name"]
 
     @property
     def package_author_email(self) -> str:
+        """Retrieve the primary author's email from pyproject.toml."""
         return self.toml_data["project"]["authors"][0]["email"]
 
     @property
     def package_maintainer_name(self) -> str:
+        """Retrieve the primary maintainer's name from pyproject.toml."""
         return self.toml_data["project"]["maintainers"][0]["name"]
 
     @property
     def package_maintainer_email(self) -> str:
+        """Retrieve the primary maintainer's email from pyproject.toml."""
         return self.toml_data["project"]["maintainers"][0]["email"]
 
     # --------------------------------------------------------------------------
-    # [tool.pywf]
+    # [tool.pywf] Configuration Properties
     # --------------------------------------------------------------------------
     @property
     def py_ver_major(self) -> int:
+        """Extract major version number from development Python version."""
         return int(self.toml_data["tool"]["pywf"]["dev_python"].split(".")[0])
 
     @property
     def py_ver_minor(self) -> int:
+        """Extract minor version number from development Python version."""
         return int(self.toml_data["tool"]["pywf"]["dev_python"].split(".")[1])
 
     @property
     def py_ver_micro(self) -> int:
+        """Extract micro version number from development Python version."""
         return int(self.toml_data["tool"]["pywf"]["dev_python"].split(".")[2])
 
     @property
     def doc_host_aws_profile(self) -> str:
+        """Retrieve AWS profile for documentation hosting."""
         return self.toml_data["tool"]["pywf"]["doc_host_aws_profile"]
 
     @property
     def doc_host_s3_bucket(self) -> str:
+        """Retrieve S3 bucket for documentation hosting."""
         return self.toml_data["tool"]["pywf"]["doc_host_s3_bucket"]
 
     @property
     def doc_host_s3_prefix(self) -> str:
+        """
+        Retrieve and sanitize S3 prefix for documentation hosting.
+
+        Ensures prefix does not start or end with '/' to maintain
+        consistent path formatting.
+        """
         doc_host_s3_prefix = self.toml_data["tool"]["pywf"]["doc_host_s3_prefix"]
         if doc_host_s3_prefix.startswith("/"):
             doc_host_s3_prefix = doc_host_s3_prefix[1:]
@@ -121,14 +136,20 @@ class PyWf(
         return doc_host_s3_prefix
 
     def _validate_paths(self):
+        """
+        Validate project root directory and package structure.
+
+        Checks:
+
+        - Verify presence of ``pyproject.toml``
+        - Confirm ``package/__init__.py`` exists
+        """
         if isinstance(self.dir_project_root, Path) is False:
             self.dir_project_root = Path(self.dir_project_root)
 
-        if (self.dir_project_root.joinpath("pyproject.toml").exists() is False) and (
-            self.dir_project_root.joinpath("setup.py").exists() is False
-        ):
+        if self.dir_project_root.joinpath("pyproject.toml").exists() is False:
             raise ValueError(
-                f"{self.dir_project_root} does not have a pyproject.toml or setup.py file "
+                f"{self.dir_project_root} does not have a pyproject.toml file! "
                 f"it might not be a valid project root directory."
             )
         dir_python_lib = self.dir_project_root.joinpath(self.package_name)
@@ -139,12 +160,22 @@ class PyWf(
             )
 
     def _validate_python_version(self):
+        """
+        Validate the Python version used in the project.
+        """
         if self.py_ver_major != 3:
             raise ValueError(
                 f"Python major version has to be 3, but got {self.py_ver_major}."
             )
+        if self.py_ver_minor < 11:
+            raise ValueError(
+                f"PyWf tool only support Python3.11+, but got {self.py_ver_major}.{self.py_ver_minor}"
+            )
 
     def _update_version_file(self):
+        """
+        Update the version file with current project metadata in ``pyproject.toml``.
+        """
         dir_here = Path(__file__).absolute().parent
         path_version_tpl = dir_here / "_version.tpl"
         content = path_version_tpl.read_text(encoding="utf-8").format(
@@ -169,12 +200,7 @@ class PyWf(
         path_pyproject_toml: Path,
     ):
         """
-        Create the PyProjectOps instance from ``pyproject.toml`` file by reading
-        the package name and python version information from it.
-
-        It also compares the package version in the ``_version.py`` file with
-        the version in ``pyproject.toml`` file, if they are not match, it will
-        raise an error.
+        Create a :class:`PyWf` instance from a pyproject.toml file.
         """
         path_pyproject_toml = Path(path_pyproject_toml)
         toml_data = tomllib.loads(path_pyproject_toml.read_text())

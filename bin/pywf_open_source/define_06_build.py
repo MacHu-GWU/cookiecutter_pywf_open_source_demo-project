@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Build related automation.
+Source Code Build Automation for Python Projects.
 """
 
 import typing as T

@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
 """
-This module automates dependencies management.
+Dependency Management Automation for Python Projects.
 
-We use `Python poetry <https://python-poetry.org/>`_ to ensure determinative dependencies.
+This module provides comprehensive automation for managing project dependencies
+using `Poetry <<https://python-poetry.org/>`_, including locking, installation,
+and export ``requirements.txt`` functionalities.
 """
 
 import typing as T
@@ -19,14 +21,14 @@ from .logger import logger
 from .helpers import sha256_of_bytes, print_command
 
 
-if T.TYPE_CHECKING:
+if T.TYPE_CHECKING:  # pragma: no cover
     from .define import PyWf
 
 
 @dataclasses.dataclass
 class PyWfDeps:
     """
-    Namespace class for dependencies management related automation.
+    Namespace class for managing project dependencies using Poetry.
     """
 
     def _run_poetry_command(
@@ -53,16 +55,18 @@ class PyWfDeps:
         quiet: bool = False,
     ):
         """
+        Lock project dependencies defined in pyproject.toml.
+
+        Resolves and writes exact dependency versions to ``poetry.lock`` file.
+        This ensures reproducible builds across different environments.
+        You have to run this everytime you changed the ``pyproject.toml`` file.
+        And you should commit the latest ``poetry.lock`` file to git.
+
         Run:
 
         .. code-block:: bash
 
             poetry lock
-
-        This command will resolve the dependencies defined in the ``pyproject.toml``
-        file, and write the resolved versions to the ``poetry.lock`` file.
-        You have to run this everytime you changed the ``pyproject.toml`` file.
-        And you should commit the latest ``poetry.lock`` file to git.
 
         Ref:
 
@@ -95,8 +99,10 @@ class PyWfDeps:
         quiet: bool = False,
     ):
         """
-        Only install the package source code in editable mode without
-        installing any dependencies.
+        Install only the package source code in editable mode.
+
+        Skips installing any external dependencies, useful for development
+        and testing package structure.
 
         Run:
 
@@ -135,7 +141,9 @@ class PyWfDeps:
         quiet: bool = False,
     ):
         """
-        Only install main dependencies and the package itself in editable mode.
+        Install main dependencies and the package in editable mode.
+
+        Installs core project dependencies without development or optional groups.
 
         Run:
 
@@ -174,7 +182,8 @@ class PyWfDeps:
         quiet: bool = False,
     ):
         """
-        Install dev dependencies.
+        Install development dependencies. Adds dependencies from the
+        ``[tool.poetry.group.dev.dependencies]`` group to the project environment.
 
         Run:
 
@@ -213,7 +222,8 @@ class PyWfDeps:
         quiet: bool = False,
     ):
         """
-        Install test dependencies.
+        Install test dependencies. Adds dependencies from the
+        ``[tool.poetry.group.test.dependencies]`` group to the project environment.
 
         Run:
 
@@ -252,7 +262,8 @@ class PyWfDeps:
         quiet: bool = False,
     ):
         """
-        Install doc dependencies.
+        Install documentation build dependencies. Adds dependencies from the
+        ``[tool.poetry.group.doc.dependencies]`` group to the project environment.
 
         Run:
 
@@ -291,7 +302,8 @@ class PyWfDeps:
         quiet: bool = False,
     ):
         """
-        Install automation dependencies.
+        Install automation dependencies. Adds dependencies from the
+        ``[tool.poetry.group.auto.dependencies]`` group to the project environment.
 
         Run:
 
@@ -330,6 +342,10 @@ class PyWfDeps:
         quiet: bool = False,
     ):
         """
+        Install all dependency groups.
+
+        Adds dependencies from all configured groups to the project environment.
+
         Run:
 
         .. code-block:: bash
@@ -362,17 +378,18 @@ class PyWfDeps:
         current_poetry_lock_hash: str,
     ) -> bool:
         """
-        ``poetry export`` is an expensive command. We would like to use cache
-        mechanism to avoid unnecessary export.
+        The ``poetry export`` command is resource-intensive, so we use a
+        caching mechanism to avoid unnecessary executions.
 
-        Everytime we run :meth:`PyProjectDeps._poetry_export`, at the end, it will write the
-        sha256 hash of the ``poetry.lock`` to the ``poetry-lock-hash.json`` cache file.
-        It locates at the repo root directory. This function will compare the
-        sha256 hash of the current ``poetry.lock`` to the value stored in the cache file.
-        If they don't match, it means that the ``poetry.lock`` has been changed,
-        so we should run :meth:`PyProjectDeps._poetry_export` again.
+        Each time we run :meth:`PyWfDeps._poetry_export`, it calculates the
+        SHA-256 hash of the current ``poetry.lock`` file and writes it to
+        a cache file named ``poetry-lock-hash.json``, located at the root of the repository.
 
-        The content of ``.poetry-lock-hash.json`` looks like::
+        Before exporting, the function compares the current hash of ``poetry.lock``
+        with the value stored in the cache file. If the hashes differ, it indicates
+        that ``poetry.lock`` has changed, and we should run :meth:`PyWfDeps._poetry_export` again.
+
+        An example of the ``poetry-lock-hash.json`` file content::
 
             {
                 "hash": "sha256-hash-of-the-poetry.lock-file",
@@ -401,7 +418,7 @@ class PyWfDeps:
         real_run: bool = True,
     ):
         """
-        Export main dependencies to the requirements.txt file.
+        Export main project dependencies to ``requirements.txt``.
 
         :param with_hash: whether to include the hash of the dependencies in the
             requirements.txt file.
@@ -430,14 +447,14 @@ class PyWfDeps:
         real_run: bool = True,
     ):
         """
-        Export dependency group to given file.
+        Export specific dependency group to ``requirements-{group}.txt``.
 
         :param group: dependency group name, for example dev dependencies are defined
             in the ``[tool.poetry.group.dev]`` and ``[tool.poetry.group.dev.dependencies]``
             sections of he ``pyproject.toml`` file.
         :param path: the path to the exported ``requirements.txt`` file.
         :param with_hash: whether to include the hash of the dependencies in the
-            requirements.txt file.
+            ``requirements.txt`` file.
         """
         if real_run:
             path.unlink(missing_ok=True)

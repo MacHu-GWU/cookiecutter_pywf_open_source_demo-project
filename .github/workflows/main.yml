@@ -21,7 +21,7 @@ jobs:
 #        os: ["ubuntu-latest", "windows-latest"]
         os: ["ubuntu-latest", ] # for debug only
 #        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
-        python-version: ["3.9", ] # for debug only
+        python-version: ["3.11", ] # for debug only
         exclude:
           - os: windows-latest # this is a useless exclude rules for demonstration use only
             python-version: 2.7
@@ -50,7 +50,6 @@ jobs:
           pip install -r requirements-test.txt
           pip install .
       - name: "Run pytest"
-
         run: "python -m pytest tests --cov=cookiecutter_pyproject_demo"
       # don't forget to goto codecov.io, enable your repo, copy the token
       # create an CODECOV_TOKEN env var in GitHub actions secret

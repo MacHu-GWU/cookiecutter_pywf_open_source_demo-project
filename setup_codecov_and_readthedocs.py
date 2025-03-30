@@ -195,14 +195,14 @@ if __name__ == "__main__":
     # **User input, update values below according to your setting**
     # --------------------------------------------------------------------------
     service = "github"
-    repo_name = "cookiecutter_pyproject_demo-project"
+    repo_name = "cookiecutter_pywf_open_source_demo-project"
     codecov_owner_username = "MacHu-GWU"
     codecov_token_name = "sanhe-dev"
     github_owner_username = "MacHu-GWU"
     github_token_name = "sanhe-dev"
     readthedocs_owner_username = "machugwu"
     readthedocs_token_name = "sanhe-dev"
-    readthedocs_project_name = "cookiecutter_pyproject_demo"
+    readthedocs_project_name = "cookiecutter_pywf_open_source_demo"
 
     # --------------------------------------------------------------------------
     # Don't touch code below
