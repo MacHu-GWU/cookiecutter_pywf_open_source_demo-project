@@ -3,4 +3,4 @@
 
 from pywf_open_source.init import pywf
 
-pywf.poetry_install_dev(real_run=True, verbose=True)
+pywf.poetry_export(real_run=True, verbose=True)

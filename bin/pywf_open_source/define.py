@@ -9,8 +9,8 @@ import dataclasses
 from .define_01_paths import PyWfPaths
 from .define_02_logger import PyWfLogger
 from .define_03_venv import PyWfVenv
-# from .pyproject_toml import PyProjectToml
-# from .pyproject_deps import PyProjectDeps
+from .define_04_toml import PyWfToml
+from .define_05_deps import PyWfDeps
 # from .pyproject_tests import PyProjectTests
 # from .pyproject_docs import PyProjectDocs
 # from .pyproject_build import PyProjectBuild
@@ -22,8 +22,8 @@ class PyWf(
     PyWfPaths,
     PyWfLogger,
     PyWfVenv,
-    # PyProjectToml,
-    # PyProjectDeps,
+    PyWfToml,
+    PyWfDeps,
     # PyProjectTests,
     # PyProjectDocs,
     # PyProjectBuild,

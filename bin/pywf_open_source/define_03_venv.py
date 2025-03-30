@@ -41,9 +41,14 @@ class PyWfVenv:
         if int(self.python_version[2:]) < 7:
             raise ValueError("python_version has to be >= 3.7")
 
+    @logger.emoji_block(
+        msg="Create Virtual Environment",
+        emoji=Emoji.python,
+    )
     def _create_virtualenv(
         self: "PyWf",
         real_run: bool = True,
+        quiet: bool = False,
     ) -> bool:
         """
         Run:
@@ -55,6 +60,7 @@ class PyWfVenv:
         :return: a boolean flat to indicate whether a creation is performed.
         """
         if self.dir_venv.exists():
+            logger.info(f"{self.dir_venv} already exists, do nothing.")
             return False
         else:
             # Ref: https://python-poetry.org/docs/managing-environments/
@@ -64,6 +70,8 @@ class PyWfVenv:
                 "virtualenvs.in-project",
                 "true",
             ]
+            if quiet:
+                args.append("--quiet")
             print_command(args)
             if real_run is True:
                 subprocess.run(args, check=True)
@@ -74,10 +82,13 @@ class PyWfVenv:
                 "use",
                 f"python{self.python_version}",
             ]
+            if quiet:
+                args.append("--quiet")
             print_command(args)
             if real_run is True:
                 with temp_cwd(self.dir_project_root):
                     subprocess.run(args, check=True)
+            logger.info("done")
             return True
 
     def create_virtualenv(
@@ -85,30 +96,20 @@ class PyWfVenv:
         real_run: bool = True,
         verbose: bool = False,
     ) -> bool:  # pragma: no cover
-        if verbose:
-
-            @logger.start_and_end(
-                msg="Create Virtual Environment",
-                start_emoji=Emoji.python,
-                error_emoji=f"{Emoji.failed} {Emoji.python}",
-                end_emoji=f"{Emoji.succeeded} {Emoji.python}",
-                pipe=Emoji.python,
+        with logger.disabled(not verbose):
+            return self._create_virtualenv(
+                real_run=real_run,
+                quiet=not verbose,
             )
-            def func():
-                flag = self._create_virtualenv(real_run=real_run)
-                if flag:
-                    logger.info("done")
-                else:
-                    logger.info(f"{self.dir_venv} already exists, do nothing.")
-                return flag
 
-            return func()
-        else:
-            return self._create_virtualenv(real_run=real_run)
-
+    @logger.emoji_block(
+        msg="Remove Virtual Environment",
+        emoji=Emoji.python,
+    )
     def _remove_virtualenv(
         self: "PyWf",
         real_run: bool = True,
+        quiet: bool = False,
     ) -> bool:
         """
         Run:
@@ -128,8 +129,10 @@ class PyWfVenv:
             print_command(args)
             if real_run:
                 shutil.rmtree(f"{self.dir_venv}", ignore_errors=True)
+            logger.info(f"done! {self.dir_venv} is removed.")
             return True
         else:
+            logger.info(f"{self.dir_venv} doesn't exists, do nothing.")
             return False
 
     def remove_virtualenv(
@@ -137,23 +140,8 @@ class PyWfVenv:
         real_run: bool = True,
         verbose: bool = False,
     ):  # pragma: no cover
-        if verbose:
-
-            @logger.start_and_end(
-                msg="Remove Virtual Environment",
-                start_emoji=Emoji.python,
-                error_emoji=f"{Emoji.failed} {Emoji.python}",
-                end_emoji=f"{Emoji.succeeded} {Emoji.python}",
-                pipe=Emoji.python,
+        with logger.disabled(not verbose):
+            return self._remove_virtualenv(
+                real_run=real_run,
+                quiet=not verbose,
             )
-            def func():
-                flag = self._remove_virtualenv(real_run=real_run)
-                if flag:
-                    logger.info(f"done! {self.dir_venv} is removed.")
-                else:
-                    logger.info(f"{self.dir_venv} doesn't exists, do nothing.")
-                return flag
-
-            return func()
-        else:
-            return self._remove_virtualenv(real_run=real_run)

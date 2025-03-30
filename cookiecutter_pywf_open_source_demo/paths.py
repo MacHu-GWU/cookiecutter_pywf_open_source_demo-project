@@ -3,9 +3,10 @@
 from pathlib import Path
 
 dir_here = Path(__file__).absolute().parent
-PACKAGE_NAME = dir_here.name
+dir_package = dir_here
+PACKAGE_NAME = dir_package.name
 
-dir_project_root = dir_here.parent
+dir_project_root = dir_package.parent
 
 # ------------------------------------------------------------------------------
 # Virtual Environment Related

@@ -44,6 +44,10 @@ install-all: ## Install All Dependencies
 	python ./bin/s02_7_install_all.py
 
 
+poetry-export: ## Export dependencies to requirements.txt
+	python ./bin/s02_8_poetry_export.py
+
+
 test: install install-test test-only ## ** Run test
 
 

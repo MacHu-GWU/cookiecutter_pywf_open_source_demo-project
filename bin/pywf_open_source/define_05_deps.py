@@ -20,18 +20,37 @@ from .helpers import sha256_of_bytes, print_command
 
 
 if T.TYPE_CHECKING:
-    from .define import PyWfOps
+    from .define import PyWf
 
 
 @dataclasses.dataclass
-class PyProjectDeps:
+class PyWfDeps:
     """
     Namespace class for dependencies management related automation.
     """
 
+    def _run_poetry_command(
+        self: "PyWf",
+        args: T.List[str],
+        real_run: bool,
+        quiet: bool,
+    ):
+        args = [f"{self.path_bin_poetry}", *args]
+        if quiet:
+            args.append("--quiet")
+        print_command(args)
+        if real_run:
+            with temp_cwd(self.dir_project_root):
+                subprocess.run(args, check=True)
+
+    @logger.emoji_block(
+        msg="Resolve Dependencies Tree",
+        emoji=Emoji.install,
+    )
     def _poetry_lock(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
+        quiet: bool = False,
     ):
         """
         Run:
@@ -49,28 +68,31 @@ class PyProjectDeps:
 
         - poetry lock: https://python-poetry.org/docs/cli/#lock
         """
-        args = [f"{self.path_bin_poetry}", "lock"]
-        print_command(args)
-        if real_run:
-            with temp_cwd(self.dir_project_root):
-                subprocess.run(args, check=True)
+        return self._run_poetry_command(
+            args=["lock"],
+            real_run=real_run,
+            quiet=quiet,
+        )
 
     def poetry_lock(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
         verbose: bool = False,
     ):  # pragma: no cover
-        return self._with_logger(
-            method=self._poetry_lock,
-            msg="Resolve Dependencies Tree",
-            emoji=Emoji.install,
-            verbose=verbose,
-            real_run=real_run,
-        )
+        with logger.disabled(disable=not verbose):
+            return self._poetry_lock(
+                real_run=real_run,
+                quiet=not verbose,
+            )
 
+    @logger.emoji_block(
+        msg="Install package source code without any dependencies",
+        emoji=Emoji.install,
+    )
     def _poetry_install_only_root(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
+        quiet: bool = False,
     ):
         """
         Only install the package source code in editable mode without
@@ -86,28 +108,31 @@ class PyProjectDeps:
 
         - poetry install: https://python-poetry.org/docs/cli/#install
         """
-        args = [f"{self.path_bin_poetry}", "install", "--only-root"]
-        print_command(args)
-        if real_run:
-            with temp_cwd(self.dir_project_root):
-                subprocess.run(args, check=True)
+        return self._run_poetry_command(
+            args=["install", "--only-root"],
+            real_run=real_run,
+            quiet=quiet,
+        )
 
     def poetry_install_only_root(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
         verbose: bool = False,
     ):  # pragma: no cover
-        return self._with_logger(
-            method=self._poetry_install_only_root,
-            msg="Install package source code without any dependencies",
-            emoji=Emoji.install,
-            verbose=verbose,
-            real_run=real_run,
-        )
+        with logger.disabled(disable=not verbose):
+            return self._poetry_install_only_root(
+                real_run=real_run,
+                quiet=not verbose,
+            )
 
+    @logger.emoji_block(
+        msg="Install main dependencies and Package itself",
+        emoji=Emoji.install,
+    )
     def _poetry_install(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
+        quiet: bool = False,
     ):
         """
         Only install main dependencies and the package itself in editable mode.
@@ -122,28 +147,31 @@ class PyProjectDeps:
 
         - poetry install: https://python-poetry.org/docs/cli/#install
         """
-        args = [f"{self.path_bin_poetry}", "install"]
-        print_command(args)
-        if real_run:
-            with temp_cwd(self.dir_project_root):
-                subprocess.run(args, check=True)
+        return self._run_poetry_command(
+            args=["install"],
+            real_run=real_run,
+            quiet=quiet,
+        )
 
     def poetry_install(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
         verbose: bool = False,
     ):  # pragma: no cover
-        return self._with_logger(
-            method=self._poetry_install,
-            msg="Install main dependencies and Package itself",
-            emoji=Emoji.install,
-            verbose=verbose,
-            real_run=real_run,
-        )
+        with logger.disabled(disable=not verbose):
+            return self._poetry_install(
+                real_run=real_run,
+                quiet=not verbose,
+            )
 
+    @logger.emoji_block(
+        msg="Install dev dependencies",
+        emoji=Emoji.install,
+    )
     def _poetry_install_dev(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
+        quiet: bool = False,
     ):
         """
         Install dev dependencies.
@@ -158,28 +186,31 @@ class PyProjectDeps:
 
         - poetry install: https://python-poetry.org/docs/cli/#install
         """
-        args = [f"{self.path_bin_poetry}", "install", "--with", "dev"]
-        print_command(args)
-        if real_run:
-            with temp_cwd(self.dir_project_root):
-                subprocess.run(args, check=True)
+        return self._run_poetry_command(
+            args=["install", "--with", "dev"],
+            real_run=real_run,
+            quiet=quiet,
+        )
 
     def poetry_install_dev(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
         verbose: bool = False,
     ):  # pragma: no cover
-        return self._with_logger(
-            method=self._poetry_install_dev,
-            msg="Install dev dependencies",
-            emoji=Emoji.install,
-            verbose=verbose,
-            real_run=real_run,
-        )
+        with logger.disabled(disable=not verbose):
+            return self._poetry_install_dev(
+                real_run=real_run,
+                quiet=not verbose,
+            )
 
+    @logger.emoji_block(
+        msg="Install test dependencies",
+        emoji=Emoji.install,
+    )
     def _poetry_install_test(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
+        quiet: bool = False,
     ):
         """
         Install test dependencies.
@@ -194,28 +225,31 @@ class PyProjectDeps:
 
         - poetry install: https://python-poetry.org/docs/cli/#install
         """
-        args = [f"{self.path_bin_poetry}", "install", "--with", "test"]
-        print_command(args)
-        if real_run:
-            with temp_cwd(self.dir_project_root):
-                subprocess.run(args, check=True)
+        return self._run_poetry_command(
+            args=["install", "--with", "test"],
+            real_run=real_run,
+            quiet=quiet,
+        )
 
     def poetry_install_test(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
         verbose: bool = False,
     ):  # pragma: no cover
-        return self._with_logger(
-            method=self._poetry_install_test,
-            msg="Install test dependencies",
-            emoji=Emoji.install,
-            verbose=verbose,
-            real_run=real_run,
-        )
+        with logger.disabled(disable=not verbose):
+            return self._poetry_install_test(
+                real_run=real_run,
+                quiet=not verbose,
+            )
 
+    @logger.emoji_block(
+        msg="Install doc dependencies",
+        emoji=Emoji.install,
+    )
     def _poetry_install_doc(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
+        quiet: bool = False,
     ):
         """
         Install doc dependencies.
@@ -230,28 +264,31 @@ class PyProjectDeps:
 
         - poetry install: https://python-poetry.org/docs/cli/#install
         """
-        args = [f"{self.path_bin_poetry}", "install", "--with", "doc"]
-        print_command(args)
-        if real_run:
-            with temp_cwd(self.dir_project_root):
-                subprocess.run(args, check=True)
+        return self._run_poetry_command(
+            args=["install", "--with", "doc"],
+            real_run=real_run,
+            quiet=quiet,
+        )
 
     def poetry_install_doc(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
         verbose: bool = False,
     ):  # pragma: no cover
-        return self._with_logger(
-            method=self._poetry_install_doc,
-            msg="Install doc dependencies",
-            emoji=Emoji.install,
-            verbose=verbose,
-            real_run=real_run,
-        )
+        with logger.disabled(disable=not verbose):
+            return self._poetry_install_doc(
+                real_run=real_run,
+                quiet=not verbose,
+            )
 
+    @logger.emoji_block(
+        msg="Install automation dependencies",
+        emoji=Emoji.install,
+    )
     def _poetry_install_auto(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
+        quiet: bool = False,
     ):
         """
         Install automation dependencies.
@@ -266,28 +303,31 @@ class PyProjectDeps:
 
         - poetry install: https://python-poetry.org/docs/cli/#install
         """
-        args = [f"{self.path_bin_poetry}", "install", "--with", "auto"]
-        print_command(args)
-        if real_run:
-            with temp_cwd(self.dir_project_root):
-                subprocess.run(args, check=True)
+        return self._run_poetry_command(
+            args=["install", "--with", "auto"],
+            real_run=real_run,
+            quiet=quiet,
+        )
 
     def poetry_install_auto(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
         verbose: bool = False,
     ):  # pragma: no cover
-        return self._with_logger(
-            method=self._poetry_install_auto,
-            msg="Install automation dependencies",
-            emoji=Emoji.install,
-            verbose=verbose,
-            real_run=real_run,
-        )
+        with logger.disabled(disable=not verbose):
+            return self._poetry_install_auto(
+                real_run=real_run,
+                quiet=not verbose,
+            )
 
+    @logger.emoji_block(
+        msg="Install all dependencies for dev, test, doc",
+        emoji=Emoji.install,
+    )
     def _poetry_install_all(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
+        quiet: bool = False,
     ):
         """
         Run:
@@ -300,27 +340,25 @@ class PyProjectDeps:
 
         - poetry install: https://python-poetry.org/docs/cli/#install
         """
-        args = [f"{self.path_bin_poetry}", "install", "--all-groups"]
-        print_command(args)
-        if real_run:
-            with temp_cwd(self.dir_project_root):
-                subprocess.run(args, check=True)
+        return self._run_poetry_command(
+            args=["install", "--all-groups"],
+            real_run=real_run,
+            quiet=quiet,
+        )
 
     def poetry_install_all(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
         verbose: bool = False,
     ):  # pragma: no cover
-        return self._with_logger(
-            method=self._poetry_install_all,
-            msg="Install all dependencies for dev, test, doc",
-            emoji=Emoji.install,
-            verbose=verbose,
-            real_run=real_run,
-        )
+        with logger.disabled(disable=not verbose):
+            return self._poetry_install_all(
+                real_run=real_run,
+                quiet=not verbose,
+            )
 
     def _do_we_need_poetry_export(
-        self: "PyProjectOps",
+        self: "PyWf",
         current_poetry_lock_hash: str,
     ) -> bool:
         """
@@ -358,7 +396,7 @@ class PyProjectDeps:
             return True
 
     def _poetry_export_main(
-        self: "PyProjectOps",
+        self: "PyWf",
         with_hash: bool = True,
         real_run: bool = True,
     ):
@@ -385,7 +423,7 @@ class PyProjectDeps:
                 subprocess.run(args, check=True)
 
     def _poetry_export_group(
-        self: "PyProjectOps",
+        self: "PyWf",
         group: str,
         path: Path,
         with_hash: bool = True,
@@ -421,7 +459,7 @@ class PyProjectDeps:
                 subprocess.run(args, check=True)
 
     def _poetry_export_logic(
-        self: "PyProjectOps",
+        self: "PyWf",
         current_poetry_lock_hash: str,
         with_hash: bool = True,
         real_run: bool = True,
@@ -444,7 +482,9 @@ class PyProjectDeps:
             ("doc", self.path_requirements_doc),
             ("auto", self.path_requirements_automation),
         ]:
-            self._poetry_export_group(group, path, with_hash=with_hash, real_run=real_run)
+            self._poetry_export_group(
+                group, path, with_hash=with_hash, real_run=real_run
+            )
 
         # write the ``poetry.lock`` hash to the cache file
         if real_run:
@@ -462,9 +502,14 @@ class PyProjectDeps:
                 )
             )
 
+    @logger.emoji_block(
+        msg="Export all dependencies to requirements-***.txt",
+        emoji=Emoji.install,
+    )
     def _poetry_export(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
+        quiet: bool = False,
     ) -> bool:
         """
         :return: ``True`` if ``poetry export`` is executed, ``False`` if not.
@@ -474,44 +519,17 @@ class PyProjectDeps:
             self._poetry_export_logic(poetry_lock_hash, real_run=real_run)
             return True
         else:
+            logger.info("already did, do nothing")
             return False
 
     def poetry_export(
-        self: "PyProjectOps",
+        self: "PyWf",
         real_run: bool = True,
         verbose: bool = False,
     ):  # pragma: no cover
-
-        if verbose:
-            @logger.start_and_end(
-                msg="Install all dependencies for dev, test, doc",
-                start_emoji=Emoji.install,
-                error_emoji=f"{Emoji.failed} {Emoji.install}",
-                end_emoji=f"{Emoji.succeeded} {Emoji.install}",
-                pipe=Emoji.install,
+        with logger.disabled(disable=not verbose):
+            flag = self._poetry_export(
+                real_run=real_run,
+                quiet=not verbose,
             )
-            def func():
-                flag = self._poetry_export(real_run=real_run)
-                if flag is False:
-                    logger.info("already did, do nothing")
-                return flag
-
-            return func()
-        else:
-            return self._poetry_export(real_run=real_run)
-
-    def _try_poetry_export(
-        self: "PyProjectOps",
-        real_run: bool = True,
-    ):
-        """
-        This is a silent version of :func:`poetry_export`. It is called before
-        running ``pip install -r requirements-***.txt`` command. It ensures that
-        those exported ``requirements-***.txt`` file exists.
-        """
-        if self.path_poetry_lock.exists() is False:
-            return
-
-        poetry_lock_hash = sha256_of_bytes(self.path_poetry_lock.read_bytes())
-        if self._do_we_need_poetry_export(poetry_lock_hash):
-            self._poetry_export_logic(poetry_lock_hash, real_run=real_run)
+            return flag
