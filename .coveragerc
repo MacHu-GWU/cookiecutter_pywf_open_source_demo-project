@@ -2,12 +2,12 @@
 # for more info: https://coverage.readthedocs.io/en/latest/config.html
 [run]
 omit =
-    cookiecutter_pyproject_demo/docs/*
-    cookiecutter_pyproject_demo/tests/*
-    cookiecutter_pyproject_demo/vendor/*
-    cookiecutter_pyproject_demo/_version.py
-    cookiecutter_pyproject_demo/cli.py
-    cookiecutter_pyproject_demo/paths.py
+    cookiecutter_pywf_open_source_demo/docs/*
+    cookiecutter_pywf_open_source_demo/tests/*
+    cookiecutter_pywf_open_source_demo/vendor/*
+    cookiecutter_pywf_open_source_demo/_version.py
+    cookiecutter_pywf_open_source_demo/cli.py
+    cookiecutter_pywf_open_source_demo/paths.py
 
 [report]
 # Regexes for lines to exclude from consideration

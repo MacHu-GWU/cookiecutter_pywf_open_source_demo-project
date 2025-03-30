@@ -4,10 +4,10 @@
 name: CI
 
 on:
-#  push: # any push event to master will trigger this
-#    branches: ["main"]
-#  pull_request: # any pull request to master will trigger this
-#    branches: ["main"]
+  push: # any push event to master will trigger this
+    branches: ["main"]
+  pull_request: # any pull request to master will trigger this
+    branches: ["main"]
   workflow_dispatch: # allows you to manually trigger run
 
 jobs:
@@ -50,7 +50,7 @@ jobs:
           pip install -r requirements-test.txt
           pip install .
       - name: "Run pytest"
-        run: "python -m pytest tests --cov=cookiecutter_pyproject_demo"
+        run: "python -m pytest tests --cov=cookiecutter_pywf_open_source_demo"
       # don't forget to goto codecov.io, enable your repo, copy the token
       # create an CODECOV_TOKEN env var in GitHub actions secret
       - name: "Upload coverage to Codecov"
@@ -58,5 +58,5 @@ jobs:
         uses: "codecov/codecov-action@v3" # https://github.com/marketplace/actions/codecov
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: MacHu-GWU/cookiecutter_pyproject_demo-project
+          slug: MacHu-GWU/cookiecutter_pywf_open_source_demo-project
           fail_ci_if_error: true
