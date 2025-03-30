@@ -66,7 +66,7 @@ class PyWfVenv:
     def create_virtualenv(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ) -> bool:  # pragma: no cover
         """
         See :meth:`_create_virtualenv`.
@@ -113,7 +113,7 @@ class PyWfVenv:
     def remove_virtualenv(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         """
         See :meth:`_remove_virtualenv`.

@@ -63,7 +63,7 @@ class PyWfDocs:
     def build_doc(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(not verbose):
             return self._build_doc(
@@ -93,7 +93,7 @@ class PyWfDocs:
     def view_doc(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(not verbose):
             return self._view_doc(
@@ -146,7 +146,7 @@ class PyWfDocs:
         prefix: str = "projects/",
         aws_profile: T.Optional[str] = None,
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ) -> bool:  # pragma: no cover
         with logger.disabled(not verbose):
             return self._deploy_versioned_doc(
@@ -202,7 +202,7 @@ class PyWfDocs:
         prefix: str = "projects/",
         aws_profile: T.Optional[str] = None,
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ) -> bool:  # pragma: no cover
         with logger.disabled(not verbose):
             return self._deploy_latest_doc(
@@ -249,7 +249,7 @@ class PyWfDocs:
         bucket: T.Optional[str] = None,
         prefix: str = "projects/",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):
         """
         Open the latest document that hosted on AWS S3 in web browser.

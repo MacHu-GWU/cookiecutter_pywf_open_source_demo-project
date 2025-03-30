@@ -53,7 +53,7 @@ class PyWfBuild:
     def python_build(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(not verbose):
             return self._python_build(
@@ -89,7 +89,7 @@ class PyWfBuild:
     def poetry_build(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(not verbose):
             return self._poetry_build(

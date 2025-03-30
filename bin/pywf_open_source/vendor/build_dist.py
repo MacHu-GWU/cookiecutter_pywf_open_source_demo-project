@@ -41,7 +41,7 @@ def build_dist_with_python_build(
     path_bin_python: T.Union[str, Path],
     log_func: T.Callable = print,
     real_run: bool = True,
-    verbose: bool = False,
+    verbose: bool = True,
 ):
     """
     Build the source distribution with ``python-build``.
@@ -74,7 +74,7 @@ def build_dist_with_poetry_build(
     path_bin_poetry: T.Union[str, Path],
     log_func: T.Callable = print,
     real_run: bool = True,
-    verbose: bool = False,
+    verbose: bool = True,
 ):
     """
     Build the source distribution with ``poetry build`` command.

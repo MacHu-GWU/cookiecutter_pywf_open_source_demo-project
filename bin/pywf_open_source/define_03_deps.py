@@ -81,7 +81,7 @@ class PyWfDeps:
     def poetry_lock(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(disable=not verbose):
             return self._poetry_lock(
@@ -123,7 +123,7 @@ class PyWfDeps:
     def poetry_install_only_root(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(disable=not verbose):
             return self._poetry_install_only_root(
@@ -164,7 +164,7 @@ class PyWfDeps:
     def poetry_install(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(disable=not verbose):
             return self._poetry_install(
@@ -204,7 +204,7 @@ class PyWfDeps:
     def poetry_install_dev(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(disable=not verbose):
             return self._poetry_install_dev(
@@ -244,7 +244,7 @@ class PyWfDeps:
     def poetry_install_test(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(disable=not verbose):
             return self._poetry_install_test(
@@ -284,7 +284,7 @@ class PyWfDeps:
     def poetry_install_doc(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(disable=not verbose):
             return self._poetry_install_doc(
@@ -324,7 +324,7 @@ class PyWfDeps:
     def poetry_install_auto(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(disable=not verbose):
             return self._poetry_install_auto(
@@ -365,7 +365,7 @@ class PyWfDeps:
     def poetry_install_all(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(disable=not verbose):
             return self._poetry_install_all(
@@ -542,7 +542,7 @@ class PyWfDeps:
     def poetry_export(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(disable=not verbose):
             flag = self._poetry_export(

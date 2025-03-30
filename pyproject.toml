@@ -24,7 +24,6 @@ maintainers = [
 ]
 keywords = []
 readme = "README.rst"
-homepage = "https://github.com/MacHu-GWU/cookiecutter_pyproject_demo-project"
 # Files to include in the package distribution
 include = [
     "*.txt",
@@ -66,12 +65,12 @@ dependencies = [
 [project.optional-dependencies]
 
 [project.urls]
-Homepage = "https://github.com/MacHu-GWU/cookiecutter_pyproject_demo-project"
-Documentation = "https://cookiecutter-pyproject-demo.readthedocs.io/en/latest/"
-Repository = "https://github.com/MacHu-GWU/cookiecutter_pyproject_demo-project"
-Issues = "https://github.com/MacHu-GWU/cookiecutter_pyproject_demo-project/issues"
-Changelog = "https://github.com/MacHu-GWU/cookiecutter_pyproject_demo-project/blob/main/release-history.rst"
-Download = "https://pypi.org/pypi/cookiecutter-pyproject-demo#files"
+Homepage = "https://github.com/MacHu-GWU/cookiecutter_pywf_open_source_demo-project"
+Documentation = "https://cookiecutter-pywf-open-source-demo.readthedocs.io/en/latest/"
+Repository = "https://github.com/MacHu-GWU/cookiecutter_pywf_open_source_demo-project"
+Issues = "https://github.com/MacHu-GWU/cookiecutter_pywf_open_source_demo-project/issues"
+Changelog = "https://github.com/MacHu-GWU/cookiecutter_pywf_open_source_demo-project/blob/main/release-history.rst"
+Download = "https://pypi.org/pypi/cookiecutter-pywf-open-source-demo#files"
 
 # For command line interface, read: https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#creating-executable-scripts
 [project.scripts]
@@ -144,13 +143,6 @@ poetry-plugin-export = ">=1.9.0,<2.0.0"
 [tool.pywf]
 # The specific python version you use for local development
 dev_python = "3.11.8"
-# if you use AWS S3 to host your document website
-# it is the aws profile you use for doc site deployment
-# leave empty string "" if you don't use it
-doc_host_aws_profile = "bmt_app_devops_us_east_1"
-# it is the aws s3 bucket you use to store you document files
-doc_host_s3_bucket = "bmt-app-devops-us-east-1-doc-host"
-doc_host_s3_prefix = "projects/"
 
 # Read: https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#declaring-the-build-backend
 [build-system]

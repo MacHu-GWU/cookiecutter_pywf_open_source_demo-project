@@ -81,21 +81,9 @@ view-doc: ## View documentation website locally
 	./.venv/bin/python ./bin/s04_2_view_doc.py
 
 
-deploy-versioned-doc: install install-doc ## Deploy documentation website with version
-	./.venv/bin/python ./bin/s04_3_deploy_versioned_doc.py
-
-
-deploy-latest-doc: install install-doc ## Deploy documentation website with latest version
-	./.venv/bin/python ./bin/s04_4_deploy_latest_doc.py
-
-
-view-latest-doc: install install-doc ## View documentation website with latest version
-	./.venv/bin/python ./bin/s04_5_view_latest_doc.py
-
-
 build: ## Build Python library distribution package
 	./.venv/bin/python ./bin/s05_1_build_package.py
 
 
-publish: ## Publish Python library to AWS CodeArtifact
+publish: ## Publish Python library to Public PyPI
 	./.venv/bin/python ./bin/s05_2_publish_package.py

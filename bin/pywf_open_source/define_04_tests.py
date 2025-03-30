@@ -53,7 +53,7 @@ class PyWfTests:
     def run_unit_test(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(not verbose):
             return self._run_unit_test(
@@ -95,7 +95,7 @@ class PyWfTests:
     def run_cov_test(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(not verbose):
             return self._run_cov_test(
@@ -124,7 +124,7 @@ class PyWfTests:
     def view_cov(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(not verbose):
             return self._view_cov(
@@ -160,7 +160,7 @@ class PyWfTests:
     def run_int_test(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(not verbose):
             return self._run_int_test(
@@ -196,7 +196,7 @@ class PyWfTests:
     def run_load_test(
         self: "PyWf",
         real_run: bool = True,
-        verbose: bool = False,
+        verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(not verbose):
             return self._run_load_test(
