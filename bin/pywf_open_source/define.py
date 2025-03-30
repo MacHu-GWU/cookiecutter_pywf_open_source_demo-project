@@ -12,7 +12,6 @@ from pathlib import Path
 from .define_01_paths import PyWfPaths
 from .define_02_logger import PyWfLogger
 from .define_03_venv import PyWfVenv
-from .define_04_toml import PyWfToml
 from .define_05_deps import PyWfDeps
 from .define_06_tests import PyWfTests
 from .define_07_docs import PyWfDocs
@@ -26,7 +25,7 @@ class PyWf(
     PyWfPaths,
     PyWfLogger,
     PyWfVenv,
-    PyWfToml,
+    # PyWfToml,
     PyWfDeps,
     PyWfTests,
     PyWfDocs,
@@ -45,13 +44,74 @@ class PyWf(
     """
 
     dir_project_root: Path = dataclasses.field()
-    package_name: str = dataclasses.field()
-    py_ver_major: int = dataclasses.field()
-    py_ver_minor: int = dataclasses.field()
-    py_ver_micro: int = dataclasses.field()
-    doc_host_aws_profile: str = dataclasses.field(default="")
-    doc_host_s3_bucket: str = dataclasses.field(default="")
-    doc_host_s3_prefix: str = dataclasses.field(default="")
+    toml_data: T.Dict[str, T.Any] = dataclasses.field()
+
+    # --------------------------------------------------------------------------
+    # [project]
+    # --------------------------------------------------------------------------
+    @property
+    def package_name(self) -> str:
+        return self.toml_data["project"]["name"]
+
+    @property
+    def package_version(self) -> str:
+        return self.toml_data["project"]["version"]
+
+    @property
+    def package_license(self) -> str:
+        return self.toml_data["project"]["license"]
+
+    @property
+    def package_description(self) -> str:
+        return self.toml_data["project"]["description"]
+
+    @property
+    def package_author_name(self) -> str:
+        return self.toml_data["project"]["authors"][0]["name"]
+
+    @property
+    def package_author_email(self) -> str:
+        return self.toml_data["project"]["authors"][0]["email"]
+
+    @property
+    def package_maintainer_name(self) -> str:
+        return self.toml_data["project"]["maintainers"][0]["name"]
+
+    @property
+    def package_maintainer_email(self) -> str:
+        return self.toml_data["project"]["maintainers"][0]["email"]
+
+    # --------------------------------------------------------------------------
+    # [tool.pywf]
+    # --------------------------------------------------------------------------
+    @property
+    def py_ver_major(self) -> int:
+        return int(self.toml_data["tool"]["pywf"]["dev_python"].split(".")[0])
+
+    @property
+    def py_ver_minor(self) -> int:
+        return int(self.toml_data["tool"]["pywf"]["dev_python"].split(".")[1])
+
+    @property
+    def py_ver_micro(self) -> int:
+        return int(self.toml_data["tool"]["pywf"]["dev_python"].split(".")[2])
+
+    @property
+    def doc_host_aws_profile(self) -> str:
+        return self.toml_data["tool"]["pywf"]["doc_host_aws_profile"]
+
+    @property
+    def doc_host_s3_bucket(self) -> str:
+        return self.toml_data["tool"]["pywf"]["doc_host_s3_bucket"]
+
+    @property
+    def doc_host_s3_prefix(self) -> str:
+        doc_host_s3_prefix = self.toml_data["tool"]["pywf"]["doc_host_s3_prefix"]
+        if doc_host_s3_prefix.startswith("/"):
+            doc_host_s3_prefix = doc_host_s3_prefix[1:]
+        if doc_host_s3_prefix.endswith("/"):
+            doc_host_s3_prefix = doc_host_s3_prefix[:-1]
+        return doc_host_s3_prefix
 
     def _validate_paths(self):
         if isinstance(self.dir_project_root, Path) is False:
@@ -77,14 +137,24 @@ class PyWf(
                 f"Python major version has to be 3, but got {self.py_ver_major}."
             )
 
-    def _sanitize_attrs(self):
-        if self.doc_host_s3_prefix.endswith("/"):
-            self.doc_host_s3_prefix = self.doc_host_s3_prefix[:-1]
+    def _update_version_file(self):
+        dir_here = Path(__file__).absolute().parent
+        path_version_tpl = dir_here / "_version.tpl"
+        content = path_version_tpl.read_text(encoding="utf-8").format(
+            version=self.package_version,
+            description=self.package_description,
+            license=self.package_license,
+            author=self.package_author_name,
+            author_email=self.package_author_email,
+            maintainer=self.package_maintainer_name,
+            maintainer_email=self.package_maintainer_email,
+        )
+        self.path_version_py.write_text(content, encoding="utf-8")
 
     def __post_init__(self):
         self._validate_paths()
         self._validate_python_version()
-        self._sanitize_attrs()
+        self._update_version_file()
 
     @classmethod
     def from_pyproject_toml(
@@ -100,20 +170,8 @@ class PyWf(
         raise an error.
         """
         path_pyproject_toml = Path(path_pyproject_toml)
-        toml_dict = tomllib.loads(path_pyproject_toml.read_text())
-        package_name = toml_dict["project"]["name"]
-        python_version = toml_dict["tool"]["pywf"]["dev_python"]
-        major, minor, micro = [int(ver) for ver in python_version.split(".")]
-        doc_host_aws_profile = toml_dict["tool"]["pywf"]["doc_host_aws_profile"]
-        doc_host_s3_bucket = toml_dict["tool"]["pywf"]["doc_host_s3_bucket"]
-        doc_host_s3_prefix = toml_dict["tool"]["pywf"]["doc_host_s3_prefix"]
+        toml_data = tomllib.loads(path_pyproject_toml.read_text())
         return cls(
             dir_project_root=path_pyproject_toml.parent,
-            package_name=package_name,
-            py_ver_major=major,
-            py_ver_minor=minor,
-            py_ver_micro=micro,
-            doc_host_aws_profile=doc_host_aws_profile,
-            doc_host_s3_bucket=doc_host_s3_bucket,
-            doc_host_s3_prefix=doc_host_s3_prefix,
+            toml_data=toml_data,
         )
