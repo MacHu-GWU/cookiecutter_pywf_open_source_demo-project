@@ -135,7 +135,7 @@ def setup_readthedocs_project(
     github_owner_username: str,
     repo_name: str,
     readthedocs_project_name: str,
-):
+) -> bool:
     """
     Create an project on readthedocs.org.
 
@@ -146,7 +146,7 @@ def setup_readthedocs_project(
     """
     print("Setting up readthedocs project...")
     readthedocs_project_name_slug = readthedocs_project_name.replace("_", "-")
-    url = f"https://readthedocs.org/dashboard/{readthedocs_project_name_slug}/edit/"
+    url = f"https://app.readthedocs.org/dashboard/{readthedocs_project_name_slug}/edit/"
     print(f"  preview at {url}")
     headers = {
         "accept": "application/json",
@@ -156,14 +156,18 @@ def setup_readthedocs_project(
 
     url = f"{endpoint}/projects/{readthedocs_project_name_slug}/"
     response = requests.get(url, headers=headers)
-    if response.status_code != 200 and response.status_code != 404:
-        raise_http_response_error(response)
-
-    if response.status_code != 404:
-        url = f"https://readthedocs.org/projects/{readthedocs_project_name_slug}/"
-        raise ValueError(
-            f"Project already exists on readthedocs.org, please check it out at: {url}"
+    # print(response)
+    if response.status_code == 200:
+        url = f"https://app.readthedocs.org/projects/{readthedocs_project_name_slug}/"
+        print(
+            f"Project already exists on readthedocs.org, "
+            f"please view it at: {url}"
         )
+        return True
+    elif response.status_code == 404:
+        print("Project does not exist on readthedocs.org, creating it...")
+    else:
+        raise_http_response_error(response)
 
     url = f"{endpoint}/projects/"
     github_repo_url = f"https://github.com/{github_owner_username}/{repo_name}"
@@ -183,7 +187,7 @@ def setup_readthedocs_project(
         json=data,
         headers=headers,
     )
-    if response.status_code != 204:
+    if response.status_code < 200 or response.status_code >= 300:
         raise_http_response_error(response)
 
 

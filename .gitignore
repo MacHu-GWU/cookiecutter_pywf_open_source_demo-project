@@ -1,6 +1,5 @@
 # User Settings
 cookiecutter_pyproject_demo.egg-info/
-requirements*.txt
 tmp/
 
 

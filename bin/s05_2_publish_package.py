@@ -2,10 +2,9 @@
 # -*- coding: utf-8 -*-
 
 """
-We primarily use poetry to publish the package.
+We primarily use twine to publish the package for open source project.
 """
 
 from pywf import pywf
 
-# pywf.twine_upload()
-pywf.poetry_publish()
+pywf.twine_upload()
