@@ -3,7 +3,7 @@
 # based on the content in pyproject.toml file
 
 __version__ = "0.1.1"
-__short_description__ = "Python open source project automation."
+__short_description__ = "Python Workflow for open source project."
 __license__ = "MIT"
 __author__ = "Sanhe Hu"
 __author_email__ = "husanhe@gmail.com"

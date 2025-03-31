@@ -50,6 +50,18 @@ class PyWfVenv:
             # note that we defined to use in-project = true in poetry.toml file
             args = [
                 f"{self.path_bin_poetry}",
+                "config",
+                "virtualenvs.in-project",
+                "true",
+            ]
+            if quiet:
+                args.append("--quiet")
+            print_command(args)
+            
+            if real_run is True:
+                subprocess.run(args, check=True)
+            args = [
+                f"{self.path_bin_poetry}",
                 "env",
                 "use",
                 f"python{self.py_ver_major}.{self.py_ver_minor}",

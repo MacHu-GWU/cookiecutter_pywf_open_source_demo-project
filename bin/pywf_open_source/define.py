@@ -203,7 +203,7 @@ class PyWf(
         Create a :class:`PyWf` instance from a pyproject.toml file.
         """
         path_pyproject_toml = Path(path_pyproject_toml)
-        toml_data = tomllib.loads(path_pyproject_toml.read_text())
+        toml_data = tomllib.loads(path_pyproject_toml.read_text(encoding="utf-8"))
         return cls(
             dir_project_root=path_pyproject_toml.parent,
             toml_data=toml_data,
