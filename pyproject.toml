@@ -75,6 +75,11 @@ Download = "https://pypi.org/pypi/cookiecutter-pywf-open-source-demo#files"
 # For command line interface, read: https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#creating-executable-scripts
 [project.scripts]
 
+# The package itself supports a broad Python range, but includes optional/development
+# dependencies that are only compatible with a narrower version range.
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+
 # ==============================================================================
 # Poetry dependency groups. Note that this is not the "extras" dependency defined by Python.
 # It is a poetry only feature that totally different from ``[project.optional-dependencies]``
@@ -93,26 +98,30 @@ rich = ">=13.8.1,<14.0.0"
 
 # ------------------------------------------------------------------------------
 # Documentation build dependenceies
+#
+# We only need to make sure doc dependencies are compatible with the
+# specific Python version defined we use for doc build and publish.
+# It doesn't have to be compatible with "requires-python" field.
 # ------------------------------------------------------------------------------
 [tool.poetry.group.doc]
 optional = true
 
 [tool.poetry.group.doc.dependencies]
-Sphinx = ">=8.2.3,<9.0.0"
+Sphinx = { version = ">=8.2.3,<9.0.0", python = ">=3.11" }
 # add copy button to code block
-sphinx-copybutton = ">=0.5.2,<1.0.0"
+sphinx-copybutton = { version = ">=0.5.2,<1.0.0", python = ">=3.11" }
 # add additional design pattern to sphinx
-sphinx-design = ">=0.6.1,<1.0.0"
+sphinx-design = { version = ">=0.6.1,<1.0.0", python = ">=3.11" }
 # enable jinja syntax in reStructuredText
-sphinx-jinja = ">=2.0.2,<3.0.0"
+sphinx-jinja = { version = ">=2.0.2,<3.0.0", python = ">=3.11" }
 # the furo sphinx theme
-furo = "2024.8.6"
+furo = { version = "2024.8.6", python = ">=3.11" }
 # syntax highlight
-pygments = ">=2.18.0,<3.0.0"
+pygments = { version = ">=2.18.0,<3.0.0", python = ">=3.11" }
 # iPython
-ipython = ">=8.34.0,<9.0.0"
+ipython = { version = ">=8.34.0,<9.0.0", python = ">=3.11" }
 # add jupyter notebook in sphinx doc
-nbsphinx = ">=0.8.12,<1.0.0"
+nbsphinx = { version = ">=0.8.12,<1.0.0", python = ">=3.11" }
 # generate reStructuredText in Python
 rstobj = "1.2.1"
 # automaticall generate .. toctree directives and API reference doc
@@ -120,6 +129,10 @@ docfly = "2.0.3"
 
 # ------------------------------------------------------------------------------
 # Test dependenceies
+#
+# Because we need to test in all supported Python version in CI,
+# test dependencies has to be compatible with Python version defined in
+# "requires-python" field.
 # ------------------------------------------------------------------------------
 [tool.poetry.group.test]
 optional = true
