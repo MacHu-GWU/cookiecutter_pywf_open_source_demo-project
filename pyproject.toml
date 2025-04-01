@@ -106,6 +106,7 @@ doc = [
 auto = [
 ]
 
+# Quick Links
 [project.urls]
 Homepage = "https://github.com/MacHu-GWU/cookiecutter_pywf_open_source_demo-project"
 Documentation = "https://cookiecutter-pywf-open-source-demo.readthedocs.io/en/latest/"
