@@ -213,6 +213,6 @@ class PyWfPublish:
         See :meth:`_publish_to_github_release`.
         """
         with logger.disabled(not verbose):
-            return self._setup_readthedocs_project(
+            return self._publish_to_github_release(
                 real_run=real_run,
             )
