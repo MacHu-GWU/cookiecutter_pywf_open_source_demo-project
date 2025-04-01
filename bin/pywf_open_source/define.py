@@ -136,6 +136,14 @@ class PyWf(
     def github_repo_url(self) -> str:
         return f"https://github.com/{self.github_repo_fullname}"
 
+    @property
+    def github_actions_secrets_settings_url(self) -> str:
+        return f"{self.github_repo_url}/settings/secrets/actions"
+
+    @property
+    def github_versioned_release_url(self) -> str:
+        return f"{self.github_repo_url}/releases/tag/{self.package_version}"
+
     # --- codecov.io
     @property
     def codecov_account(self) -> str:

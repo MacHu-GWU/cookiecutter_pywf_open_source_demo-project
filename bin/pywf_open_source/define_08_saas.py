@@ -17,8 +17,8 @@ except ImportError:  # pragma: no cover
 
 from .vendor.emoji import Emoji
 
-from .helpers import raise_http_response_error
 from .logger import logger
+from .helpers import raise_http_response_error
 
 if T.TYPE_CHECKING:
     from .define import PyWf
@@ -102,9 +102,8 @@ class PyWfSaas:
         codecov_io_upload_token = self.get_codecov_io_upload_token(real_run=real_run)
 
         logger.info("Setting up codecov.io upload token on GitHub...")
-        url = f"{self.github_repo_url}/settings/secrets/actions"
         with logger.indent():
-            logger.info(f"preview at {url}")
+            logger.info(f"preview at {self.github_actions_secrets_settings_url}")
         gh = Github(self.github_token)
         repo = gh.get_repo(self.github_repo_fullname)
         if real_run:

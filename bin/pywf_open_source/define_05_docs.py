@@ -12,8 +12,8 @@ import subprocess
 from .vendor.emoji import Emoji
 from .vendor.os_platform import OPEN_COMMAND
 
-from .helpers import print_command
 from .logger import logger
+from .helpers import print_command
 
 if T.TYPE_CHECKING:  # pragma: no cover
     from .define import PyWf
