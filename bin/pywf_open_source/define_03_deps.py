@@ -414,7 +414,7 @@ class PyWfDeps:
 
     def _poetry_export_main(
         self: "PyWf",
-        with_hash: bool = True,
+        with_hash: bool = False,
         real_run: bool = True,
     ):
         """
@@ -443,7 +443,7 @@ class PyWfDeps:
         self: "PyWf",
         group: str,
         path: Path,
-        with_hash: bool = True,
+        with_hash: bool = False,
         real_run: bool = True,
     ):
         """
@@ -468,9 +468,9 @@ class PyWfDeps:
                 f"{path}",
                 "--only",
             ]
+            args.append(group)
             if with_hash is False:
                 args.append("--without-hashes")
-            args.append(group)
             print_command(args)
             if real_run:
                 subprocess.run(args, check=True)
@@ -478,7 +478,7 @@ class PyWfDeps:
     def _poetry_export_logic(
         self: "PyWf",
         current_poetry_lock_hash: str,
-        with_hash: bool = True,
+        with_hash: bool = False,
         real_run: bool = True,
     ):
         """
@@ -500,7 +500,10 @@ class PyWfDeps:
             ("auto", self.path_requirements_automation),
         ]:
             self._poetry_export_group(
-                group, path, with_hash=with_hash, real_run=real_run
+                group=group,
+                path=path,
+                with_hash=with_hash,
+                real_run=real_run,
             )
 
         # write the ``poetry.lock`` hash to the cache file
@@ -525,6 +528,7 @@ class PyWfDeps:
     )
     def _poetry_export(
         self: "PyWf",
+        with_hash: bool = False,
         real_run: bool = True,
         quiet: bool = False,
     ) -> bool:
@@ -533,7 +537,11 @@ class PyWfDeps:
         """
         poetry_lock_hash = sha256_of_bytes(self.path_poetry_lock.read_bytes())
         if self._do_we_need_poetry_export(poetry_lock_hash):
-            self._poetry_export_logic(poetry_lock_hash, real_run=real_run)
+            self._poetry_export_logic(
+                current_poetry_lock_hash=poetry_lock_hash,
+                with_hash=with_hash,
+                real_run=real_run,
+            )
             return True
         else:
             logger.info("already did, do nothing")
@@ -541,11 +549,13 @@ class PyWfDeps:
 
     def poetry_export(
         self: "PyWf",
+        with_hash: bool = False,
         real_run: bool = True,
         verbose: bool = True,
     ):  # pragma: no cover
         with logger.disabled(disable=not verbose):
             flag = self._poetry_export(
+                with_hash=with_hash,
                 real_run=real_run,
                 quiet=not verbose,
             )
