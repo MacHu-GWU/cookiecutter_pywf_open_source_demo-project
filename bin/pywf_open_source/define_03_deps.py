@@ -196,7 +196,7 @@ class PyWfDeps:
         - poetry install: https://python-poetry.org/docs/cli/#install
         """
         return self._run_poetry_command(
-            args=["install", "--with", "dev"],
+            args=["install", "--extras", "dev"],
             real_run=real_run,
             quiet=quiet,
         )
@@ -236,7 +236,7 @@ class PyWfDeps:
         - poetry install: https://python-poetry.org/docs/cli/#install
         """
         return self._run_poetry_command(
-            args=["install", "--with", "test"],
+            args=["install", "--extras", "test"],
             real_run=real_run,
             quiet=quiet,
         )
@@ -276,7 +276,7 @@ class PyWfDeps:
         - poetry install: https://python-poetry.org/docs/cli/#install
         """
         return self._run_poetry_command(
-            args=["install", "--with", "doc"],
+            args=["install", "--extras", "doc"],
             real_run=real_run,
             quiet=quiet,
         )
@@ -316,7 +316,7 @@ class PyWfDeps:
         - poetry install: https://python-poetry.org/docs/cli/#install
         """
         return self._run_poetry_command(
-            args=["install", "--with", "auto"],
+            args=["install", "--extras", "auto"],
             real_run=real_run,
             quiet=quiet,
         )
@@ -357,7 +357,7 @@ class PyWfDeps:
         - poetry install: https://python-poetry.org/docs/cli/#install
         """
         return self._run_poetry_command(
-            args=["install", "--all-groups"],
+            args=["install", "--all-extras"],
             real_run=real_run,
             quiet=quiet,
         )
@@ -449,6 +449,8 @@ class PyWfDeps:
         """
         Export specific dependency group to ``requirements-{group}.txt``.
 
+        Ref: https://github.com/python-poetry/poetry-plugin-export
+
         :param group: dependency group name, for example dev dependencies are defined
             in the ``[tool.poetry.group.dev]`` and ``[tool.poetry.group.dev.dependencies]``
             sections of he ``pyproject.toml`` file.
@@ -466,7 +468,7 @@ class PyWfDeps:
                 "requirements.txt",
                 "--output",
                 f"{path}",
-                "--only",
+                "--extras",
             ]
             args.append(group)
             if with_hash is False:
