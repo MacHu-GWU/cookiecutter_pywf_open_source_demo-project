@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-"""
-"""
-
 from ._version import __version__
 from ._version import __short_description__
 from ._version import __license__
