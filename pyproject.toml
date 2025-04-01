@@ -156,6 +156,13 @@ poetry-plugin-export = ">=1.9.0,<2.0.0"
 [tool.pywf]
 # The specific python version you use for local development
 dev_python = "3.11.8"
+github_account = "MacHu-GWU"
+github_token_name = "sanhe-dev"
+codecov_account = "MacHu-GWU"
+codecov_token_name = "sanhe-dev"
+readthedocs_username = "machugwu"
+readthedocs_project_name = "cookiecutter_pywf_open_source_demo"
+readthedocs_token_name = "sanhe-dev"
 
 # Read: https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#declaring-the-build-backend
 [build-system]

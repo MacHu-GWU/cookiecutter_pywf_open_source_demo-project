@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# cookiecutter_pyproject_demo documentation build configuration file, created by
+# cookiecutter_pywf_open_source_demo documentation build configuration file, created by
 # sphinx-quickstart on Mon Jul 1 00:00:00 2017.
 #
 # This file is execfile()d with the current directory set to its

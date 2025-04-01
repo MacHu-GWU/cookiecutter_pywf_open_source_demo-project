@@ -406,6 +406,35 @@ class PyWfPaths:
         """
         return self.dir_project_root.joinpath("dist")
 
+    # --------------------------------------------------------------------------
+    # Token Files
+    # --------------------------------------------------------------------------
+    @property
+    def path_github_token_file(self: "PyWf") -> Path:
+        return self.dir_home.joinpath(
+            ".github",
+            self.github_account,
+            "pac",
+            f"{self.github_token_name}.txt",
+        )
+
+    @property
+    def path_codecov_token_file(self: "PyWf") -> Path:
+        return self.dir_home.joinpath(
+            ".codecov",
+            "github",
+            self.codecov_account,
+            f"{self.codecov_token_name}.txt",
+        )
+
+    @property
+    def path_readthedocs_token_file(self: "PyWf") -> Path:
+        return self.dir_home.joinpath(
+            ".readthedocs",
+            self.readthedocs_username,
+            f"{self.readthedocs_token_name}.txt",
+        )
+
     # ------------------------------------------------------------------------------
     # AWS Related
     # ------------------------------------------------------------------------------

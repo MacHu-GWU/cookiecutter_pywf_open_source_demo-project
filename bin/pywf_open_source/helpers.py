@@ -11,6 +11,8 @@ Helper functions.
 import typing as T
 import hashlib
 
+from requests import Response
+
 from .logger import logger
 
 
@@ -81,3 +83,9 @@ def bump_version(
 def print_command(args: T.List[str]):
     cmd = " ".join(args)
     logger.info(f"run command: {cmd}")
+
+
+def raise_http_response_error(response: Response):
+    print(f"status = {response.status_code}")
+    print(f"body = {response.text}")
+    raise Exception("HTTP request failed, see error details above.")

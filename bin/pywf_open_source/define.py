@@ -26,6 +26,7 @@ from .define_04_tests import PyWfTests
 from .define_05_docs import PyWfDocs
 from .define_06_build import PyWfBuild
 from .define_07_publish import PyWfPublish
+from .define_08_saas import PyWfSaas
 
 
 @dataclasses.dataclass
@@ -37,6 +38,7 @@ class PyWf(
     PyWfDocs,
     PyWfBuild,
     PyWfPublish,
+    PyWfSaas,
 ):
     """
     Unified Automation Interface for Python Project Management
@@ -109,6 +111,52 @@ class PyWf(
     def py_ver_micro(self) -> int:
         """Extract micro version number from development Python version."""
         return int(self.toml_data["tool"]["pywf"]["dev_python"].split(".")[2])
+
+    # --- GitHub.com
+    @property
+    def github_account(self) -> str:
+        return self.toml_data["tool"]["pywf"]["github_account"]
+
+    @property
+    def github_token_name(self) -> str:
+        return self.toml_data["tool"]["pywf"]["github_token_name"]
+
+    @property
+    def git_repo_name(self) -> str:
+        """
+        Git repo name.
+        """
+        return self.dir_project_root.name
+
+    @property
+    def github_repo_fullname(self) -> str:
+        return f"{self.github_account}/{self.git_repo_name}"
+
+    @property
+    def github_repo_url(self) -> str:
+        return f"https://github.com/{self.github_repo_fullname}"
+
+    # --- codecov.io
+    @property
+    def codecov_account(self) -> str:
+        return self.toml_data["tool"]["pywf"]["codecov_account"]
+
+    @property
+    def codecov_token_name(self) -> str:
+        return self.toml_data["tool"]["pywf"]["codecov_token_name"]
+
+    # --- readthedocs.org
+    @property
+    def readthedocs_username(self) -> str:
+        return self.toml_data["tool"]["pywf"]["readthedocs_username"]
+
+    @property
+    def readthedocs_project_name(self) -> str:
+        return self.toml_data["tool"]["pywf"]["readthedocs_project_name"]
+
+    @property
+    def readthedocs_token_name(self) -> str:
+        return self.toml_data["tool"]["pywf"]["readthedocs_token_name"]
 
     @property
     def doc_host_aws_profile(self) -> str:
