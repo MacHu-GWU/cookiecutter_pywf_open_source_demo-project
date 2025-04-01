@@ -32,15 +32,39 @@ class PyWfSaas:
 
     @cached_property
     def github_token(self: "PyWf") -> str:
-        return self.path_github_token_file.read_text(encoding="utf-8").strip()
+        if self.path_github_token_file.exists():
+            return self.path_github_token_file.read_text(encoding="utf-8").strip()
+        else: # pragma: no cover
+            message = (
+                f"{Emoji.error} Cannot find GitHub token file at "
+                f"{self.path_github_token_file}!\n"
+                f"{self.__class__.path_github_token_file.__doc__}"
+            )
+            raise FileNotFoundError(message)
 
     @cached_property
     def codecov_token(self: "PyWf") -> str:
-        return self.path_codecov_token_file.read_text(encoding="utf-8").strip()
+        if self.path_codecov_token_file.exists():
+            return self.path_codecov_token_file.read_text(encoding="utf-8").strip()
+        else: # pragma: no cover
+            message = (
+                f"{Emoji.error} Cannot find Codecov token file at "
+                f"{self.path_codecov_token_file}!\n"
+                f"{self.__class__.path_codecov_token_file.__doc__}"
+            )
+            raise FileNotFoundError(message)
 
     @cached_property
     def readthedocs_token(self: "PyWf") -> str:
-        return self.path_readthedocs_token_file.read_text(encoding="utf-8").strip()
+        if self.path_readthedocs_token_file.exists():
+            return self.path_readthedocs_token_file.read_text(encoding="utf-8").strip()
+        else:
+            message = (
+                f"{Emoji.error} Cannot find Readthedocs token file at "
+                f"{self.path_readthedocs_token_file}!\n"
+                f"{self.__class__.path_readthedocs_token_file.__doc__}"
+            )
+            raise FileNotFoundError(message)
 
     def get_codecov_io_upload_token(
         self: "PyWf",
