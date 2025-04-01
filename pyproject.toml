@@ -36,7 +36,7 @@ exclude = [
     "cookiecutter_pyproject_demo/docs/*",
     "cookiecutter_pyproject_demo/tests/*",
 ]
-requires-python = ">=3.11,<4.0"
+requires-python = ">=3.9,<4.0"
 # Full list of classifiers: https://pypi.org/classifiers/
 classifier = [
     "Development Status :: 4 - Beta",
@@ -78,7 +78,7 @@ Download = "https://pypi.org/pypi/cookiecutter-pywf-open-source-demo#files"
 # The package itself supports a broad Python range, but includes optional/development
 # dependencies that are only compatible with a narrower version range.
 [tool.poetry.dependencies]
-python = ">=3.9,<4.0"
+python = ">=3.11,<4.0"
 
 # ==============================================================================
 # Poetry dependency groups. Note that this is not the "extras" dependency defined by Python.

@@ -57,7 +57,7 @@ class PyWfVenv:
             if quiet:
                 args.append("--quiet")
             print_command(args)
-            
+
             if real_run is True:
                 subprocess.run(args, check=True)
             args = [
