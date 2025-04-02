@@ -119,6 +119,8 @@ class PyWfSaas:  # pragma: no cover
 
         Ref:
 
+        - https://docs.codecov.com/reference/repos_retrieve
+        - https://docs.codecov.com/reference/repos_config_retrieve
         - https://pygithub.readthedocs.io/en/latest/examples/Repository.html
 
         :returns: a boolean flag to indicate whether the operation is performed.
@@ -143,13 +145,14 @@ class PyWfSaas:  # pragma: no cover
         real_run: bool = True,
         verbose: bool = True,
     ):
-        """
-        See :meth:`_setup_codecov_io_upload_token_on_github`.
-        """
         with logger.disabled(not verbose):
             return self._setup_codecov_io_upload_token_on_github(
                 real_run=real_run,
             )
+
+    setup_codecov_io_upload_token_on_github.__doc__ = (
+        _setup_codecov_io_upload_token_on_github.__doc__
+    )
 
     @logger.emoji_block(
         msg="Setup readthedocs.org Project",
@@ -160,7 +163,7 @@ class PyWfSaas:  # pragma: no cover
         real_run: bool = True,
     ) -> bool:
         """
-        Create an project on readthedocs.org.
+        Create a project on readthedocs.org.
 
         Ref:
 
@@ -222,10 +225,9 @@ class PyWfSaas:  # pragma: no cover
         real_run: bool = True,
         verbose: bool = True,
     ):
-        """
-        See :meth:`_setup_readthedocs_project`.
-        """
         with logger.disabled(not verbose):
             return self._setup_readthedocs_project(
                 real_run=real_run,
             )
+
+    setup_readthedocs_project.__doc__ = _setup_readthedocs_project.__doc__

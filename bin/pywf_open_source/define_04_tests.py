@@ -36,6 +36,12 @@ class PyWfTests:  # pragma: no cover
     ):
         """
         A wrapper of ``pytest`` command to run unit test.
+
+        Run:
+
+        .. code-block:: bash
+
+            pytest tests -s --rootdir=/path/to/project/root
         """
         args = [
             f"{self.path_venv_bin_pytest}",
@@ -61,6 +67,8 @@ class PyWfTests:  # pragma: no cover
                 quiet=not verbose,
             )
 
+    run_unit_test.__doc__ = _run_unit_test.__doc__
+
     @logger.emoji_block(
         msg="Run Code Coverage Test",
         emoji=Emoji.test,
@@ -72,6 +80,12 @@ class PyWfTests:  # pragma: no cover
     ):
         """
         A wrapper of ``pytest`` command to run code coverage test.
+
+        Run:
+
+        .. code-block:: bash
+
+            pytest -s --tb=native --rootdir=/path/to/project/root --cov=package_name --cov-report term-missing --cov-report html:/path/to/htmlcov tests
         """
         args = [
             f"{self.path_venv_bin_pytest}",
@@ -103,6 +117,8 @@ class PyWfTests:  # pragma: no cover
                 quiet=not verbose,
             )
 
+    run_cov_test.__doc__ = _run_cov_test.__doc__
+
     @logger.emoji_block(
         msg="View Code Coverage Test Result",
         emoji=Emoji.test,
@@ -116,6 +132,13 @@ class PyWfTests:  # pragma: no cover
         View coverage test output html file locally in web browser.
 
         It is usually at the ``${dir_project_root}/htmlcov/index.html``
+
+        .. code-block:: bash
+
+            # For MacOS / Linux
+            open htmlcov/index.html
+            # For Windows
+            start htmlcov/index.html
         """
         args = [OPEN_COMMAND, f"{self.path_htmlcov_index_html}"]
         if real_run:
@@ -132,6 +155,8 @@ class PyWfTests:  # pragma: no cover
                 quiet=not verbose,
             )
 
+    view_cov.__doc__ = _view_cov.__doc__
+
     @logger.emoji_block(
         msg="Run Integration Tests",
         emoji=Emoji.test,
@@ -143,6 +168,12 @@ class PyWfTests:  # pragma: no cover
     ):
         """
         A wrapper of ``pytest`` command to run integration test.
+
+        Run:
+
+        .. code-block:: bash
+
+            pytest tests_int -s --rootdir=/path/to/project/root
         """
         args = [
             f"{self.path_venv_bin_pytest}",
@@ -168,6 +199,8 @@ class PyWfTests:  # pragma: no cover
                 quiet=not verbose,
             )
 
+    run_int_test.__doc__ = _run_int_test.__doc__
+
     @logger.emoji_block(
         msg="Run Load Test",
         emoji=Emoji.test,
@@ -179,6 +212,12 @@ class PyWfTests:  # pragma: no cover
     ):
         """
         A wrapper of ``pytest`` command to run load test.
+
+        Run:
+
+        .. code-block:: bash
+
+            pytest tests_load -s --rootdir=/path/to/project/root
         """
         args = [
             f"{self.path_venv_bin_pytest}",
@@ -203,3 +242,5 @@ class PyWfTests:  # pragma: no cover
                 real_run=real_run,
                 quiet=not verbose,
             )
+
+    run_load_test.__doc__ = _run_load_test.__doc__

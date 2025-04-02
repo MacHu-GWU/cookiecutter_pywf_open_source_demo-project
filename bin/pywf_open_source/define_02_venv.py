@@ -81,14 +81,13 @@ class PyWfVenv:
         real_run: bool = True,
         verbose: bool = True,
     ) -> bool:  # pragma: no cover
-        """
-        See :meth:`_create_virtualenv`.
-        """
         with logger.disabled(not verbose):
             return self._create_virtualenv(
                 real_run=real_run,
                 quiet=not verbose,
             )
+
+    create_virtualenv.__doc__ = _create_virtualenv.__doc__
 
     @logger.emoji_block(
         msg="Remove Virtual Environment",
@@ -128,11 +127,10 @@ class PyWfVenv:
         real_run: bool = True,
         verbose: bool = True,
     ):
-        """
-        See :meth:`_remove_virtualenv`.
-        """
         with logger.disabled(not verbose):
             return self._remove_virtualenv(
                 real_run=real_run,
                 quiet=not verbose,
             )
+
+    remove_virtualenv.__doc__ = _remove_virtualenv.__doc__

@@ -38,6 +38,12 @@ class PyWfBuild:
         """
         Build python source distribution using
         `pypa-build <https://pypa-build.readthedocs.io/en/latest/>`_.
+        
+        Run:
+        
+        .. code-block:: bash
+            
+            python -m build --sdist --wheel
         """
         if self.dir_dist.exists():
             if real_run:
@@ -61,6 +67,8 @@ class PyWfBuild:
                 quiet=not verbose,
             )
 
+    python_build.__doc__ = _python_build.__doc__
+
     @logger.emoji_block(
         msg="Build python distribution using poetry",
         emoji=Emoji.build,
@@ -74,6 +82,12 @@ class PyWfBuild:
         Build python source distribution using
 
         `poetry build <https://python-poetry.org/docs/cli/#build>`_.
+
+        Run:
+
+        .. code-block:: bash
+
+            poetry build
         """
         if self.dir_dist.exists():
             if real_run:
@@ -96,3 +110,5 @@ class PyWfBuild:
                 real_run=real_run,
                 quiet=not verbose,
             )
+
+    poetry_build.__doc__ = _poetry_build.__doc__

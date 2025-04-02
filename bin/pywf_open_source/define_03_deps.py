@@ -89,6 +89,8 @@ class PyWfDeps:
                 quiet=not verbose,
             )
 
+    poetry_lock.__doc__ = _poetry_lock.__doc__
+
     @logger.emoji_block(
         msg="Install package source code without any dependencies",
         emoji=Emoji.install,
@@ -131,6 +133,8 @@ class PyWfDeps:
                 quiet=not verbose,
             )
 
+    poetry_install_only_root.__doc__ = _poetry_install_only_root.__doc__
+
     @logger.emoji_block(
         msg="Install main dependencies and Package itself",
         emoji=Emoji.install,
@@ -172,6 +176,8 @@ class PyWfDeps:
                 quiet=not verbose,
             )
 
+    poetry_install.__doc__ = _poetry_install.__doc__
+
     @logger.emoji_block(
         msg="Install dev dependencies",
         emoji=Emoji.install,
@@ -189,7 +195,7 @@ class PyWfDeps:
 
         .. code-block:: bash
 
-            poetry install --with dev
+            poetry install --extras dev
 
         Ref:
 
@@ -212,6 +218,8 @@ class PyWfDeps:
                 quiet=not verbose,
             )
 
+    poetry_install_dev.__doc__ = _poetry_install_dev.__doc__
+
     @logger.emoji_block(
         msg="Install test dependencies",
         emoji=Emoji.install,
@@ -229,7 +237,7 @@ class PyWfDeps:
 
         .. code-block:: bash
 
-            poetry install --with test
+            poetry install --extras test
 
         Ref:
 
@@ -252,6 +260,8 @@ class PyWfDeps:
                 quiet=not verbose,
             )
 
+    poetry_install_test.__doc__ = _poetry_install_test.__doc__
+
     @logger.emoji_block(
         msg="Install doc dependencies",
         emoji=Emoji.install,
@@ -269,7 +279,7 @@ class PyWfDeps:
 
         .. code-block:: bash
 
-            poetry install --with doc
+            poetry install --extras doc
 
         Ref:
 
@@ -292,6 +302,8 @@ class PyWfDeps:
                 quiet=not verbose,
             )
 
+    poetry_install_doc.__doc__ = _poetry_install_doc.__doc__
+
     @logger.emoji_block(
         msg="Install automation dependencies",
         emoji=Emoji.install,
@@ -309,7 +321,7 @@ class PyWfDeps:
 
         .. code-block:: bash
 
-            poetry install --with doc
+            poetry install --extras auto
 
         Ref:
 
@@ -332,6 +344,8 @@ class PyWfDeps:
                 quiet=not verbose,
             )
 
+    poetry_install_auto.__doc__ = _poetry_install_auto.__doc__
+
     @logger.emoji_block(
         msg="Install all dependencies for dev, test, doc",
         emoji=Emoji.install,
@@ -350,7 +364,7 @@ class PyWfDeps:
 
         .. code-block:: bash
 
-            poetry install --all-groups
+            poetry install --all-extras
 
         Ref:
 
@@ -372,6 +386,8 @@ class PyWfDeps:
                 real_run=real_run,
                 quiet=not verbose,
             )
+
+    poetry_install_all.__doc__ = _poetry_install_all.__doc__
 
     def _do_we_need_poetry_export(
         self: "PyWf",
@@ -487,6 +503,16 @@ class PyWfDeps:
         Run ``poetry export --format requirements.txt ...`` command and write
         the sha256 hash of the current ``poetry.lock`` file to the cache file.
 
+        Run:
+
+        .. code-block:: bash
+
+            poetry export --format requirements.txt --output requirements.txt --without-hashes
+            poetry export --format requirements.txt --output requirements-dev.txt --extras dev --without-hashes
+            poetry export --format requirements.txt --output requirements-test.txt --extras test --without-hashes
+            poetry export --format requirements.txt --output requirements-doc.txt --extras doc --without-hashes
+            poetry export --format requirements.txt --output requirements-automation.txt --extras auto --without-hashes
+
         :param current_poetry_lock_hash: the sha256 hash of the current ``poetry.lock`` file
         :param with_hash: whether to include the hash of the dependencies in the
             requirements.txt file.
@@ -562,3 +588,5 @@ class PyWfDeps:
                 quiet=not verbose,
             )
             return flag
+
+    poetry_export.__doc__ = _poetry_export_logic.__doc__

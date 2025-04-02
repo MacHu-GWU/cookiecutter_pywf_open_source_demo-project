@@ -208,10 +208,9 @@ class PyWfPublish:  # pragma: no cover
         real_run: bool = True,
         verbose: bool = True,
     ):
-        """
-        See :meth:`_publish_to_github_release`.
-        """
         with logger.disabled(not verbose):
             return self._publish_to_github_release(
                 real_run=real_run,
             )
+
+    publish_to_github_release.__doc__ = _publish_to_github_release.__doc__

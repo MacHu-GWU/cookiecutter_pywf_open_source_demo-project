@@ -38,6 +38,12 @@ class PyWfDocs:
         Use sphinx doc to build documentation site locally. It set the
         necessary environment variables so that the ``make html`` command
         can build the HTML successfully.
+
+        Run:
+
+        .. code-block:: bash
+
+            sphinx-build -M html docs/source docs/build
         """
         if real_run:
             shutil.rmtree(
@@ -71,6 +77,8 @@ class PyWfDocs:
                 quiet=not verbose,
             )
 
+    build_doc.__doc__ = _build_doc.__doc__
+
     @logger.emoji_block(
         msg="View Documentation Site Locally",
         emoji=Emoji.doc,
@@ -84,6 +92,15 @@ class PyWfDocs:
         View documentation site built locally in web browser.
 
         It is usually at the ``${dir_project_root}/build/html/index.html``
+
+        Run:
+
+        .. code-block:: bash
+
+            # For MacOS / Linux
+            open build/html/index.html
+            # For Windows
+            start build/html/index.html
         """
         args = [OPEN_COMMAND, f"{self.path_sphinx_doc_build_index_html}"]
         print_command(args)
@@ -100,6 +117,8 @@ class PyWfDocs:
                 real_run=real_run,
                 quiet=not verbose,
             )
+
+    view_doc.__doc__ = _view_doc.__doc__
 
     @logger.emoji_block(
         msg="Deploy Documentation Site To S3 as Versioned Doc",
@@ -157,6 +176,8 @@ class PyWfDocs:
                 quiet=not verbose,
             )
 
+    deploy_versioned_doc.__doc__ = _deploy_versioned_doc.__doc__
+
     @logger.emoji_block(
         msg="Deploy Documentation Site To S3 as Latest Doc",
         emoji=Emoji.doc,
@@ -213,6 +234,8 @@ class PyWfDocs:
                 quiet=not verbose,
             )
 
+    deploy_latest_doc.__doc__ = _deploy_latest_doc.__doc__
+
     @logger.emoji_block(
         msg="View Latest Doc on AWS S3",
         emoji=Emoji.doc,
@@ -251,12 +274,6 @@ class PyWfDocs:
         real_run: bool = True,
         verbose: bool = True,
     ):  # pragma: no cover
-        """
-        Open the latest document that hosted on AWS S3 in web browser.
-
-        Here's a sample document site url
-        https://my-bucket.s3.amazonaws.com/my-prefix/my_package/latest/index.html
-        """
         with logger.disabled(not verbose):
             return self._view_latest_doc(
                 bucket=bucket,
@@ -264,3 +281,5 @@ class PyWfDocs:
                 real_run=real_run,
                 quiet=not verbose,
             )
+
+    view_latest_doc.__doc__ = _view_latest_doc.__doc__

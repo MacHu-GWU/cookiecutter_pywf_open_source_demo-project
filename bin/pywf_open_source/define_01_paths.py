@@ -417,7 +417,6 @@ class PyWfPaths:
     def path_codecov_token_file(self: "PyWf") -> Path:
         """
         Create Codecov token in https://app.codecov.io/account/gh/${codecov_account}/access and put the token at
-
         ``${HOME}/.codecov/github/${codecov_account}/${codecov_token_name}.txt``
 
         .. note::
