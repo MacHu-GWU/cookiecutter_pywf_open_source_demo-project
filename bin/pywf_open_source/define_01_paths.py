@@ -171,15 +171,6 @@ class PyWfPaths:
         """
         return self.dir_python_lib.joinpath("_version.py")
 
-    @cached_property
-    def package_version(self: "PyWf") -> str:
-        """
-        Version of the current Python library defined in ``_version.py`` file.
-        """
-        args = ["python", f"{self.path_version_py}"]
-        res = subprocess.run(args, check=True, capture_output=True)
-        return res.stdout.decode("utf-8").strip()
-
     # --------------------------------------------------------------------------
     # Pytest
     # --------------------------------------------------------------------------

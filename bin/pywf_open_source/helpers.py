@@ -13,7 +13,7 @@ import hashlib
 
 try:
     from requests import Response
-except ImportError as e: # pragma: no cover
+except ImportError as e:  # pragma: no cover
     pass
 
 from .logger import logger
@@ -88,7 +88,7 @@ def print_command(args: T.List[str]):
     logger.info(f"run command: {cmd}")
 
 
-def raise_http_response_error(response: "Response"):
+def raise_http_response_error(response: "Response"):  # pragma: no cover
     print(f"status = {response.status_code}")
     print(f"body = {response.text}")
     raise Exception("HTTP request failed, see error details above.")

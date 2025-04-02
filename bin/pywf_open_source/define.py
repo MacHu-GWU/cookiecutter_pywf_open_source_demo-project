@@ -15,7 +15,10 @@ namespace classes to provide a comprehensive project management toolkit.
 """
 
 import typing as T
-import tomllib
+try:
+    import tomllib
+except ImportError:
+    import toml as tomllib
 import dataclasses
 from pathlib import Path
 

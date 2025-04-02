@@ -98,7 +98,7 @@ class PyWfVenv:
         self: "PyWf",
         real_run: bool = True,
         quiet: bool = False,
-    ) -> bool:  # pragma: no cover
+    ) -> bool:
         """
         Run:
 
@@ -127,7 +127,7 @@ class PyWfVenv:
         self: "PyWf",
         real_run: bool = True,
         verbose: bool = True,
-    ):  # pragma: no cover
+    ):
         """
         See :meth:`_remove_virtualenv`.
         """
