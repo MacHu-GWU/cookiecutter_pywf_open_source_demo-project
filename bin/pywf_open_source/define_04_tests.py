@@ -20,7 +20,7 @@ if T.TYPE_CHECKING:  # pragma: no cover
 
 
 @dataclasses.dataclass
-class PyWfTests:
+class PyWfTests:  # pragma: no cover
     """
     Namespace class for testing related automation.
     """

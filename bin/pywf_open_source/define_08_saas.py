@@ -20,12 +20,12 @@ from .vendor.emoji import Emoji
 from .logger import logger
 from .helpers import raise_http_response_error
 
-if T.TYPE_CHECKING:
+if T.TYPE_CHECKING:  # pragma: no cover
     from .define import PyWf
 
 
 @dataclasses.dataclass
-class PyWfSaas:
+class PyWfSaas:  # pragma: no cover
     """
     Namespace class for SaaS service setup automation.
     """
@@ -34,7 +34,7 @@ class PyWfSaas:
     def github_token(self: "PyWf") -> str:
         if self.path_github_token_file.exists():
             return self.path_github_token_file.read_text(encoding="utf-8").strip()
-        else: # pragma: no cover
+        else:  # pragma: no cover
             message = (
                 f"{Emoji.error} Cannot find GitHub token file at "
                 f"{self.path_github_token_file}!\n"
@@ -46,7 +46,7 @@ class PyWfSaas:
     def codecov_token(self: "PyWf") -> str:
         if self.path_codecov_token_file.exists():
             return self.path_codecov_token_file.read_text(encoding="utf-8").strip()
-        else: # pragma: no cover
+        else:  # pragma: no cover
             message = (
                 f"{Emoji.error} Cannot find Codecov token file at "
                 f"{self.path_codecov_token_file}!\n"

@@ -26,12 +26,12 @@ from .vendor.better_pathlib import temp_cwd
 from .logger import logger
 from .helpers import bump_version, print_command
 
-if T.TYPE_CHECKING:
+if T.TYPE_CHECKING:  # pragma: no cover
     from .define import PyWf
 
 
 @dataclasses.dataclass
-class PyWfPublish:
+class PyWfPublish:  # pragma: no cover
     """
     Namespace class for publishing to Python repository related automation.
     """

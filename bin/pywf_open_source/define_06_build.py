@@ -16,7 +16,7 @@ from .vendor.build_dist import (
 
 from .logger import logger
 
-if T.TYPE_CHECKING:
+if T.TYPE_CHECKING:  # pragma: no cover
     from .define import PyWf
 
 

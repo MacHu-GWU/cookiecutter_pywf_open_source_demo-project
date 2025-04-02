@@ -88,7 +88,7 @@ def print_command(args: T.List[str]):
     logger.info(f"run command: {cmd}")
 
 
-def raise_http_response_error(response: Response):
+def raise_http_response_error(response: "Response"):
     print(f"status = {response.status_code}")
     print(f"body = {response.text}")
     raise Exception("HTTP request failed, see error details above.")

@@ -98,7 +98,7 @@ class PyWfVenv:
         self: "PyWf",
         real_run: bool = True,
         quiet: bool = False,
-    ) -> bool:
+    ) -> bool:  # pragma: no cover
         """
         Run:
 

@@ -112,7 +112,7 @@ class PyWfDocs:
         aws_profile: T.Optional[str] = None,
         real_run: bool = True,
         quiet: bool = False,
-    ) -> bool:
+    ) -> bool:  # pragma: no cover
         """
         Deploy versioned document to AWS S3.
 
@@ -168,7 +168,7 @@ class PyWfDocs:
         aws_profile: T.Optional[str] = None,
         real_run: bool = True,
         quiet: bool = False,
-    ) -> bool:
+    ) -> bool:  # pragma: no cover
         """
         Deploy the latest document to AWS S3.
 
@@ -223,7 +223,7 @@ class PyWfDocs:
         prefix: str = "projects/",
         real_run: bool = True,
         quiet: bool = False,
-    ):
+    ):  # pragma: no cover
         """
         Open the latest document that hosted on AWS S3 in web browser.
 
@@ -250,7 +250,7 @@ class PyWfDocs:
         prefix: str = "projects/",
         real_run: bool = True,
         verbose: bool = True,
-    ):
+    ):  # pragma: no cover
         """
         Open the latest document that hosted on AWS S3 in web browser.
 

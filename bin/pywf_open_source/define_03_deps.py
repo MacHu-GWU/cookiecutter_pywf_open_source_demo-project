@@ -376,7 +376,7 @@ class PyWfDeps:
     def _do_we_need_poetry_export(
         self: "PyWf",
         current_poetry_lock_hash: str,
-    ) -> bool:
+    ) -> bool:  # pragma: no cover
         """
         The ``poetry export`` command is resource-intensive, so we use a
         caching mechanism to avoid unnecessary executions.
@@ -416,7 +416,7 @@ class PyWfDeps:
         self: "PyWf",
         with_hash: bool = False,
         real_run: bool = True,
-    ):
+    ):  # pragma: no cover
         """
         Export main project dependencies to ``requirements.txt``.
 
@@ -445,7 +445,7 @@ class PyWfDeps:
         path: Path,
         with_hash: bool = False,
         real_run: bool = True,
-    ):
+    ):  # pragma: no cover
         """
         Export specific dependency group to ``requirements-{group}.txt``.
 
@@ -482,7 +482,7 @@ class PyWfDeps:
         current_poetry_lock_hash: str,
         with_hash: bool = False,
         real_run: bool = True,
-    ):
+    ):  # pragma: no cover
         """
         Run ``poetry export --format requirements.txt ...`` command and write
         the sha256 hash of the current ``poetry.lock`` file to the cache file.

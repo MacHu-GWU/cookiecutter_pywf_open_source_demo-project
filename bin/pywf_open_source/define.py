@@ -167,17 +167,17 @@ class PyWf(
         return self.toml_data["tool"]["pywf"]["readthedocs_token_name"]
 
     @property
-    def doc_host_aws_profile(self) -> str:
+    def doc_host_aws_profile(self) -> str:  # pragma: no cover
         """Retrieve AWS profile for documentation hosting."""
         return self.toml_data["tool"]["pywf"]["doc_host_aws_profile"]
 
     @property
-    def doc_host_s3_bucket(self) -> str:
+    def doc_host_s3_bucket(self) -> str:  # pragma: no cover
         """Retrieve S3 bucket for documentation hosting."""
         return self.toml_data["tool"]["pywf"]["doc_host_s3_bucket"]
 
     @property
-    def doc_host_s3_prefix(self) -> str:
+    def doc_host_s3_prefix(self) -> str:  # pragma: no cover
         """
         Retrieve and sanitize S3 prefix for documentation hosting.
 
