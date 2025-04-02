@@ -10,7 +10,7 @@ import enum
 import logging
 import contextlib
 from functools import wraps
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 def create_logger(
@@ -601,7 +601,7 @@ class VisLog:
         def deco(func):
             @wraps(func)
             def wrapper(*args, **kwargs):
-                st = datetime.utcnow()
+                st = datetime.now(timezone.utc)
 
                 for _ in range(nest):
                     self._nested_start(pipe=pipe)
@@ -626,7 +626,7 @@ class VisLog:
                 try:
                     result = func(*args, **kwargs)
                 except Exception as e:
-                    et = datetime.utcnow()
+                    et = datetime.now(timezone.utc)
                     elapsed = (et - st).total_seconds()
                     self.info("")
                     self.ruler(
@@ -649,7 +649,7 @@ class VisLog:
                         self._pipe_end(pipe, last_pipe)
                     raise e
 
-                et = datetime.utcnow()
+                et = datetime.now(timezone.utc)
                 elapsed = (et - st).total_seconds()
                 self.info("")
                 self.ruler(
