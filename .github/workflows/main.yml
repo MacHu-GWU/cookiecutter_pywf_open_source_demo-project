@@ -31,21 +31,31 @@ jobs:
       - uses: "actions/setup-python@v5" # https://github.com/marketplace/actions/setup-python
         with:
           python-version: "${{ matrix.python-version }}"
-
+          cache: "pip"
+          # we should create a requirements-poetry.txt file to store the pip install dependencies
+          cache-dependency-path: requirements-poetry.txt
+      - name: Install poetry
+        run: |
+          pip install -r requirements-poetry.txt
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "${{ matrix.python-version }}"
+          cache: "poetry"
+          # use poetry.lock as cache key
+          cache-dependency-path: poetry.lock
       - if: matrix.os == 'ubuntu-latest' # for condition steps, you should put if at begin, and use single quote for logical expression
         name: "Install dependencies on MacOS or Linux"
         run: |
           set -xe
           python -VV
           python -m site
-          python -m pip install poetry
-          which poetry
           poetry install --extras test
       - if: matrix.os == 'windows-latest'
         name: "Install dependencies on Windows"
         run: |
+          set -xe
+          python -VV
           python -m site
-          python -m pip install poetry
           poetry install --extras test
       - name: "Run pytest"
         run: "poetry run pytest tests --cov=cookiecutter_pywf_open_source_demo --cov-report=xml"
