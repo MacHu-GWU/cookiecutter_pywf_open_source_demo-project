@@ -32,7 +32,7 @@ jobs:
         with:
           python-version: "${{ matrix.python-version }}"
           cache: "pip"
-          # we should create a requirements-poetry.txt file to store the pip install dependencies
+          # we should create a requirements-poetry.txt file to store the poetry related dependencies
           cache-dependency-path: requirements-poetry.txt
       - name: Install poetry
         run: |
@@ -50,6 +50,7 @@ jobs:
           set -xe
       - name: "Install dependencies"
         run: |
+          pwd
           python -VV
           python -m site
           poetry install --extras test
