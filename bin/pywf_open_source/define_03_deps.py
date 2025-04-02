@@ -476,21 +476,21 @@ class PyWfDeps:
         """
         if real_run:
             path.unlink(missing_ok=True)
-        with temp_cwd(self.dir_project_root):
-            args = [
-                f"{self.path_bin_poetry}",
-                "export",
-                "--format",
-                "requirements.txt",
-                "--output",
-                f"{path}",
-                "--extras",
-            ]
-            args.append(group)
-            if with_hash is False:
-                args.append("--without-hashes")
-            print_command(args)
-            if real_run:
+        args = [
+            f"{self.path_bin_poetry}",
+            "export",
+            "--format",
+            "requirements.txt",
+            "--output",
+            f"{path}",
+            "--extras",
+        ]
+        args.append(group)
+        if with_hash is False:
+            args.append("--without-hashes")
+        print_command(args)
+        if real_run:
+            with temp_cwd(self.dir_project_root):
                 subprocess.run(args, check=True)
 
     def _poetry_export_logic(
