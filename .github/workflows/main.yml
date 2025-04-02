@@ -43,17 +43,13 @@ jobs:
           cache: "poetry"
           # use poetry.lock as cache key
           cache-dependency-path: poetry.lock
-      - if: matrix.os == 'ubuntu-latest' # for condition steps, you should put if at begin, and use single quote for logical expression
+      # for condition steps, you should put "if" at begin, and use single quote for logical expression
+      - if: matrix.os == 'ubuntu-latest'
         name: "Install dependencies on MacOS or Linux"
         run: |
           set -xe
-          python -VV
-          python -m site
-          poetry install --extras test
-      - if: matrix.os == 'windows-latest'
-        name: "Install dependencies on Windows"
+      - name: "Install dependencies"
         run: |
-          set -xe
           python -VV
           python -m site
           poetry install --extras test
