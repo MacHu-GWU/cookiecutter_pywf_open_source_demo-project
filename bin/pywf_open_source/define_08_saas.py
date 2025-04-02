@@ -8,9 +8,9 @@ import typing as T
 import dataclasses
 from functools import cached_property
 
-import requests
 
 try:
+    import requests
     from github import Github
 except ImportError:  # pragma: no cover
     pass

@@ -17,7 +17,6 @@ try:
         GitTag,
         GitRelease,
     )
-
 except ImportError:  # pragma: no cover
     pass
 

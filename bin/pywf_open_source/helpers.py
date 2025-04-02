@@ -11,7 +11,10 @@ Helper functions.
 import typing as T
 import hashlib
 
-from requests import Response
+try:
+    from requests import Response
+except ImportError as e: # pragma: no cover
+    pass
 
 from .logger import logger
 
