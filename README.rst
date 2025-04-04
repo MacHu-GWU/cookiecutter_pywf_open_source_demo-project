@@ -18,16 +18,13 @@
 .. image:: https://img.shields.io/pypi/pyversions/cookiecutter-pywf-open-source-demo.svg
     :target: https://pypi.python.org/pypi/cookiecutter-pywf-open-source-demo
 
-.. image:: https://img.shields.io/badge/Release_History!--None.svg?style=social
+.. image:: https://img.shields.io/badge/✍️_Release_History!--None.svg?style=social&logo=github
     :target: https://github.com/MacHu-GWU/cookiecutter_pywf_open_source_demo-project/blob/main/release-history.rst
 
-.. image:: https://img.shields.io/badge/STAR_Me_on_GitHub!--None.svg?style=social
+.. image:: https://img.shields.io/badge/⭐_Star_me_on_GitHub!--None.svg?style=social&logo=github
     :target: https://github.com/MacHu-GWU/cookiecutter_pywf_open_source_demo-project
 
 ------
-
-.. image:: https://img.shields.io/badge/Link-Document-blue.svg
-    :target: https://cookiecutter-pywf-open-source-demo.readthedocs.io/en/latest/
 
 .. image:: https://img.shields.io/badge/Link-API-blue.svg
     :target: https://cookiecutter-pywf-open-source-demo.readthedocs.io/en/latest/py-modindex.html
