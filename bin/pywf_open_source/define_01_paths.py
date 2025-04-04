@@ -98,6 +98,15 @@ class PyWfPaths:
         return self.get_path_venv_bin_cli("sphinx-build")
 
     @property
+    def path_venv_bin_bin_jupyter(self: "PyWf") -> Path:
+        """
+        The jupyter executable in virtualenv.
+
+        Example: ``${dir_project_root}/.venv/bin/jupyter``
+        """
+        return self.get_path_venv_bin_cli("jupyter")
+
+    @property
     def path_sys_executable(self: "PyWf") -> Path:
         """
         The current Python interpreter path.

@@ -283,3 +283,44 @@ class PyWfDocs:
             )
 
     view_latest_doc.__doc__ = _view_latest_doc.__doc__
+
+    @logger.emoji_block(
+        msg="Convert Jupyter Notebook to Markdown",
+        emoji=Emoji.doc,
+    )
+    def _notebook_to_markdown(
+        self: "PyWf",
+        real_run: bool = True,
+    ):
+        """
+        Convert Jupyter notebooks to Markdown files so they can be
+        more efficiently included in the AI knowledge base.
+        """
+        for path_notebook in self.dir_sphinx_doc_source.glob("**/*.ipynb"):
+            if ".ipynb_checkpoints" in str(path_notebook):
+                continue
+            path_markdown = path_notebook.parent / "index.md"
+            args = [
+                f"{self.path_venv_bin_bin_jupyter}",
+                "nbconvert",
+                "--to",
+                "markdown",
+                str(path_notebook),
+                "--output",
+                str(path_markdown),
+            ]
+            print_command(args)
+            if real_run:
+                subprocess.run(args, check=True)
+
+    def notebook_to_markdown(
+        self: "PyWf",
+        real_run: bool = True,
+        verbose: bool = True,
+    ):
+        with logger.disabled(not verbose):
+            return self._notebook_to_markdown(
+                real_run=real_run,
+            )
+
+    notebook_to_markdown.__doc__ = _notebook_to_markdown.__doc__
