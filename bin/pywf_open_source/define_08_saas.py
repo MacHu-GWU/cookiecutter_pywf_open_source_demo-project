@@ -8,7 +8,6 @@ import typing as T
 import dataclasses
 from functools import cached_property
 
-
 try:
     import requests
     from github import Github
@@ -19,6 +18,7 @@ from .vendor.emoji import Emoji
 
 from .logger import logger
 from .helpers import raise_http_response_error
+from .home_secret import hs
 
 if T.TYPE_CHECKING:  # pragma: no cover
     from .define import PyWf
@@ -29,42 +29,6 @@ class PyWfSaas:  # pragma: no cover
     """
     Namespace class for SaaS service setup automation.
     """
-
-    @cached_property
-    def github_token(self: "PyWf") -> str:
-        if self.path_github_token_file.exists():
-            return self.path_github_token_file.read_text(encoding="utf-8").strip()
-        else:  # pragma: no cover
-            message = (
-                f"{Emoji.error} Cannot find GitHub token file at "
-                f"{self.path_github_token_file}!\n"
-                f"{self.__class__.path_github_token_file.__doc__}"
-            )
-            raise FileNotFoundError(message)
-
-    @cached_property
-    def codecov_token(self: "PyWf") -> str:
-        if self.path_codecov_token_file.exists():
-            return self.path_codecov_token_file.read_text(encoding="utf-8").strip()
-        else:  # pragma: no cover
-            message = (
-                f"{Emoji.error} Cannot find Codecov token file at "
-                f"{self.path_codecov_token_file}!\n"
-                f"{self.__class__.path_codecov_token_file.__doc__}"
-            )
-            raise FileNotFoundError(message)
-
-    @cached_property
-    def readthedocs_token(self: "PyWf") -> str:
-        if self.path_readthedocs_token_file.exists():
-            return self.path_readthedocs_token_file.read_text(encoding="utf-8").strip()
-        else:
-            message = (
-                f"{Emoji.error} Cannot find Readthedocs token file at "
-                f"{self.path_readthedocs_token_file}!\n"
-                f"{self.__class__.path_readthedocs_token_file.__doc__}"
-            )
-            raise FileNotFoundError(message)
 
     def get_codecov_io_upload_token(
         self: "PyWf",
@@ -126,7 +90,6 @@ class PyWfSaas:  # pragma: no cover
         :returns: a boolean flag to indicate whether the operation is performed.
         """
         codecov_io_upload_token = self.get_codecov_io_upload_token(real_run=real_run)
-
         logger.info("Setting up codecov.io upload token on GitHub...")
         with logger.indent():
             logger.info(f"preview at {self.github_actions_secrets_settings_url}")

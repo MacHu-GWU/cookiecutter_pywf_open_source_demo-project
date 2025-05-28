@@ -406,51 +406,6 @@ class PyWfPaths:
         """
         return self.dir_project_root.joinpath("dist")
 
-    # --------------------------------------------------------------------------
-    # Token Files
-    # --------------------------------------------------------------------------
-    @property
-    def path_github_token_file(self: "PyWf") -> Path:
-        """
-        Create GitHub token in https://github.com/settings/tokens and put the token at
-        ``${HOME}/.github/${github_account}/pac/${github_token_name}.txt``
-        """
-        return self.dir_home.joinpath(
-            ".github",
-            self.github_account,
-            "pac",
-            f"{self.github_token_name}.txt",
-        )
-
-    @property
-    def path_codecov_token_file(self: "PyWf") -> Path:
-        """
-        Create Codecov token in https://app.codecov.io/account/gh/${codecov_account}/access and put the token at
-        ``${HOME}/.codecov/github/${codecov_account}/${codecov_token_name}.txt``
-
-        .. note::
-
-            If you use Github to login, then codecov_account is your github_account.
-        """
-        return self.dir_home.joinpath(
-            ".codecov",
-            "github",
-            self.codecov_account,
-            f"{self.codecov_token_name}.txt",
-        )
-
-    @property
-    def path_readthedocs_token_file(self: "PyWf") -> Path:
-        """
-        Create Readthedocs token in https://app.readthedocs.org/accounts/tokens/ and put the token at
-        ``${HOME}/.readthedocs/${readthedocs_username}/${readthedocs_token_name}.txt``
-        """
-        return self.dir_home.joinpath(
-            ".readthedocs",
-            self.readthedocs_username,
-            f"{self.readthedocs_token_name}.txt",
-        )
-
     # ------------------------------------------------------------------------------
     # AWS Related
     # ------------------------------------------------------------------------------

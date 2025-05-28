@@ -149,7 +149,6 @@ class PyWfPublish:  # pragma: no cover
         :returns: a boolean flag to indicate whether the operation is performed.
         """
         logger.info(f"preview release at {self.github_versioned_release_url}")
-
         release_name = self.package_version
         gh = Github(self.github_token)
         repo = gh.get_repo(self.github_repo_fullname)

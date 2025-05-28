@@ -15,12 +15,16 @@ namespace classes to provide a comprehensive project management toolkit.
 """
 
 import typing as T
+
 try:
     import tomllib
 except ImportError:
     import toml as tomllib
 import dataclasses
 from pathlib import Path
+from functools import cached_property
+
+from .home_secret import hs
 
 from .define_01_paths import PyWfPaths
 from .define_02_venv import PyWfVenv
@@ -117,12 +121,25 @@ class PyWf(
 
     # --- GitHub.com
     @property
-    def github_account(self) -> str:
-        return self.toml_data["tool"]["pywf"]["github_account"]
+    def github_account_field(self) -> str:
+        return self.toml_data["tool"]["pywf"]["github_account_field"]
 
     @property
-    def github_token_name(self) -> str:
-        return self.toml_data["tool"]["pywf"]["github_token_name"]
+    def github_user_field(self) -> str:
+        return self.toml_data["tool"]["pywf"]["github_user_field"]
+
+    @property
+    def github_token_field(self) -> str:
+        return self.toml_data["tool"]["pywf"]["github_token_field"]
+
+    @cached_property
+    def github_token(self: "PyWf") -> str:
+        return hs.v(
+            f"providers.github.accounts."
+            f"{self.github_account_field}.users."
+            f"{self.github_user_field}.secrets."
+            f"{self.github_token_field}.value",
+        )
 
     @property
     def git_repo_name(self) -> str:
@@ -130,6 +147,12 @@ class PyWf(
         Git repo name.
         """
         return self.dir_project_root.name
+
+    @property
+    def github_account(self) -> str:
+        return hs.v(
+            "providers.github.accounts." f"{self.github_account_field}.account_id"
+        )
 
     @property
     def github_repo_fullname(self) -> str:
@@ -149,17 +172,53 @@ class PyWf(
 
     # --- codecov.io
     @property
-    def codecov_account(self) -> str:
-        return self.toml_data["tool"]["pywf"]["codecov_account"]
+    def codecov_account_field(self) -> str:
+        return self.toml_data["tool"]["pywf"]["codecov_account_field"]
 
     @property
-    def codecov_token_name(self) -> str:
-        return self.toml_data["tool"]["pywf"]["codecov_token_name"]
+    def codecov_user_field(self) -> str:
+        return self.toml_data["tool"]["pywf"]["codecov_user_field"]
+
+    @property
+    def codecov_token_field(self) -> str:
+        return self.toml_data["tool"]["pywf"]["codecov_token_field"]
+
+    @property
+    def codecov_account(self) -> str:
+        return hs.v(
+            f"providers.codecov_io.accounts.{self.codecov_account_field}.account_id"
+        )
+
+    @cached_property
+    def codecov_token(self) -> str:
+        return hs.v(
+            f"providers.codecov_io.accounts."
+            f"{self.codecov_account_field}.users."
+            f"{self.codecov_user_field}.secrets."
+            f"{self.codecov_token_field}.value",
+        )
 
     # --- readthedocs.org
     @property
-    def readthedocs_username(self) -> str:
-        return self.toml_data["tool"]["pywf"]["readthedocs_username"]
+    def readthedocs_account_field(self) -> str:
+        return self.toml_data["tool"]["pywf"]["readthedocs_account_field"]
+
+    @property
+    def readthedocs_user_field(self) -> str:
+        return self.toml_data["tool"]["pywf"]["readthedocs_user_field"]
+
+    @property
+    def readthedocs_token_field(self) -> str:
+        return self.toml_data["tool"]["pywf"]["readthedocs_token_field"]
+
+    @cached_property
+    def readthedocs_token(self) -> str:
+        return hs.v(
+            f"providers.readthedocs.accounts."
+            f"{self.readthedocs_account_field}.users."
+            f"{self.readthedocs_user_field}.secrets."
+            f"{self.readthedocs_token_field}.value",
+        )
 
     @property
     def readthedocs_project_name(self) -> str:
