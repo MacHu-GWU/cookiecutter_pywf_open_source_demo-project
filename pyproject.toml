@@ -133,7 +133,7 @@ github_user_field = "sh"
 # Create GitHub token in https://github.com/settings/tokens and put the token in
 # ``${HOME}/home_secret.json`` at
 # ``providers.github.accounts.${github_account_field}.users.${github_user_field}.secrets.${github_token_field}.value``
-github_token_field = "full_repo_access"
+github_token_field = "dev"
 # --- codecov.io (for code coverage test report)
 # Put your Codecov account username in ``${HOME}/home_secret.json`` at
 # ``providers.codecov.accounts.${codecov_account_field}.account_id``
