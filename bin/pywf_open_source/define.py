@@ -223,6 +223,10 @@ class PyWf(
         return self.toml_data["tool"]["pywf"]["readthedocs_project_name"]
 
     @property
+    def readthedocs_project_name_slug(self) -> str:
+        return self.readthedocs_project_name.replace("_", "-")
+
+    @property
     def doc_host_aws_profile(self) -> str:  # pragma: no cover
         """Retrieve AWS profile for documentation hosting."""
         return self.toml_data["tool"]["pywf"]["doc_host_aws_profile"]

@@ -10,7 +10,7 @@ from functools import cached_property
 
 try:
     import requests
-    from github import Github
+    from github import Github, Repository
 except ImportError:  # pragma: no cover
     pass
 
@@ -28,9 +28,49 @@ class PyWfSaas:  # pragma: no cover
     """
     Namespace class for SaaS service setup automation.
     """
+
     @cached_property
     def gh(self: "PyWf") -> "Github":
         return Github(self.github_token)
+
+    @logger.emoji_block(
+        msg="Edit GitHub Repo metadata",
+        emoji=Emoji.package,
+    )
+    def _edit_github_repo_metadata(
+        self: "PyWf",
+        real_run: bool = True,
+    ):
+        """
+        Edit GitHub repo metadata such as description and homepage URL.
+
+        Ref:
+
+        - https://pygithub.readthedocs.io/en/latest/examples/Repository.html
+
+        :returns: a boolean flag to indicate whether the operation is performed.
+        """
+        repo = self.gh.get_repo(self.github_repo_fullname)
+        with logger.indent():
+            logger.info(f"preview at {self.github_repo_url}")
+        if real_run:
+            repo.edit(
+                description=self.package_description,
+                homepage=self.readthedocs_doc_site_url,
+            )
+        return real_run
+
+    def edit_github_repo_metadata(
+        self: "PyWf",
+        real_run: bool = True,
+        verbose: bool = True,
+    ):
+        with logger.disabled(not verbose):
+            return self._edit_github_repo_metadata(
+                real_run=real_run,
+            )
+
+    edit_github_repo_metadata.__doc__ = _edit_github_repo_metadata.__doc__
 
     def get_codecov_io_upload_token(
         self: "PyWf",
@@ -118,6 +158,13 @@ class PyWfSaas:  # pragma: no cover
         _setup_codecov_io_upload_token_on_github.__doc__
     )
 
+    @property
+    def readthedocs_doc_site_url(self: "PyWf") -> str:
+        """
+        Get the URL of the documentation site hosted on readthedocs.org.
+        """
+        return f"http://{self.readthedocs_project_name_slug}.readthedocs.io/"
+
     @logger.emoji_block(
         msg="Setup readthedocs.org Project",
         emoji=Emoji.doc,
@@ -137,8 +184,7 @@ class PyWfSaas:  # pragma: no cover
         :returns: a boolean flag to indicate whether the operation is performed.
         """
         logger.info("Setting up readthedocs project...")
-        readthedocs_project_name_slug = self.readthedocs_project_name.replace("_", "-")
-        url = f"https://app.readthedocs.org/dashboard/{readthedocs_project_name_slug}/edit/"
+        url = f"https://app.readthedocs.org/dashboard/{self.readthedocs_project_name_slug}/edit/"
         with logger.indent():
             logger.info(f"preview at {url}")
         headers = {
@@ -147,11 +193,11 @@ class PyWfSaas:  # pragma: no cover
         }
         endpoint = "https://readthedocs.org/api/v3"
 
-        url = f"{endpoint}/projects/{readthedocs_project_name_slug}/"
+        url = f"{endpoint}/projects/{self.readthedocs_project_name_slug}/"
         if real_run:
             response = requests.get(url, headers=headers)
             if response.status_code == 200:
-                url = f"https://app.readthedocs.org/projects/{readthedocs_project_name_slug}/"
+                url = f"https://app.readthedocs.org/projects/{self.readthedocs_project_name_slug}/"
                 logger.info(
                     f"Project already exists on readthedocs.org, "
                     f"please view it at: {url}"
@@ -166,7 +212,7 @@ class PyWfSaas:  # pragma: no cover
         data = {
             "name": self.readthedocs_project_name,
             "repository": {"url": self.github_repo_url, "type": "git"},
-            "homepage": f"http://{readthedocs_project_name_slug}.readthedocs.io/",
+            "homepage": self.readthedocs_doc_site_url,
             "programming_language": "py",
             "language": "en",
             "privacy_level": "public",
