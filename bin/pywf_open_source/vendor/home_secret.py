@@ -51,6 +51,7 @@ The secret file is expected to be located in one of two places:
 """
 
 import typing as T
+import os
 import json
 import textwrap
 import dataclasses
@@ -66,7 +67,7 @@ filename = "home_secret.json"
 
 # Source of truth: Local development secrets file
 # This file contains the master copy of secrets and should NOT be committed to VCS
-p_here_secret = Path(filename)
+p_here_secret = Path(filename).absolute()
 
 # Path to the generated enum file containing flat attribute access to all secrets
 # This file is auto-generated and provides a simple dot-notation alternative to the hierarchical Secret class
@@ -75,6 +76,13 @@ p_here_enum = Path("home_secret_enum.py")
 # Runtime location: Home directory secrets file
 # This is where applications load secrets from during execution
 p_home_secret = Path.home() / filename
+
+# boolean flag to control whether we want to sync the source secrets file to the runtime location
+IS_CI = "CI" in os.environ
+if IS_CI:
+    IS_SYNC = True
+else:
+    IS_SYNC = False
 
 
 def _deep_get(
@@ -165,11 +173,12 @@ class HomeSecret:
         # Synchronization: Copy source file to runtime location if it exists
         # This allows developers to edit the local file and have changes automatically
         # propagated to the runtime environment
-        if p_here_secret.exists():
-            p_home_secret.write_text(
-                p_here_secret.read_text(encoding="utf-8"),
-                encoding="utf-8",
-            )
+        if IS_SYNC:
+            if p_here_secret.exists():
+                p_home_secret.write_text(
+                    p_here_secret.read_text(encoding="utf-8"),
+                    encoding="utf-8",
+                )
         if not p_home_secret.exists():
             raise FileNotFoundError(f"Secret file not found at {p_home_secret}")
         return json.loads(p_home_secret.read_text(encoding="utf-8"))
