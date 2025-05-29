@@ -18,7 +18,6 @@ from .vendor.emoji import Emoji
 
 from .logger import logger
 from .helpers import raise_http_response_error
-from .home_secret import hs
 
 if T.TYPE_CHECKING:  # pragma: no cover
     from .define import PyWf
@@ -29,6 +28,9 @@ class PyWfSaas:  # pragma: no cover
     """
     Namespace class for SaaS service setup automation.
     """
+    @cached_property
+    def gh(self: "PyWf") -> "Github":
+        return Github(self.github_token)
 
     def get_codecov_io_upload_token(
         self: "PyWf",
@@ -93,8 +95,7 @@ class PyWfSaas:  # pragma: no cover
         logger.info("Setting up codecov.io upload token on GitHub...")
         with logger.indent():
             logger.info(f"preview at {self.github_actions_secrets_settings_url}")
-        gh = Github(self.github_token)
-        repo = gh.get_repo(self.github_repo_fullname)
+        repo = self.gh.get_repo(self.github_repo_fullname)
         if real_run:
             repo.create_secret(
                 secret_name="CODECOV_TOKEN",

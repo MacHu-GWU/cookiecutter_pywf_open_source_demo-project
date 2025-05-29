@@ -24,7 +24,7 @@ import dataclasses
 from pathlib import Path
 from functools import cached_property
 
-from .home_secret import hs
+from .vendor.home_secret import hs
 
 from .define_01_paths import PyWfPaths
 from .define_02_venv import PyWfVenv
@@ -150,9 +150,7 @@ class PyWf(
 
     @property
     def github_account(self) -> str:
-        return hs.v(
-            "providers.github.accounts." f"{self.github_account_field}.account_id"
-        )
+        return hs.v(f"providers.github.accounts.{self.github_account_field}.account_id")
 
     @property
     def github_repo_fullname(self) -> str:
@@ -223,10 +221,6 @@ class PyWf(
     @property
     def readthedocs_project_name(self) -> str:
         return self.toml_data["tool"]["pywf"]["readthedocs_project_name"]
-
-    @property
-    def readthedocs_token_name(self) -> str:
-        return self.toml_data["tool"]["pywf"]["readthedocs_token_name"]
 
     @property
     def doc_host_aws_profile(self) -> str:  # pragma: no cover
