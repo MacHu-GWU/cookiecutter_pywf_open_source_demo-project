@@ -24,18 +24,6 @@ maintainers = [
 ]
 keywords = []
 readme = "README.rst"
-# Files to include in the package distribution
-include = [
-    "*.txt",
-    "*.rst",
-]
-# Files to exclude from the package
-exclude = [
-    "*.pyc",
-    "*.pyo",
-    "cookiecutter_pywf_open_source_demo/docs/*",
-    "cookiecutter_pywf_open_source_demo/tests/*",
-]
 requires-python = ">=3.9,<4.0"
 # Full list of classifiers: https://pypi.org/classifiers/
 classifier = [
@@ -120,6 +108,19 @@ Download = "https://pypi.org/pypi/cookiecutter-pywf-open-source-demo#files"
 
 [tool.poetry.requires-plugins]
 poetry-plugin-export = ">=1.9.0,<2.0.0"
+
+[tool.poetry]
+# Files to include in the package distribution
+packages = [
+    { include = "cookiecutter_pywf_open_source_demo", from = ".", to = "." }
+]
+# Files to exclude from the package
+exclude = [
+    "cookiecutter_pywf_open_source_demo/tests/*",
+    "cookiecutter_pywf_open_source_demo/docs/*",
+    "**/*.pyc",
+    "**/*.pyo",
+]
 
 # python workflow tool config
 [tool.pywf]
