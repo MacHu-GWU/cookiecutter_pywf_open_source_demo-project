@@ -9,7 +9,8 @@
       "Bash(.venv/bin/python debug/**/*.py)",
       "Bash(.venv/bin/python scripts/**/*.py)",
       "Bash(.venv/bin/python config/**/*.py)",
-      "Bash(.venv/bin/python tests/**/*.py)"
+      "Bash(.venv/bin/python tests/**/*.py)",
+      "Bash(make *)"
     ]
   }
 }
