@@ -11,8 +11,8 @@ Sphinx provides role directives that create clickable links between documentatio
 For this guide, we'll use this example project structure:
 
 ```
-cookiecutter_pywf_opensource_demo-project/
-├── cookiecutter_pywf_opensource_demo/
+cookiecutter_pywf_open_source_demo-project/
+├── cookiecutter_pywf_open_source_demo/
 │   ├── __init__.py
 │   ├── auth/
 │   │   ├── __init__.py
@@ -37,7 +37,7 @@ cookiecutter_pywf_opensource_demo-project/
 
 ## Example File Contents
 
-### cookiecutter_pywf_opensource_demo/auth/users.py
+### cookiecutter_pywf_open_source_demo/auth/users.py
 
 ```python
 class User:
@@ -55,7 +55,7 @@ def authenticate(username: str, password: str) -> bool:
     pass
 ```
 
-### cookiecutter_pywf_opensource_demo/auth/permissions.py
+### cookiecutter_pywf_open_source_demo/auth/permissions.py
 
 ```python
 class Role:
@@ -67,7 +67,7 @@ def check_permission(user: str, action: str) -> bool:
     pass
 ```
 
-### cookiecutter_pywf_opensource_demo/database/models.py
+### cookiecutter_pywf_open_source_demo/database/models.py
 
 ```python
 class BaseModel:
@@ -78,7 +78,7 @@ class BaseModel:
         pass
 ```
 
-### cookiecutter_pywf_opensource_demo/database/connection.py
+### cookiecutter_pywf_open_source_demo/database/connection.py
 
 ```python
 class Database:
@@ -109,8 +109,8 @@ def process_user():
     """
     Process user data using authentication.
     
-    Creates a :class:`~cookiecutter_pywf_opensource_demo.auth.users.User` instance and validates
-    permissions through :class:`~cookiecutter_pywf_opensource_demo.auth.permissions.Role`.
+    Creates a :class:`~cookiecutter_pywf_open_source_demo.auth.users.User` instance and validates
+    permissions through :class:`~cookiecutter_pywf_open_source_demo.auth.permissions.Role`.
     """
     pass
 ```
@@ -127,7 +127,7 @@ def update_profile():
     """
     Update user profile information.
     
-    Uses :meth:`User.get_profile <cookiecutter_pywf_opensource_demo.auth.users.User.get_profile>` 
+    Uses :meth:`User.get_profile <cookiecutter_pywf_open_source_demo.auth.users.User.get_profile>` 
     to retrieve current data before updating.
     """
     pass
@@ -145,8 +145,8 @@ def login_user():
     """
     Handle user login process.
     
-    Calls :func:`~cookiecutter_pywf_opensource_demo.auth.users.authenticate` to verify credentials
-    and :func:`~cookiecutter_pywf_opensource_demo.auth.permissions.check_permission` for authorization.
+    Calls :func:`~cookiecutter_pywf_open_source_demo.auth.users.authenticate` to verify credentials
+    and :func:`~cookiecutter_pywf_open_source_demo.auth.permissions.check_permission` for authorization.
     """
     pass
 ```
@@ -163,19 +163,19 @@ def setup_auth():
     """
     Initialize authentication system.
     
-    Configures components from :mod:`cookiecutter_pywf_opensource_demo.auth.users` and 
-    :mod:`cookiecutter_pywf_opensource_demo.auth.permissions` modules.
+    Configures components from :mod:`cookiecutter_pywf_open_source_demo.auth.users` and 
+    :mod:`cookiecutter_pywf_open_source_demo.auth.permissions` modules.
     """
     pass
 ```
 
-**Rendered as**: Configures components from `cookiecutter_pywf_opensource_demo.auth.users` and `cookiecutter_pywf_opensource_demo.auth.permissions` modules.
+**Rendered as**: Configures components from `cookiecutter_pywf_open_source_demo.auth.users` and `cookiecutter_pywf_open_source_demo.auth.permissions` modules.
 
 ### 2. Referencing Elements Within the Same Module
 
 Use short paths when referencing elements in the same Python file:
 
-#### Example: cookiecutter_pywf_opensource_demo/auth/users.py
+#### Example: cookiecutter_pywf_open_source_demo/auth/users.py
 
 ```python
 class User:
@@ -272,23 +272,23 @@ Database Models
 ===============
 
 The database layer provides several key components. Start with the
-:ref:`getting-started` guide, then review the :class:`~cookiecutter_pywf_opensource_demo.database.models.BaseModel`
+:ref:`getting-started` guide, then review the :class:`~cookiecutter_pywf_open_source_demo.database.models.BaseModel`
 class documentation.
 
-For connection management, see :func:`~cookiecutter_pywf_opensource_demo.database.connection.connect`
+For connection management, see :func:`~cookiecutter_pywf_open_source_demo.database.connection.connect`
 and the :ref:`Advanced Usage Guide <advanced-usage>`.
 ```
 
 ## Complete Example: Cross-Module References
 
-### cookiecutter_pywf_opensource_demo/database/models.py
+### cookiecutter_pywf_open_source_demo/database/models.py
 ```python
 """
 Database model definitions.
 
 This module provides base classes for all database operations. Models inherit
 from :class:`BaseModel` and use connections created by 
-:func:`~cookiecutter_pywf_opensource_demo.database.connection.connect`.
+:func:`~cookiecutter_pywf_open_source_demo.database.connection.connect`.
 
 See the :ref:`api-reference` documentation for complete usage examples.
 """
@@ -301,11 +301,11 @@ class BaseModel:
     
     Provides common functionality for database operations. Subclasses should
     implement their own validation logic while using the connection established
-    through :func:`~cookiecutter_pywf_opensource_demo.database.connection.connect`.
+    through :func:`~cookiecutter_pywf_open_source_demo.database.connection.connect`.
     
     Integration with authentication is handled through 
-    :class:`~cookiecutter_pywf_opensource_demo.auth.users.User` instances. User permissions are
-    validated using :func:`~cookiecutter_pywf_opensource_demo.auth.permissions.check_permission`.
+    :class:`~cookiecutter_pywf_open_source_demo.auth.users.User` instances. User permissions are
+    validated using :func:`~cookiecutter_pywf_open_source_demo.auth.permissions.check_permission`.
     
     :param table_name: Database table name for this model
     :param connection: Database connection instance
@@ -331,8 +331,8 @@ class BaseModel:
         """
         Save model instance to database.
         
-        Uses the connection established by :func:`~cookiecutter_pywf_opensource_demo.database.connection.connect`.
-        Requires authentication through :func:`~cookiecutter_pywf_opensource_demo.auth.users.authenticate`.
+        Uses the connection established by :func:`~cookiecutter_pywf_open_source_demo.database.connection.connect`.
+        Requires authentication through :func:`~cookiecutter_pywf_open_source_demo.auth.users.authenticate`.
         """
         pass
     
@@ -346,7 +346,7 @@ class BaseModel:
         
         .. seealso::
             :meth:`save` for creating new records and 
-            :func:`~cookiecutter_pywf_opensource_demo.database.connection.Database.query` for custom queries.
+            :func:`~cookiecutter_pywf_open_source_demo.database.connection.Database.query` for custom queries.
         """
         pass
 ```
@@ -382,10 +382,10 @@ class UserManager:
     
     **Core Components:**
     
-    - User creation: :class:`~cookiecutter_pywf_opensource_demo.auth.users.User`
-    - Authentication: :func:`~cookiecutter_pywf_opensource_demo.auth.users.authenticate`
-    - Authorization: :func:`~cookiecutter_pywf_opensource_demo.auth.permissions.check_permission`
-    - Data persistence: :class:`~cookiecutter_pywf_opensource_demo.database.models.BaseModel`
+    - User creation: :class:`~cookiecutter_pywf_open_source_demo.auth.users.User`
+    - Authentication: :func:`~cookiecutter_pywf_open_source_demo.auth.users.authenticate`
+    - Authorization: :func:`~cookiecutter_pywf_open_source_demo.auth.permissions.check_permission`
+    - Data persistence: :class:`~cookiecutter_pywf_open_source_demo.database.models.BaseModel`
     
     **Related Documentation:**
     
@@ -405,13 +405,13 @@ class UserManager:
 :class:`~User`
 
 # ❌ Wrong - missing ~ for external module
-:class:`cookiecutter_pywf_opensource_demo.auth.users.User`
+:class:`cookiecutter_pywf_open_source_demo.auth.users.User`
 
 # ✅ Correct - same module
 :class:`User`
 
 # ✅ Correct - external module with ~
-:class:`~cookiecutter_pywf_opensource_demo.auth.users.User`
+:class:`~cookiecutter_pywf_open_source_demo.auth.users.User`
 ```
 
 ## Quick Reference Table
