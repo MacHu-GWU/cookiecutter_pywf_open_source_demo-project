@@ -24,7 +24,7 @@ maintainers = [
 ]
 keywords = []
 readme = "README.rst"
-requires-python = ">=3.9,<4.0"
+requires-python = ">=3.10,<4.0"
 # Full list of classifiers: https://pypi.org/classifiers/
 classifier = [
     "Development Status :: 4 - Beta",
@@ -125,7 +125,7 @@ exclude = [
 # python workflow tool config
 [tool.pywf]
 # The specific python version you use for local development
-dev_python = "3.11.8"
+dev_python = "3.12.11"
 # --- github.com
 github_account = "MacHu-GWU"
 # Create GitHub token in https://github.com/settings/tokens and put the token in
