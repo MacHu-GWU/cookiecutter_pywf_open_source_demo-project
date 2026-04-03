@@ -22,15 +22,9 @@
 
 import os
 from datetime import datetime
+from importlib.metadata import version as get_version, metadata
 
-# Modern way to get package metadata from pyproject.toml via importlib.metadata
-# This doesn't require importing the package itself
-try:
-    from importlib.metadata import version as get_version, metadata
-except ImportError:
-    # Python 3.7 fallback
-    from importlib_metadata import version as get_version, metadata
-
+# Get package metadata from installed package (via pyproject.toml)
 package_name = "cookiecutter_pywf_open_source_demo"
 _meta = metadata(package_name)
 
