@@ -37,35 +37,7 @@ except ImportError:
     print("Error: PyGithub or httpx not installed. Run: uv sync --extra mise")
     sys.exit(1)
 
-
-def get_github_repo_info() -> tuple[str, str]:
-    """Extract GitHub owner and repo name from git remote URL."""
-    import subprocess
-    import re
-
-    try:
-        result = subprocess.run(
-            ["git", "remote", "get-url", "origin"],
-            capture_output=True,
-            text=True,
-            check=True,
-        )
-        remote_url = result.stdout.strip()
-    except subprocess.CalledProcessError:
-        print("Error: Failed to get git remote URL")
-        sys.exit(1)
-
-    # Parse GitHub URL (supports both HTTPS and SSH formats)
-    # HTTPS: https://github.com/owner/repo.git or https://github.com/owner/repo
-    # SSH: git@github.com:owner/repo.git
-    match = re.match(r"(?:https://github\.com/|git@github\.com:)([^/]+)/(.+?)(?:\.git)?$", remote_url)
-    if not match:
-        print(f"Error: Could not parse GitHub URL: {remote_url}")
-        sys.exit(1)
-
-    owner = match.group(1)
-    repo = match.group(2)
-    return owner, repo
+from _utils import get_github_repo_info
 
 
 def get_codecov_upload_token(github_owner: str, repo_name: str, api_token: str) -> str:
