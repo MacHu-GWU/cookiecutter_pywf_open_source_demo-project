@@ -20,7 +20,7 @@
             "Write(./README-cn.md)",
             "Write(./TICKET.md)",
             "Write(./CLAUDE.md)",
-            "Write(course_delivery_automation/**/*.py)",
+            "Write(cookiecutter_pywf_open_source_demo/**/*.py)",
             "Write(tests/**/*.py)",
             "Write(scripts/**/*.py)",
             "Read(========== Bash Section ==========)",
