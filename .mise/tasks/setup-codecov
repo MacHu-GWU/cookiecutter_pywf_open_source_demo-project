@@ -1,0 +1,106 @@
+#!/usr/bin/env .venv/bin/python
+# -*- coding: utf-8 -*-
+#MISE description="🔧 Setup Codecov upload token on GitHub Actions secrets"
+
+"""
+Setup Codecov.io upload token as a GitHub Actions secret.
+
+Required environment variables:
+- GITHUB_TOKEN: GitHub personal access token with repo scope
+- CODECOV_TOKEN: Codecov.io upload token
+
+The script is idempotent - it will create or update the secret as needed.
+"""
+
+# ------------------------------------------------------------------------------
+# Environment Variable Names
+# ------------------------------------------------------------------------------
+ENV_GITHUB_TOKEN = "GITHUB_TOKEN"
+ENV_CODECOV_TOKEN = "CODECOV_TOKEN"
+
+# ------------------------------------------------------------------------------
+# GitHub Secret Name
+# ------------------------------------------------------------------------------
+GITHUB_SECRET_NAME = "CODECOV_TOKEN"
+
+import os
+import sys
+
+try:
+    from github import Github, GithubException, Auth
+except ImportError:
+    print("Error: PyGithub not installed. Run: uv sync --extra mise")
+    sys.exit(1)
+
+
+def get_github_repo_info() -> tuple[str, str]:
+    """Extract GitHub owner and repo name from pyproject.toml."""
+    from pathlib import Path
+    import re
+
+    project_root = Path(__file__).parent.parent.parent
+    pyproject_path = project_root / "pyproject.toml"
+    content = pyproject_path.read_text()
+
+    # Extract Repository URL from pyproject.toml
+    match = re.search(r'Repository\s*=\s*"https://github\.com/([^/]+)/([^"]+)"', content)
+    if not match:
+        print("Error: Could not find Repository URL in pyproject.toml")
+        sys.exit(1)
+
+    owner = match.group(1)
+    repo = match.group(2)
+    # Remove -project suffix if present
+    if repo.endswith("-project"):
+        repo = repo[:-8]
+    return owner, repo
+
+
+def main():
+    # Get tokens from environment
+    github_token = os.environ.get(ENV_GITHUB_TOKEN)
+    codecov_token = os.environ.get(ENV_CODECOV_TOKEN)
+
+    if not github_token:
+        print(f"Error: {ENV_GITHUB_TOKEN} environment variable not set")
+        print("Create a token at: https://github.com/settings/tokens")
+        sys.exit(1)
+
+    if not codecov_token:
+        print(f"Error: {ENV_CODECOV_TOKEN} environment variable not set")
+        print("Get your token at: https://app.codecov.io/account/gh/<username>/access")
+        sys.exit(1)
+
+    owner, repo_name = get_github_repo_info()
+    repo_fullname = f"{owner}/{repo_name}-project"
+
+    print(f"Setting up Codecov token for: {repo_fullname}")
+    secrets_url = f"https://github.com/{repo_fullname}/settings/secrets/actions"
+    print(f"Preview at: {secrets_url}")
+
+    # Connect to GitHub
+    gh = Github(auth=Auth.Token(github_token))
+
+    try:
+        repo = gh.get_repo(repo_fullname)
+    except GithubException as e:
+        print(f"Error: Could not access repository {repo_fullname}")
+        print(f"Details: {e}")
+        sys.exit(1)
+
+    # Create or update the secret (idempotent)
+    try:
+        repo.create_secret(
+            secret_name=GITHUB_SECRET_NAME,
+            unencrypted_value=codecov_token,
+            secret_type="actions",
+        )
+        print(f"✅ Successfully set {GITHUB_SECRET_NAME} secret on {repo_fullname}")
+    except GithubException as e:
+        print(f"Error: Failed to create/update secret")
+        print(f"Details: {e}")
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
