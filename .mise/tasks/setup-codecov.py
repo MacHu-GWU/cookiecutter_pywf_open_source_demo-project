@@ -1,6 +1,4 @@
-#!/usr/bin/env .venv/bin/python
 # -*- coding: utf-8 -*-
-#MISE description="🔧 Setup Codecov upload token on GitHub Actions secrets"
 
 """
 Setup Codecov.io upload token as a GitHub Actions secret.
@@ -37,7 +35,7 @@ except ImportError:
     print("Error: PyGithub or httpx not installed. Run: uv sync --extra mise")
     sys.exit(1)
 
-from _utils import get_github_repo_info
+from utils import get_github_repo_info
 
 
 def get_codecov_upload_token(github_owner: str, repo_name: str, api_token: str) -> str:

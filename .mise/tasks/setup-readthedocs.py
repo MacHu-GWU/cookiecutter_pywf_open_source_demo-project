@@ -1,6 +1,3 @@
-#!/usr/bin/env .venv/bin/python
-# -*- coding: utf-8 -*-
-#MISE description="🔧 Setup ReadTheDocs project"
 
 """
 Create a project on ReadTheDocs.org.
@@ -25,7 +22,7 @@ except ImportError:
     print("Error: httpx not installed. Run: uv sync --extra mise")
     sys.exit(1)
 
-from _utils import (
+from utils import (
     get_github_repo_url,
     get_project_name,
     get_readthedocs_slug,

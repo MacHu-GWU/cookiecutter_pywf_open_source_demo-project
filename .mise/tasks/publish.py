@@ -4,7 +4,7 @@
 Print PyPI URL after publish.
 """
 
-from _utils import config
+from utils import config
 
 project_name = config.project_name
 version = config.pyproject_data["project"]["version"]

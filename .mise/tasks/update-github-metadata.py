@@ -1,6 +1,3 @@
-#!/usr/bin/env .venv/bin/python
-# -*- coding: utf-8 -*-
-#MISE description="🔧 Update GitHub repository description and homepage"
 
 """
 Update GitHub repository metadata (description and homepage URL).
@@ -27,7 +24,7 @@ except ImportError:
     print("Error: PyGithub not installed. Run: uv sync --extra mise")
     sys.exit(1)
 
-from _utils import (
+from utils import (
     get_github_repo_info,
     get_project_description,
     get_readthedocs_url,

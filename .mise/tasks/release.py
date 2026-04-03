@@ -1,6 +1,4 @@
-#!/usr/bin/env .venv/bin/python
 # -*- coding: utf-8 -*-
-#MISE description="🚀 Create GitHub release with current version"
 
 """
 Create a GitHub Release using the current version based on default branch.
@@ -28,7 +26,7 @@ except ImportError:
     print("Error: PyGithub not installed. Run: uv sync --extra mise")
     sys.exit(1)
 
-from _utils import (
+from utils import (
     get_github_repo_info,
     config,
 )

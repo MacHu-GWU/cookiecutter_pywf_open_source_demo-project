@@ -1,6 +1,4 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#MISE description="📓 Convert Jupyter notebooks to Markdown for AI knowledge base"
 
 """
 Convert Jupyter notebooks in docs/source/ to Markdown files.
