@@ -1,6 +1,7 @@
 # User Settings
 cookiecutter_pywf_open_source_demo.egg-info/
 docs/source/**/index.md
+.claude/claude-code-message*
 tmp/
 
 # Byte-compiled / optimized / DLL files
