@@ -22,11 +22,27 @@
 
 import os
 from datetime import datetime
-import cookiecutter_pywf_open_source_demo as package
 
-package_name = package.__name__
-package_author = package.__author__
-package_version = package.__version__
+# Modern way to get package metadata from pyproject.toml via importlib.metadata
+# This doesn't require importing the package itself
+try:
+    from importlib.metadata import version as get_version, metadata
+except ImportError:
+    # Python 3.7 fallback
+    from importlib_metadata import version as get_version, metadata
+
+package_name = "cookiecutter_pywf_open_source_demo"
+_meta = metadata(package_name)
+
+# Extract version
+package_version = get_version(package_name)
+
+# Extract author from "Author-email: Name <email@example.com>" format
+_author_email_raw = _meta.get("Author-email", "")
+if _author_email_raw and "<" in _author_email_raw:
+    package_author = _author_email_raw.split("<")[0].strip()
+else:
+    package_author = _meta.get("Author", "Unknown")
 
 # -- General configuration ------------------------------------------------
 # If your documentation needs a minimal Sphinx version, state it here.
