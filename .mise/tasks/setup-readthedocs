@@ -28,25 +28,47 @@ except ImportError:
     sys.exit(1)
 
 
+def get_github_repo_url() -> str:
+    """Get GitHub repository URL from git remote."""
+    import subprocess
+
+    try:
+        result = subprocess.run(
+            ["git", "remote", "get-url", "origin"],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        remote_url = result.stdout.strip()
+    except subprocess.CalledProcessError:
+        print("Error: Failed to get git remote URL")
+        sys.exit(1)
+
+    # Convert SSH URL to HTTPS if needed
+    if remote_url.startswith("git@github.com:"):
+        # git@github.com:owner/repo.git -> https://github.com/owner/repo
+        remote_url = remote_url.replace("git@github.com:", "https://github.com/")
+    if remote_url.endswith(".git"):
+        remote_url = remote_url[:-4]
+
+    return remote_url
+
+
 def get_project_info() -> dict:
-    """Extract project info from pyproject.toml."""
+    """Extract project info from pyproject.toml and git."""
     project_root = Path(__file__).parent.parent.parent
     pyproject_path = project_root / "pyproject.toml"
     content = pyproject_path.read_text()
 
-    # Extract project name
+    # Extract project name from pyproject.toml
     name_match = re.search(r'^name\s*=\s*"([^"]+)"', content, re.MULTILINE)
     if not name_match:
         print("Error: Could not find project name in pyproject.toml")
         sys.exit(1)
     project_name = name_match.group(1)
 
-    # Extract Repository URL
-    repo_match = re.search(r'Repository\s*=\s*"([^"]+)"', content)
-    if not repo_match:
-        print("Error: Could not find Repository URL in pyproject.toml")
-        sys.exit(1)
-    repo_url = repo_match.group(1)
+    # Get repo URL from git remote
+    repo_url = get_github_repo_url()
 
     # Generate slug (replace _ with -)
     slug = project_name.replace("_", "-")
