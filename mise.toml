@@ -3,6 +3,7 @@
 GITHUB_TOKEN = "{{ exec(command='uvx --from home-secret-toml hst get github.accounts.sh.users.sh.secrets.dev.value') }}"
 CODECOV_TOKEN = "{{ exec(command='uvx --from home-secret-toml hst get codecov_io.accounts.sh.users.sh.secrets.dev.value') }}"
 READTHEDOCS_TOKEN = "{{ exec(command='uvx --from home-secret-toml hst get readthedocs.accounts.sh.users.sh.secrets.dev.value') }}"
+PYPI_TOKEN = "{{ exec(command='uvx --from home-secret-toml hst get pypi.accounts.sh.token') }}"
 
 [tools]
 python = "3.12"
@@ -50,3 +51,11 @@ run = ".venv/bin/sphinx-build -b html docs/source docs/build/html"
 [tasks.view-doc]
 description = "🌐 Open built documentation in browser"
 run = "open docs/build/html/index.html"
+
+[tasks.build]
+description = "📦 Build Python wheel and source distribution"
+run = "uv build"
+
+[tasks.upload]
+description = "🚀 Upload package to PyPI"
+run = "uv publish --token $PYPI_TOKEN"
