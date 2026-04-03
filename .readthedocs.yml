@@ -18,4 +18,4 @@ build:
     install:
       # Install project with doc dependencies using uv
       # UV_PROJECT_ENVIRONMENT tells uv to use ReadTheDocs venv instead of creating .venv
-      - UV_PROJECT_ENVIRONMENT="${READTHEDOCS_VIRTUALENV_PATH}" uv sync --group doc
+      - UV_PROJECT_ENVIRONMENT="${READTHEDOCS_VIRTUALENV_PATH}" uv sync --extra doc
