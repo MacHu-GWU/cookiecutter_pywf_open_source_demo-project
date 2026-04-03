@@ -56,6 +56,9 @@ run = "open docs/build/html/index.html"
 description = "📦 Build Python wheel and source distribution"
 run = "uv build"
 
-[tasks.upload]
-description = "🚀 Upload package to PyPI"
-run = "uv publish --token $PYPI_TOKEN"
+[tasks.publish]
+description = "🚀 Publish package to PyPI"
+run = """
+.venv/bin/python .mise/tasks/_publish.py
+uv publish --token $PYPI_TOKEN
+"""
