@@ -35,3 +35,15 @@ run = ".venv/bin/pytest tests"
 [tasks.cov]
 description = "🧪 Run Python code coverage tests with pytest"
 run = ".venv/bin/pytest tests -s --tb=native --cov=cookiecutter_pywf_open_source_demo --cov-report term-missing --cov-report html:htmlcov"
+
+[tasks.view-cov]
+description = "🌐 Open coverage report in browser (run after cov)"
+run = "open htmlcov/index.html"
+
+[tasks.build-doc]
+description = "📚 Build Sphinx documentation (output: docs/build/html)"
+run = ".venv/bin/sphinx-build -b html docs/source docs/build/html"
+
+[tasks.view-doc]
+description = "🌐 Open built documentation in browser"
+run = "open docs/build/html/index.html"
