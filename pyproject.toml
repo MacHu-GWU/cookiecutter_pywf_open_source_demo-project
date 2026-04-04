@@ -105,22 +105,6 @@ Download = "https://pypi.org/pypi/cookiecutter-pywf-open-source-demo#files"
 # For command line interface, read: https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#creating-executable-scripts
 [project.scripts]
 
-[tool.poetry.requires-plugins]
-poetry-plugin-export = ">=1.9.0,<2.0.0"
-
-[tool.poetry]
-# Files to include in the package distribution
-packages = [
-    { include = "cookiecutter_pywf_open_source_demo", from = ".", to = "." }
-]
-# Files to exclude from the package
-exclude = [
-    "cookiecutter_pywf_open_source_demo/tests/*",
-    "cookiecutter_pywf_open_source_demo/docs/*",
-    "**/*.pyc",
-    "**/*.pyo",
-]
-
 [tool.setuptools.packages.find]
 where = ["."]
 include = [
