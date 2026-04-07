@@ -9,6 +9,7 @@ PYPI_TOKEN = "{{ exec(command='uvx --from home-secret-toml hst get pypi.accounts
 python = "3.12"
 uv = "latest"
 claude = "latest"
+pandoc = "3.9" # Use pandoc 3.9 - latest stable major version as of 2026-04
 
 # === Tasks ===
 # Python Environment Management
