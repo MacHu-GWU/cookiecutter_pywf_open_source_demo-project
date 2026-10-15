@@ -294,7 +294,7 @@ wheels = [
 
 [[package]]
 name = "cookiecutter-pywf-open-source-demo"
-version = "1.0.4"
+version = "1.0.5"
 source = { editable = "." }
 
 [package.optional-dependencies]
