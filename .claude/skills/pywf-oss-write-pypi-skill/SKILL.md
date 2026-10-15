@@ -1,5 +1,5 @@
 ---
-name: write-pypi-skill
+name: pywf-oss-write-pypi-skill
 description: A meta skill that reads the Python library at the current working directory and generates a reusable Agent Skill for it, named after the package, that documents the library's public API and, if present, its command line interface. The user invokes this when they want to turn a local Python library into a Claude skill so future sessions can use the library through its public surface without re-reading the source.
 disable-model-invocation: true
 ---
@@ -7,6 +7,10 @@ disable-model-invocation: true
 # Write a pypi-package skill
 
 Generate an Agent Skill that lets future Claude sessions use the local Python library through its public API, without re-loading the source.
+
+Read ../pywf-oss-base/SKILL.md, then:
+- ../pywf-oss-base/references/repo-layout.md (section 2: how `api.py` defines the public API)
+- ../pywf-oss-base/references/toolchain.md (section 5: how a CLI is built with python-fire)
 
 ## Where to write the output
 

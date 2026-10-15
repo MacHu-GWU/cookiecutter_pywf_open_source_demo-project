@@ -8,19 +8,10 @@ This module provides common functions used across multiple mise task scripts.
 
 import re
 import sys
+import tomllib
 import subprocess
 from pathlib import Path
 from functools import cached_property
-
-# Use tomllib (3.11+) or tomli (3.10)
-if sys.version_info >= (3, 11):
-    import tomllib
-else:
-    try:
-        import tomli as tomllib
-    except ImportError:
-        print("Error: tomli not installed (required for Python 3.10). Run: uv sync --extra mise")
-        sys.exit(1)
 
 
 class ProjectConfig:
