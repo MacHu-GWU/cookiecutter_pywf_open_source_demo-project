@@ -22,6 +22,7 @@ What each skill does, and when to use it, is in the "Which skill to use" table o
 | `pywf-oss-write-pypi-skill` | — |
 | `pywf-oss-fix-ci` | `pywf-oss-upgrade-deps`, when the cause is a dependency |
 | `pywf-oss-upgrade-deps` | `pywf-oss-changelog`, then `pywf-oss-release` |
+| `pywf-oss-add-community-skill` | — |
 | `pywf-oss-audit` | any of the above, per finding |
 
 ---
@@ -36,6 +37,7 @@ What each skill does, and when to use it, is in the "Which skill to use" table o
 | A service is red | `fix-ci` |
 | Routine upgrades, every few months or on a security fix | `upgrade-deps` → `changelog` → `release` |
 | Yearly Python cycle | `fix-ci` (Python versions) → `upgrade-deps` (caps for the old floor) → `changelog` → `release` |
+| A job needs an optional community skill | `add-community-skill` (stage → review → install) |
 | Bring an older repo up to the current template | `audit` → apply its findings, grouped by fixing skill → `audit` again until it is clean |
 
 ---

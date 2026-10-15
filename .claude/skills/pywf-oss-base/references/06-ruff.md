@@ -9,11 +9,13 @@ description: "Formatting and linting with ruff: the format and lint mise tasks a
 ## 1. Tasks
 
 ```bash
-mise run format   # uvx ruff format <package_name> tests .mise/tasks .claude/skills
+mise run format   # uvx ruff format <package_name> tests .mise/tasks .claude/skills/pywf-oss-base
 mise run lint     # uvx ruff check --select F401,F821,F841 on the same paths, plus the one-import-per-statement check
 ```
 
 Run `format`, then `lint`, before you finish any change to Python code.
+
+The tasks cover only this repo's own code. Other folders in `.claude/skills/`, such as installed community skills, are third-party code: never format or lint them, so they stay identical to the commit they were installed from.
 
 The one-import-per-statement check is `check_one_import_per_line.py` in the base skill's `scripts/`, because ruff cannot check this rule without also re-sorting imports. To split violations automatically:
 

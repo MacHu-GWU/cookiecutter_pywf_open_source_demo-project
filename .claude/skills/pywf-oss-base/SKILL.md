@@ -61,7 +61,9 @@ The references are numbered in project-lifecycle order, from the machine to main
   The dependency upgrade process: finding outdated and unmaintained packages with uv and PyPI, judging each upgrade (breaking changes, requirements, gains, maintenance health), which packages must move together, applying the change, and the regression checks across tests, lint, docs and CI that prove it worked. Read when upgrading or replacing any dependency, or when asked whether a new version is worth it.
 - **Following the Python Release Cycle**: `references/24-python-release-cycle.md`
   The yearly Python routine: what to change when a new CPython is released, and when the oldest one reaches end of life, across the version locations, the CI matrix, dependency caps, and the changelog. Read when a Python version is released or retired, or when asked to add or drop a supported Python version.
-- **Skill Family Workflow**: `references/25-skill-family-workflow.md`
+- **Community Skills**: `references/25-community-skills.md`
+  Optional community Agent Skills: the catalog in assets/community-skills.toml and its fields, the pinned GitHub tree URL that makes installation mechanical, how an AI adds or updates an entry, how a skill is staged, reviewed, and installed into .claude/skills/ with a provenance file, and the security rules for third-party skills. Read when installing a community skill, adding one to the catalog, or updating a pinned version.
+- **Skill Family Workflow**: `references/26-skill-family-workflow.md`
   How the pywf-oss invoker skills chain together: who hands off to whom, the typical flows (new machine and repo, feature, bug fix, maintenance, template upgrade), and what each handoff guarantees to the next skill. Read when a skill finishes and the next step is unclear, or when planning a multi-step job.
 
 <!-- END references index -->
@@ -77,6 +79,8 @@ From this skill, run a script with `python ${CLAUDE_SKILL_DIR}/scripts/<script_n
 | `scripts/check_doc_xrefs.py` | Lists cross-references in the built docs that rendered as plain code because their target is missing. Sphinx does not warn about these. `--include_api` also scans the API pages. |
 | `scripts/update_skill_index.py` | Regenerates the References index above from each reference's H1 and `description`. `--check` only verifies it. |
 | `scripts/check_skill_family.py` | Checks the skill family itself: frontmatter, resolvable paths, cited references, backward-only citations, and forbidden project names (`--forbid <forbidden_name>`). |
+| `scripts/install_community_skill.py` | `--list` shows the community skill catalog. `--name <skill_name>` stages a skill into `tmp/` for review; adding `--install` copies it into `.claude/skills/`. Needs Python 3.11+ (`.venv/bin/python`). |
+| `assets/community-skills.toml` | The catalog of optional community skills, each pinned to a commit |
 | `assets/raw-rst-cell.json` | A copy-ready raw reStructuredText notebook cell |
 | `assets/notebook-page-template.ipynb` | A minimal notebook docs page: raw title cell, intro, code cell, cross-reference cell |
 
@@ -96,6 +100,7 @@ Each invoker does one job, and loads this base by itself. When the job is unclea
 | `pywf-oss-write-pypi-skill` | After a release, to generate an Agent Skill that documents this library's public API for other projects. | "make a skill for this library" | `08-package-files.md` |
 | `pywf-oss-fix-ci` | GitHub Actions, the Codecov upload, or the Read the Docs build is red or shows warnings, or a Python version must be added or dropped. | "CI fails on Windows" | `04-python-versions.md`, `18-github-actions.md`, `19-codecov.md`, `20-readthedocs.md`, `24-python-release-cycle.md` |
 | `pywf-oss-upgrade-deps` | Dependencies must be upgraded, an upgrade judged, or an unmaintained package replaced. | "is the new pytest worth it?" | `04-python-versions.md`, `05-uv-dependencies.md`, `13-sphinx.md`, `15-furo.md`, `23-dependency-upgrades.md`, `scripts/check_doc_xrefs.py` |
+| `pywf-oss-add-community-skill` | An optional community skill must be found, reviewed, and installed, or a GitHub skill link must be added to the catalog. | "install the logo design skill" | `25-community-skills.md`, `assets/community-skills.toml`, `scripts/install_community_skill.py` |
 | `pywf-oss-audit` | A repo must be checked against these conventions, for example an older repo being brought up to the current template. It changes no source file. | "audit this repo" | all references, `scripts/check_test_layout.py`, `scripts/check_one_import_per_line.py`, `scripts/check_doc_xrefs.py` |
 
-The order in which the invokers usually run, and what each hands to the next, is in `references/25-skill-family-workflow.md`.
+The order in which the invokers usually run, and what each hands to the next, is in `references/26-skill-family-workflow.md`.

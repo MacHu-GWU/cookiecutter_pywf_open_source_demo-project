@@ -45,6 +45,7 @@ This repo follows the pywf open-source Python library template. **Before creatin
 | Generate a skill for this library's API | `pywf-oss-write-pypi-skill` |
 | Fix a red CI run, Codecov upload, or docs build | `pywf-oss-fix-ci` |
 | Upgrade or replace dependencies | `pywf-oss-upgrade-deps` |
+| Install an optional community skill, or catalog one | `pywf-oss-add-community-skill` |
 | Check the repo against the template | `pywf-oss-audit` |
 | Not sure which | `pywf-oss-base` |
 
