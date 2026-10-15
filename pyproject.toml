@@ -85,7 +85,7 @@ doc = [
     "pygments>=2.18.0,<3.0.0", # syntax highlight
     "ipython>=8.18.1,<8.19.0", # interactive Python
     "ipykernel>=7.3.0,<8.0.0", # Jupyter kernel, to execute docs notebooks locally
-    "nbsphinx>=0.8.12,<1.0.0", # add jupyter notebook in sphinx doc
+    "nbsphinx>=0.9.8,<1.0.0", # add jupyter notebook in sphinx doc
     "rstobj==2.0.0", # generate reStructuredText from Python code
     "docfly==3.0.3", # automaticall generate .. toctree directives and API reference doc
 ]

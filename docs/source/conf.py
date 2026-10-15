@@ -22,7 +22,8 @@
 
 import os
 from datetime import datetime
-from importlib.metadata import version as get_version, metadata
+from importlib.metadata import version as get_version
+from importlib.metadata import metadata
 
 # Get package metadata from installed package (via pyproject.toml)
 package_name = "cookiecutter_pywf_open_source_demo"

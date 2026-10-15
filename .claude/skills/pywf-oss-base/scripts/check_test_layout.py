@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """Check that tests/ mirrors the package per the pywf-oss source-to-test mapping."""
 
 from __future__ import annotations

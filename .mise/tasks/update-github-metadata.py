@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 Update GitHub repository metadata (description and homepage URL).
 

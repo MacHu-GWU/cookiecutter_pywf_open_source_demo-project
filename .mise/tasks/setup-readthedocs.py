@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 Create a project on ReadTheDocs.org.
 

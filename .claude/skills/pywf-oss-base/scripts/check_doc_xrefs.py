@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """Find Sphinx cross-references that rendered as plain code instead of links."""
 
 from __future__ import annotations

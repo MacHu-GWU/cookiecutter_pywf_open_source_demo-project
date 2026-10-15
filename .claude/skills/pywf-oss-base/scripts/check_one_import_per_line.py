@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """Find, and optionally split, import statements that bring in more than one name."""
 
 from __future__ import annotations

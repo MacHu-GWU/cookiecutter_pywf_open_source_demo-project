@@ -1,12 +1,12 @@
 ---
-description: "The sphinx-design widgets (grid, card, tabs, code tabs, dropdown, badge, button, icon) with one copy-ready reStructuredText example each, the syntax rules that break them silently, and which widget fits which page pattern. Read when a docs page needs layout or visual elements beyond plain text: a landing page, install instructions, an FAQ, a feature overview, or a call to action."
+description: "The sphinx-design extension: its widgets (grid, card, tabs, code tabs, dropdown, badge, button, icon) with one copy-ready reStructuredText example each, the syntax rules that break them silently, and which widget fits which page pattern. Read when a docs page needs layout or visual elements beyond plain text: a landing page, install instructions, an FAQ, a feature overview, or a call to action."
 ---
 
-# Documentation: sphinx-design Widgets
+# sphinx-design
 
-[sphinx-design](https://sphinx-design.readthedocs.io/) (enabled in `conf.py`) adds responsive layout and UI widgets to reStructuredText. Every example below renders in `docs/source/03-Sample-Sphinx-Design-Gallery/index.rst`. Copy from there, and check your result against it.
+[sphinx-design](https://sphinx-design.readthedocs.io/) (enabled in `conf.py`) adds responsive layout and UI widgets to reStructuredText (see `13-sphinx.md`). The sample page `docs/source/03-Sample-Sphinx-Design-Gallery/index.rst` of a template repo renders every example below; check your result against it.
 
-In a notebook, write these directives in a raw reST cell (see `07-docs-notebook.md`).
+The directives work in any reStructuredText, including a notebook's raw reStructuredText cells.
 
 ---
 
@@ -14,9 +14,9 @@ In a notebook, write these directives in a raw reST cell (see `07-docs-notebook.
 
 - **Indent with 4 spaces.** Child directives are indented under their parent. One wrong indent ends the parent early and renders the rest as plain text, often with no warning.
 - **Options go directly under the directive line, then one blank line, then the content.** A blank line between the directive and an option turns the option into body text.
-- **Colors** are semantic names: `primary`, `secondary`, `success`, `info`, `warning`, `danger`, `muted`, `light`, `dark`. Avoid `light`, `dark`, `white`, and `black` for text: they disappear in furo's dark mode or light mode.
+- **Colors** are semantic names: `primary`, `secondary`, `success`, `info`, `warning`, `danger`, `muted`, `light`, `dark`. Avoid `light`, `dark`, `white`, and `black` for text: they disappear in dark mode or light mode (see `15-furo.md`).
 - **Icons:** use `:octicon:` or `:material-regular:` (bundled). Never use the FontAwesome roles (`:fas:`, ...): this template does not load FontAwesome, so they render as nothing.
-- **Links inside widgets:** `:link:` takes a label with `:link-type: ref`, a document path without extension with `:link-type: doc`, or a URL (the default). Prefer `ref`, so links survive renames. A `doc` path is relative to the current page; start it with `/` to go from `docs/source/` (`/api/<package>/__init__`).
+- **Links inside widgets:** `:link:` takes a label with `:link-type: ref`, a document path without extension with `:link-type: doc`, or a URL (the default). Prefer `ref`, so links survive renames. A `doc` path is relative to the current page; start it with `/` to go from `docs/source/` (`/api/<package_name>/__init__`).
 - **Do not decorate for its own sake.** Use a widget only when the reader gains something: a choice between alternatives (tabs), optional detail (dropdown), a map of pages (cards), or status (badges).
 
 ---
@@ -36,7 +36,7 @@ In a notebook, write these directives in a raw reST cell (see `07-docs-notebook.
         Install and run your first example in two minutes.
 
     .. grid-item-card:: :octicon:`book;1.5em;sd-text-info` API Reference
-        :link: /api/cookiecutter_pywf_open_source_demo/__init__
+        :link: /api/<package_name>/__init__
         :link-type: doc
 
         Every public class and function.
@@ -48,14 +48,14 @@ In a notebook, write these directives in a raw reST cell (see `07-docs-notebook.
 ### Card with header and footer
 
 ```rst
-.. card:: Greeter
+.. card:: ClassName
     :shadow: md
 
     Header text
     ^^^
-    Body: greets people with a configurable word.
+    Body: what ``ClassName`` does, in one sentence.
     +++
-    Footer: see :class:`~cookiecutter_pywf_open_source_demo.example_module_1.Greeter`.
+    Footer: see :class:`~<package_name>.module_name.ClassName`.
 ```
 
 `^^^` ends the header and `+++` starts the footer. Both are optional. The directive argument is the card title.
@@ -70,14 +70,14 @@ In a notebook, write these directives in a raw reST cell (see `07-docs-notebook.
 
         .. code-block:: bash
 
-            pip install cookiecutter-pywf-open-source-demo
+            pip install <package_name>
 
     .. tab-item:: uv
         :sync: uv
 
         .. code-block:: bash
 
-            uv add cookiecutter-pywf-open-source-demo
+            uv add <package_name>
 ```
 
 Tab items with the same `:sync:` key switch together across every tab-set on the page. Use this for an OS or package-manager choice that repeats.
@@ -89,11 +89,11 @@ Tab items with the same `:sync:` key switch together across every tab-set on the
 
     .. code-block:: python
 
-        greet("Alice")
+        func_name("Alice")
 
     .. code-block:: bash
 
-        python -c 'from cookiecutter_pywf_open_source_demo.api import greet; print(greet("Alice"))'
+        python -c 'from <package_name>.api import func_name; print(func_name("Alice"))'
 ```
 
 Each tab is labeled with the language of its code block. `literalinclude` works inside, too.
@@ -114,7 +114,7 @@ Add `:open:` to start expanded. `:icon:` takes an octicon name.
 
 ```rst
 :bdg-success:`stable` :bdg-warning:`beta` :bdg-secondary-line:`optional`
-:bdg-link-primary:`PyPI <https://pypi.org/project/cookiecutter-pywf-open-source-demo/>`
+:bdg-link-primary:`PyPI <https://pypi.org/project/<package_name>/>`
 :bdg-ref-info:`see the sample <sample-rst-document>`
 ```
 
@@ -130,7 +130,7 @@ The roles are `:bdg-<color>:` (filled), `:bdg-<color>-line:` (outlined), `:bdg-l
 
     Get Started
 
-.. button-link:: https://github.com/MacHu-GWU/cookiecutter_pywf_open_source_demo-project
+.. button-link:: https://github.com/<owner>/<repo>
     :color: secondary
     :outline:
 

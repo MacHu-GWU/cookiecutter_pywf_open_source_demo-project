@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """Regenerate the references index in a skill's SKILL.md from each reference's H1 and description."""
 
 from __future__ import annotations
