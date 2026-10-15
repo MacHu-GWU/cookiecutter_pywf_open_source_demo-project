@@ -14,7 +14,7 @@ Templates: ../pywf-oss-base/assets/notebook-page-template.ipynb and ../pywf-oss-
 ## Steps
 
 1. **Pick the format and place.**
-   - Use a notebook for runnable usage guides, and `.rst` for concepts and maintainer docs. If the user did not say, choose and state your choice.
+   - Use a notebook for runnable usage guides, and `.rst` for concepts and design notes. If the user did not say, choose and state your choice.
    - Choose the `NN-Title` folder so the page lands at the right position in the sidebar. List the existing folders first.
 2. **Gather facts.** Read the public API (`api.py`) and the source docstrings of what you document. Examples import from `<package>.api`, as users would.
 3. **Write.**

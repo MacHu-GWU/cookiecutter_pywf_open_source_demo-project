@@ -1,4 +1,3 @@
-
 """
 Update GitHub repository metadata (description and homepage URL).
 

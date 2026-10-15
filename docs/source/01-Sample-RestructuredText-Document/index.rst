@@ -2,5 +2,170 @@
 
 Sample RestructuredText Document
 ==============================================================================
+This page demonstrates every documentation feature this template supports. Read it next to its source, ``docs/source/01-Sample-RestructuredText-Document/index.rst``, and copy what you need. The notebook version of this page is :ref:`sample-jupyter-notebook-document`.
 
-This is a sample rst document.
+
+Headings and Labels
+------------------------------------------------------------------------------
+Heading underlines are 78 characters long: ``=`` for the page title, ``-`` for sections, ``~`` for subsections. Put a label such as ``.. _sample-rst-document:`` above a title so other pages can link to it with ``:ref:``.
+
+
+A Subsection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Subsections use the ``~`` underline.
+
+
+Inline Markup
+------------------------------------------------------------------------------
+- **Bold**, *italic*, and ``inline code``.
+- An external link: `Sphinx documentation <https://www.sphinx-doc.org/>`_.
+- Custom color and style roles from ``_static/.custom-style.rst``: :red:`red`, :blue:`blue`, :green:`green`, :strike:`strike`.
+
+
+Cross-References to the API
+------------------------------------------------------------------------------
+Always write the full dotted path from the defining module, then choose how it is displayed. The left column is the source; the right column is the rendered link.
+
+.. list-table::
+    :header-rows: 1
+    :widths: 60 40
+
+    * - Source
+      - Rendered
+    * - ``:mod:`cookiecutter_pywf_open_source_demo.example_module_1```
+      - :mod:`cookiecutter_pywf_open_source_demo.example_module_1`
+    * - ``:class:`~cookiecutter_pywf_open_source_demo.example_module_1.Greeter```
+      - :class:`~cookiecutter_pywf_open_source_demo.example_module_1.Greeter`
+    * - ``:class:`cookiecutter_pywf_open_source_demo.example_module_1.Greeter```
+      - :class:`cookiecutter_pywf_open_source_demo.example_module_1.Greeter`
+    * - ``:meth:`Greeter.greet <cookiecutter_pywf_open_source_demo.example_module_1.Greeter.greet>```
+      - :meth:`Greeter.greet <cookiecutter_pywf_open_source_demo.example_module_1.Greeter.greet>`
+    * - ``:func:`~cookiecutter_pywf_open_source_demo.example_module_1.greet```
+      - :func:`~cookiecutter_pywf_open_source_demo.example_module_1.greet`
+    * - ``:func:`example_module_1.greet <cookiecutter_pywf_open_source_demo.example_module_1.greet>```
+      - :func:`example_module_1.greet <cookiecutter_pywf_open_source_demo.example_module_1.greet>`
+    * - ``:func:`~cookiecutter_pywf_open_source_demo.example_package_1.example_module_2.multi_two```
+      - :func:`~cookiecutter_pywf_open_source_demo.example_package_1.example_module_2.multi_two`
+    * - ``:attr:`~cookiecutter_pywf_open_source_demo.example_module_1.DEFAULT_NAME```
+      - :attr:`~cookiecutter_pywf_open_source_demo.example_module_1.DEFAULT_NAME`
+    * - ``:attr:`Greeter.greeting <cookiecutter_pywf_open_source_demo.example_module_1.Greeter.greeting>```
+      - :attr:`Greeter.greeting <cookiecutter_pywf_open_source_demo.example_module_1.Greeter.greeting>`
+    * - ``:class:`pathlib.Path``` (standard library, through intersphinx)
+      - :class:`pathlib.Path`
+
+
+Cross-References to Pages
+------------------------------------------------------------------------------
+- By label: :ref:`sample-jupyter-notebook-document`, or with custom text: :ref:`the notebook sample <sample-jupyter-notebook-document>`.
+- By file: :doc:`../02-Sample-Jupyter-Notebook-Document/index`.
+- The changelog: :ref:`release_history`.
+
+
+Code
+------------------------------------------------------------------------------
+A code block:
+
+.. code-block:: python
+
+    from cookiecutter_pywf_open_source_demo.api import Greeter
+
+    print(Greeter(greeting="Hi").greet("Alice"))
+
+A block pulled from the real source, so it never goes stale:
+
+.. literalinclude:: ../../../cookiecutter_pywf_open_source_demo/example_module_1.py
+    :language: python
+    :pyobject: Greeter
+
+An API entry embedded in a guide page (``:no-index:`` avoids a duplicate with the API reference):
+
+.. autofunction:: cookiecutter_pywf_open_source_demo.example_module_1.greet
+    :no-index:
+
+
+Admonitions
+------------------------------------------------------------------------------
+.. note::
+
+    A note for useful background.
+
+.. tip::
+
+    A tip for a better way to do something.
+
+.. warning::
+
+    A warning for something that can go wrong.
+
+
+Tables
+------------------------------------------------------------------------------
+Add ``:class: sortable`` to make a table sortable by clicking its header (``_static/js/sorttable.js``):
+
+.. list-table::
+    :header-rows: 1
+    :class: sortable
+
+    * - Python
+      - Status
+    * - 3.11
+      - supported
+    * - 3.12
+      - supported
+    * - 3.13
+      - supported
+    * - 3.14
+      - supported
+
+
+Data Rendered from Code (sphinx-jinja)
+------------------------------------------------------------------------------
+This table is generated from ``doc_data`` in ``cookiecutter_pywf_open_source_demo/docs/__init__.py``, so it updates itself when the public API changes:
+
+.. jinja:: doc_data
+
+    .. list-table::
+        :header-rows: 1
+
+        * - Name
+          - Summary
+        {% for row in doc_data.public_api %}
+        * - ``{{ row.name }}``
+          - {{ row.summary }}
+        {% endfor %}
+
+
+Layout (sphinx-design)
+------------------------------------------------------------------------------
+.. tab-set::
+
+    .. tab-item:: pip
+
+        .. code-block:: bash
+
+            pip install cookiecutter-pywf-open-source-demo
+
+    .. tab-item:: uv
+
+        .. code-block:: bash
+
+            uv add cookiecutter-pywf-open-source-demo
+
+.. grid:: 2
+
+    .. grid-item-card:: Guide
+
+        Start with :ref:`sample-jupyter-notebook-document`.
+
+    .. grid-item-card:: API
+
+        Browse :mod:`cookiecutter_pywf_open_source_demo.example_module_1`.
+
+
+Images
+------------------------------------------------------------------------------
+Images live next to the page that uses them, or in ``_static/``:
+
+.. image:: ../_static/cookiecutter_pywf_open_source_demo-logo.png
+    :width: 200px
+    :alt: project logo

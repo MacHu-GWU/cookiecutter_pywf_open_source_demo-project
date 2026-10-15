@@ -1,4 +1,3 @@
-
 """
 Create a project on ReadTheDocs.org.
 

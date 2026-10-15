@@ -111,21 +111,27 @@ config = ProjectConfig()
 def get_project_root() -> Path:
     return config.project_root
 
+
 def get_github_repo_info() -> tuple[str, str]:
     """Returns (owner, repo_name)."""
     return config.github_owner, config.github_repo_name
 
+
 def get_github_repo_url() -> str:
     return config.github_repo_url
+
 
 def get_project_name() -> str:
     return config.project_name
 
+
 def get_project_description() -> str:
     return config.project_description
 
+
 def get_readthedocs_slug() -> str:
     return config.readthedocs_slug
+
 
 def get_readthedocs_url() -> str:
     return config.readthedocs_url

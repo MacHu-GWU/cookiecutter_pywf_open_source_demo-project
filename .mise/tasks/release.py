@@ -67,7 +67,9 @@ def main():
     # Check if release already exists
     try:
         existing_release = repo.get_release(release_name)
-        print(f"✅ Release {release_name!r} already exists: {existing_release.html_url}")
+        print(
+            f"✅ Release {release_name!r} already exists: {existing_release.html_url}"
+        )
         return
     except GithubException as e:
         if e.status == 404:
@@ -100,7 +102,9 @@ def main():
                 ref=f"refs/tags/{release_name}",
                 sha=tag.sha,
             )
-            print(f"✅ Created tag {release_name!r} on {default_branch} ({commit_sha[:7]})")
+            print(
+                f"✅ Created tag {release_name!r} on {default_branch} ({commit_sha[:7]})"
+            )
         else:
             print(f"Error: Failed to check tag")
             print(f"Details: {e}")

@@ -1,5 +1,5 @@
 ---
-description: "The mise tasks, the Python version policy (3.11+ and where each version number lives), uv dependencies and extras, ruff format and lint commands with # fmt: off, and python-fire CLIs. Read when setting up or installing the repo, running any task, adding a dependency, changing supported Python versions, or adding a command line interface."
+description: "The mise tasks, the Python version policy (3.11+ and where each version number lives), uv dependencies and extras, the format and lint tasks (ruff), and python-fire CLIs. Read when setting up or installing the repo, running any task, adding a dependency, changing supported Python versions, or adding a command line interface."
 ---
 
 # Toolchain
@@ -23,6 +23,7 @@ Run a task with `mise run <task>`. Prefer a task over the raw command it wraps, 
 | Task | What it does |
 | :--- | :--- |
 | `inst` | Create `.venv` and `uv sync --all-extras` |
+| `format` / `lint` | ruff format everything / ruff check plus the one-import-per-statement check |
 | `cov` | Run the full test suite with coverage, writing `htmlcov/` |
 | `test` | Run the full test suite without coverage |
 | `build-doc` / `view-doc` | Build Sphinx HTML into `docs/build/html` / open it |
@@ -67,13 +68,16 @@ Run a task with `mise run <task>`. Prefer a task over the raw command it wraps, 
 ## 4. ruff: format and lint
 
 ```bash
-uvx ruff format <package> tests
-uvx ruff check --select F401,F821,F841 <package> tests
+mise run format   # uvx ruff format <package> tests .mise/tasks .claude/skills
+mise run lint     # uvx ruff check --select F401,F821,F841 on the same paths, plus check_one_import_per_line.py
 ```
 
-- The configuration lives in `pyproject.toml` under `[tool.ruff]`. `<package>/vendor` is excluded, and `__init__.py` and `api.py` may have unused imports, because those imports are the re-exports.
-- Run both commands before you finish a change to code or tests.
-- Wrap hand-aligned blocks in `# fmt: off` / `# fmt: on` so the formatter keeps the alignment: lookup tables, matrices, column-aligned test cases. Keep the fenced region as small as possible.
+- The configuration lives in `pyproject.toml` under `[tool.ruff]`.
+  - Excluded: `<package>/vendor`, and the skill `assets/` (templates with `<package>` placeholders).
+  - `__init__.py` and `api.py` may have unused imports, because those imports are the re-exports.
+- Run `format`, then `lint`, before you finish any change to Python code.
+- The lint set is deliberately small: unused imports, undefined names, unused variables. Style is the formatter's job, and line length is not linted.
+- `# fmt: off` / `# fmt: on` keeps hand-written layout: one field per line in declarative models, aligned tables. See `03-code-style.md` section 6.
 
 ---
 

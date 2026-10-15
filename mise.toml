@@ -52,6 +52,18 @@ depends = ["inst"]
 description = "👀📊 Open code coverage HTML report in browser (requires 'cov' task to run first)"
 run = "open htmlcov/index.html"
 
+# Code Quality
+[tasks.format]
+description = "🎨 Format all Python code with ruff (package, tests, mise task scripts, skill scripts)"
+run = "uvx ruff format cookiecutter_pywf_open_source_demo tests .mise/tasks .claude/skills"
+
+[tasks.lint]
+description = "🔍 Lint Python code with ruff (unused/undefined names) and check one imported name per statement"
+run = """
+uvx ruff check --select F401,F821,F841 cookiecutter_pywf_open_source_demo tests .mise/tasks .claude/skills
+python3 .claude/skills/pywf-oss-base/scripts/check_one_import_per_line.py --paths cookiecutter_pywf_open_source_demo tests .mise/tasks .claude/skills
+"""
+
 # Documentation
 [tasks.build-doc]
 description = "📚 Build Sphinx documentation using sphinx-build (generates HTML in docs/build/html/)"

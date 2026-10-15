@@ -14,10 +14,10 @@ Run these, and record each finding with its file, the rule broken (reference fil
 1. **Test layout.** Run `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_test_layout.py --project_root .`. It finds missing, orphan, and mismatched test files, and `all.py` without `is_folder=True`.
 2. **Python versions.** Check that `requires-python`, the classifiers, the CI matrix, `USING_COVERAGE`, the mise `python`, and `.readthedocs.yml` agree with `01-toolchain.md` section 2 (floor 3.11, every non-end-of-life version, Windows plus Ubuntu).
 3. **Lint.**
-   - `uvx ruff check --select F401,F821,F841 <package> tests`
-   - `uvx ruff format --check <package> tests`
-   - `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_one_import_per_line.py --paths <package> tests .mise/tasks`
-   - Check that `[tool.ruff]` exists in `pyproject.toml`.
+   - Check that `mise.toml` has the `format` and `lint` tasks, and that `[tool.ruff]` exists in `pyproject.toml`. If they are missing, run the commands from `01-toolchain.md` section 4 directly.
+   - `mise run lint`: ruff check plus the one-import-per-statement check.
+   - `uvx ruff format --check <package> tests .mise/tasks`. This is read-only; do not run `mise run format` during an audit.
+   - Declarative models (dataclass, pydantic, SQLAlchemy) keep one field per line inside `# fmt: off` / `# fmt: on`.
 4. **Code style**, sampled in about 10 source files and the touched areas:
    - the file header,
    - the five-group import order,

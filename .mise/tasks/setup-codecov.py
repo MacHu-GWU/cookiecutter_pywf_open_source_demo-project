@@ -100,7 +100,9 @@ def main():
 
     if not codecov_api_token:
         print(f"Error: {ENV_CODECOV_API_TOKEN} environment variable not set")
-        print("Get your API token at: https://app.codecov.io/account/gh/<username>/access")
+        print(
+            "Get your API token at: https://app.codecov.io/account/gh/<username>/access"
+        )
         sys.exit(1)
 
     owner, repo_name = get_github_repo_info()

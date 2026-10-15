@@ -1,5 +1,5 @@
 ---
-description: "The file header, one imported name per statement, the five-group import order with relative imports, Python 3.11+ type hints, privacy rules, and docstring and formatting conventions. Read before writing or reviewing any source code in the package."
+description: "The file header, one imported name per statement, the five-group import order with relative imports, Python 3.11+ type hints, privacy rules, docstrings, and formatting with # fmt: off for one field per line in dataclass, pydantic and SQLAlchemy models. Read before writing or reviewing any source code in the package."
 ---
 
 # Code Style
@@ -77,7 +77,7 @@ Rules:
 
   - Why: each line is one name, so diffs, `git blame`, and commenting a name in or out touch exactly one line, and `api.py` reads as a list of public names.
   - When a single long import is wrapped by `ruff format` into `from x import (\n    name,\n)`, that is still one name, and it is fine.
-  - ruff cannot enforce this rule without also re-sorting imports and breaking the group order above. Check it, or split violations automatically, with `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_one_import_per_line.py --paths <package> tests [--fix]`.
+  - ruff cannot enforce this rule without also re-sorting imports and breaking the group order above. `mise run lint` checks it. To split violations automatically, run `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_one_import_per_line.py --paths <package> tests --fix`.
 - Put imports needed only for type hints under `if T.TYPE_CHECKING:  # pragma: no cover`, after all other imports.
 
 ---
@@ -111,5 +111,43 @@ Rules:
 
 ## 6. Formatting
 
-- `uvx ruff format` decides layout. Do not fight it, except with `# fmt: off` / `# fmt: on` around hand-aligned blocks (see `01-toolchain.md`).
+- `mise run format` (ruff) decides layout. Do not fight it, except with `# fmt: off` / `# fmt: on` around the blocks below.
 - Prefer plain, explicit code: named temporaries, explicit `if` / `else`, bare `raise` to re-raise, `raise NewError(...) from e` to convert.
+
+### 6.1 One field per line in declarative models
+
+In a dataclass, a pydantic model, a SQLAlchemy ORM model, an attrs class, or any similar declarative schema, **each field definition stays on one line**, however long it is.
+
+The fields are read as a table: one line, one column. A field that ruff wraps over five lines breaks that table. So fence the field block with `# fmt: off` / `# fmt: on`, at the indentation of the class body, and keep the methods outside the fence so ruff still formats them:
+
+```python
+@dataclasses.dataclass
+class User:
+    # fmt: off
+    id: int = dataclasses.field(metadata={"description": "unique id of the user"})
+    name: str = dataclasses.field(default="", metadata={"description": "display name shown in the UI"})
+    email: str | None = dataclasses.field(default=None, metadata={"description": "login email, unique when set"})
+    # fmt: on
+
+    def display(self) -> str:
+        return f"{self.name} <{self.email}>"
+
+
+class Order(Base):
+    __tablename__ = "orders"
+
+    # fmt: off
+    id: Mapped[int] = mapped_column(sa.Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(sa.ForeignKey("users.id"), nullable=False, index=True)
+    amount: Mapped[float] = mapped_column(sa.Numeric(12, 2), nullable=False, doc="order total in USD")
+    # fmt: on
+```
+
+- Apply the fence even when the fields fit today, so adding a long field later does not reflow the block.
+- Only field definitions go inside the fence: no methods, no validators.
+- Document a field with a trailing `#:` comment on the same line: `name: str = ""  #: Display name shown in the UI.` The field stays on one line, and autodoc picks the comment up, so the field appears in the API docs and `:attr:` can link to it. A field without a doc comment is not in the API docs at all.
+- Line length is not linted (`E501` is not selected), so long field lines cause no warnings.
+
+### 6.2 Other hand-aligned blocks
+
+Also fence lookup tables, matrices, and column-aligned test case lists, keeping each fenced region as small as possible.

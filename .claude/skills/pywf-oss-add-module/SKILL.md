@@ -29,8 +29,7 @@ Read ../pywf-oss-base/SKILL.md, then:
 5. **Verify.**
    - Run the layout check with no `--source`; it must report 0 problems.
    - Run the new test file with `.venv/bin/python tests/<...>.py`.
-   - Run `uvx ruff format` and `uvx ruff check --select F401,F821,F841` on the new files.
-   - Run `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_one_import_per_line.py --paths <files>`; it must report nothing.
+   - Run `mise run format`, then `mise run lint`; lint must report nothing.
 
 ## Output
 

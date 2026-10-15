@@ -120,12 +120,12 @@ exclude = [
 ]
 
 # ------------------------------------------------------------------------------
-# ruff: format with "uvx ruff format <package> tests"
-# check with "uvx ruff check --select F401,F821,F841 <package> tests"
+# ruff: format with "mise run format", check with "mise run lint"
 # ------------------------------------------------------------------------------
 [tool.ruff]
 extend-exclude = [
     "cookiecutter_pywf_open_source_demo/vendor",
+    ".claude/skills/*/assets", # templates with <package> placeholders, not valid Python
 ]
 
 [tool.ruff.lint.per-file-ignores]

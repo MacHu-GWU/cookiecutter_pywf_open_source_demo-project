@@ -6,7 +6,7 @@ description: "Jupyter notebook docs pages under nbsphinx: raw reStructuredText c
 
 A docs page can be `index.ipynb` instead of `index.rst`. nbsphinx renders it, and docfly's `.. autotoctree::` picks it up like any other page. Read `05-docs-sphinx.md` first, because folder naming, labels, and cross-reference syntax are the same.
 
-Use a notebook when the page teaches by running code and the reader benefits from seeing real output. Use `.rst` for concepts, design notes, and maintainer docs.
+Use a notebook when the page teaches by running code and the reader benefits from seeing real output. Use `.rst` for concepts and design notes.
 
 ---
 
@@ -15,7 +15,7 @@ Use a notebook when the page teaches by running code and the reader benefits fro
 | Cell | Used for | Rendered as |
 | :--- | :--- | :--- |
 | `code` | Runnable examples, with committed outputs | Code plus its output |
-| `markdown` | Ordinary prose, lists, links, images | Markdown |
+| `markdown` | Ordinary prose, lists, tables, images, and links. A link to another page uses its source path, `[text](../01-Some-Page/index.rst)` or `.ipynb`, and nbsphinx turns it into the HTML link. | Markdown |
 | `raw` with `raw_mimetype: text/restructuredtext` | Anything that needs Sphinx: the labeled page title, `:ref:` / `:class:` / `:func:` cross-references, directives (`.. note::`, `.. code-block::`, sphinx-design grids) | reStructuredText, parsed by Sphinx |
 
 Markdown cells cannot use Sphinx roles or directives. When you need one, write that piece as a raw reST cell. nbsphinx documents this at <https://nbsphinx.readthedocs.io/en/0.9.8/raw-cells.html>.
