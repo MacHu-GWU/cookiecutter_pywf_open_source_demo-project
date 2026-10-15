@@ -15,7 +15,11 @@ mise run lint     # uvx ruff check --select F401,F821,F841 on the same paths, pl
 
 Run `format`, then `lint`, before you finish any change to Python code.
 
-The one-import-per-statement check is `check_one_import_per_line.py` in the base skill's `scripts/`. ruff cannot check this rule without also re-sorting imports. Its `--fix` flag splits violations automatically.
+The one-import-per-statement check is `check_one_import_per_line.py` in the base skill's `scripts/`, because ruff cannot check this rule without also re-sorting imports. To split violations automatically:
+
+```bash
+python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_one_import_per_line.py --paths <package_name> tests --fix
+```
 
 ---
 
@@ -33,4 +37,4 @@ The one-import-per-statement check is `check_one_import_per_line.py` in the base
 
 ## 3. Keeping hand-written layout
 
-Wrap a block in `# fmt: off` / `# fmt: on` when its layout carries meaning that the formatter would destroy. Keep the fenced region as small as possible, at the indentation of the code it fences. The code style rules say which blocks get this treatment.
+Wrap a block in `# fmt: off` / `# fmt: on` when its layout carries meaning that the formatter would destroy. Keep the fenced region as small as possible, at the indentation of the code it fences. The blocks that get this treatment are: field definitions in declarative models (dataclass, pydantic, ORM), lookup tables, matrices, and column-aligned test cases.

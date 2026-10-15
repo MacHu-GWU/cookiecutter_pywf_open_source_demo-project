@@ -10,25 +10,26 @@ The maintainer runs hundreds of repos on one machine. Instead of a `.env` file p
 
 ## 1. How a repo gets a secret
 
-- `$HOME/home_secret.toml` is one flat TOML file. Each line is a full dotted key path and its value.
+- `$HOME/home_secret.toml` is one flat TOML file. Each line is a full dotted key path and its value. The key paths are the maintainer's own naming; nothing in the template depends on a particular shape.
 - The `[env]` block of each repo's `mise.toml` turns key paths into environment variables when mise loads the project:
 
   ```toml
   [env]
-  GITHUB_TOKEN = "{{ exec(command='uvx --from home-secret-toml hst get github.accounts.sh.users.sh.secrets.dev.value') }}"
-  PYPI_TOKEN = "{{ exec(command='uvx --from home-secret-toml hst get pypi.accounts.sh.token') }}"
+  GITHUB_TOKEN = "{{ exec(command='uvx --from home-secret-toml hst get <key_path>') }}"
   ```
+
+  `mise.toml` is the only place that maps a variable to its key path. Read it there; never assume a path.
 
 - Scripts then read a plain environment variable, for example `os.environ["GITHUB_TOKEN"]`.
 
 The template uses these variables:
 
-| Variable | Key path in `home_secret.toml` | What it is for |
-| :--- | :--- | :--- |
-| `GITHUB_TOKEN` | `github.accounts.sh.users.sh.secrets.dev.value` | GitHub API: repo metadata, Actions secrets, tags and releases |
-| `CODECOV_TOKEN` | `codecov_io.accounts.sh.users.sh.secrets.dev.value` | The Codecov **API** token, used to fetch each repo's upload token |
-| `READTHEDOCS_TOKEN` | `readthedocs.accounts.sh.users.sh.secrets.dev.value` | Read the Docs API |
-| `PYPI_TOKEN` | `pypi.accounts.sh.token` | Uploading to PyPI |
+| Variable | The value is |
+| :--- | :--- |
+| `GITHUB_TOKEN` | A GitHub token for the GitHub API: repo metadata, Actions secrets, tags and releases |
+| `CODECOV_TOKEN` | The Codecov **API** token of the account, used to fetch each repo's upload token |
+| `READTHEDOCS_TOKEN` | A Read the Docs API token |
+| `PYPI_TOKEN` | A PyPI API token, used to upload releases |
 
 ---
 
@@ -43,7 +44,7 @@ The template uses these variables:
   mise exec -- python3 -c "import os; print({k: bool(os.environ.get(k)) for k in ['GITHUB_TOKEN', 'CODECOV_TOKEN', 'READTHEDOCS_TOKEN', 'PYPI_TOKEN']})"
   ```
 
-- **To add a new secret**, add an `[env]` line with the `hst get <key.path>` command to `mise.toml`, and tell the user which key path to add to their file. The user writes the value.
+- **To add a new secret**, add an `[env]` line with the `hst get <key_path>` command to `mise.toml`, and tell the user which key path to add to their file. The user writes the value.
 - **When a task fails for a missing or rejected token**, report the variable name and stop. Do not work around it.
 - **A user who pastes a secret into the chat** should rotate it, because it is now in the transcript. Do not use it.
 

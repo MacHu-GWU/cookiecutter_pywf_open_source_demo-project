@@ -24,6 +24,7 @@ Run a task with `mise run <task>`.
 
 | Task | What it does |
 | :--- | :--- |
+| `venv-create` / `venv-remove` | Create / delete `.venv` |
 | `inst` | Create `.venv`, then `uv sync --all-extras` |
 | `format` / `lint` | Format all Python code with ruff / check it with ruff and the one-import-per-statement check |
 | `test` / `cov` | Run the test suite / run it with coverage, writing `htmlcov/` |

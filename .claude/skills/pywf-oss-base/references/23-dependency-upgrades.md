@@ -16,7 +16,7 @@ uv tree --outdated --depth 1
 
 This lists each direct dependency with its locked version and, when a newer one exists, `(latest: vX)`. The "latest" it shows already respects `requires-python`.
 
-**Unmaintained packages do not show up here.** Every few upgrades, also check the last release date of each direct dependency on PyPI (`https://pypi.org/pypi/<name>/json`). A package with no release in about two years, whose maintainers point to a successor, should be replaced by that successor.
+**Unmaintained packages do not show up here.** Every few upgrades, also check the last release date of each direct dependency on PyPI (`https://pypi.org/pypi/<dist_name>/json`). A package with no release in about two years, whose maintainers point to a successor, should be replaced by that successor.
 
 ---
 
@@ -47,7 +47,7 @@ For each outdated package, read its changelog from the locked version to the lat
 ## 3. Apply
 
 1. Edit the constraints in `pyproject.toml`, following `05-uv-dependencies.md`.
-2. Run `uv lock --upgrade-package <name>` for each package (or `uv lock --upgrade` for everything), then `mise run inst`.
+2. Run `uv lock --upgrade-package <dist_name>` for each package (or `uv lock --upgrade` for everything), then `mise run inst`.
 3. Run `mise run export`, to refresh the `requirements*.txt` files.
 4. If a package was renamed or replaced, update every import and every mention: `.mise/tasks/*.py`, `mise.toml` task descriptions, the docs, and the skill references.
 

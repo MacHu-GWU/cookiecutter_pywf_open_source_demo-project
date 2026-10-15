@@ -15,13 +15,13 @@ Read ../pywf-oss-base/SKILL.md, then:
 
 1. **Locate.**
    - Read the source module.
-   - Get its test path from `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_test_layout.py --project_root . --source <file>`.
+   - Get its test path from `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_test_layout.py --project_root . --source <source_path>`.
    - If the test file is missing, create it from the template. Do not invent another location.
 2. **Baseline.** Run `.venv/bin/python tests/<...>/test_<...>.py`, and note the missing lines in the `term-missing` report.
-3. **Write the tests,** following the test-writing reference.
+3. **Write the tests,** following `11-test-writing.md`.
 4. **Close the gaps.**
    - Rerun until the module is at 100%.
-   - A line that truly cannot run in unit tests may get `# pragma: no cover`, only under the coverage reference's rules.
+   - A line that truly cannot run in unit tests may get `# pragma: no cover`, only under the rules of `12-coverage.md` section 3.
    - Never change the source just to make it easier to cover without telling the user.
 5. **Finish.**
    - `mise run cov` passes.
@@ -32,4 +32,5 @@ Read ../pywf-oss-base/SKILL.md, then:
 
 - If a test reveals a bug in the source, stop and report it, with the failing test as evidence. Fix the source only after the user's yes, or if the user asked for fixes.
 - Edit a `run_cov_test` block only to correct its module path. Keep one argument per line.
-- Next step: `pywf-oss-write-doc` if the feature is user-facing, otherwise `pywf-oss-changelog`.
+
+Next step: `pywf-oss-write-doc` if the feature is user-facing, otherwise `pywf-oss-changelog`.

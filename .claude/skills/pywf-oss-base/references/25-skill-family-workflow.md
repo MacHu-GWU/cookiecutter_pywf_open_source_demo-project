@@ -44,5 +44,5 @@ What each skill does, and when to use it, is in the "Which skill to use" table o
 
 - **After `add-module`:** the module exists with docstrings, and its test file exists with a `run_cov_test` block. `write-test` only fills in test functions.
 - **After `write-test`:** the module's own test file shows 100% (or every uncovered line has a justified pragma), and `mise run cov` passes.
-- **Before `changelog`:** the change is committed. `changelog` reads `git log <last-tag>..HEAD`.
+- **Before `changelog`:** the change is committed. `changelog` reads `git log <last_tag>..HEAD`.
 - **`release`** checks for a changelog section for the `pyproject.toml` version, and runs the `changelog` steps first if it is missing.

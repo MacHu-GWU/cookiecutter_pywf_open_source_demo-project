@@ -21,7 +21,6 @@ description: "The release sequence from a finished change to a version on PyPI w
 
 ## 2. Rules
 
-- **Steps 5 and 6 are irreversible and public.** One yes covers one step: a yes to publish is not a yes to release.
-- **Never run a public step as a side effect** of another job.
+- **Steps 5 and 6 are irreversible and public.** They follow the approval rule in `03-mise.md` section 3: one yes per step, so a yes to publish is not a yes to release.
 - **Never delete or move a published tag or PyPI release.** A bad release is fixed with a new PATCH version.
 - **A missing or rejected token** is reported by its variable name, and the release stops there (`01-secrets.md`).

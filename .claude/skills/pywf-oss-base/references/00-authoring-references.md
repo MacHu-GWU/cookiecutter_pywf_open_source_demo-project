@@ -44,6 +44,15 @@ description: "How the pywf-oss skills themselves are written and maintained: the
   | `<owner>`, `<repo>` | GitHub owner and repository name. Repositories are named `<package_name>-project`. |
   | `module_name`, `subpackage`, `ClassName`, `method_name`, `func_name`, `CONSTANT_NAME`, `attr_name` | Code names in examples |
   | `third_party_lib`, `sibling_lib` | An ordinary third-party distribution, and a close-relative distribution |
+  | `<slug>` | The Read the Docs project slug: the project name with `_` replaced by `-` |
+  | `<version>`, `<last_tag>` | A version number, and the latest git tag |
+  | `<cli_name>` | The command name registered in `[project.scripts]` |
+  | `<dist_name>` | Any PyPI distribution name, in dependency work |
+  | `<key_path>` | A dotted key path in `$HOME/home_secret.toml` |
+  | `<run_id>` | A GitHub Actions run id |
+  | `<path>`, `<source_path>`, `<notebook_path>`, `<script_name>` | File system paths and script names in commands |
+
+  **Two spellings, on purpose:** a value that is substituted in a command, path, or config is written in angle brackets, in snake_case (`<package_name>`, `<run_id>`). A name in example code is a bare identifier (`ClassName`, `func_name`), so the example stays valid Python.
 
 - Name the tools of the template stack (mise, uv, ruff, pytest, pytest-cov, Sphinx, furo, docfly, nbsphinx, sphinx-design, sphinx-jinja, home-secret-toml, GitHub Actions, Codecov, Read the Docs). They are the conventions themselves.
 - Name any other library only when a rule is about it, as in "one field per line in pydantic models".
@@ -60,9 +69,9 @@ description: "How the pywf-oss skills themselves are written and maintained: the
   - exit code 0 for success, 1 for a failure found, 2 for a usage error.
 - **File header:** `#!/usr/bin/env python3` on line 1, then `# -*- coding: utf-8 -*-` on line 2.
 - **How to call a script:**
-  - from the base skill: `python ${CLAUDE_SKILL_DIR}/scripts/<name>.py`;
-  - from an invoker: `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/<name>.py`;
-  - from a mise task: by its repo path, `python3 .claude/skills/pywf-oss-base/scripts/<name>.py`.
+  - from the base skill: `python ${CLAUDE_SKILL_DIR}/scripts/<script_name>.py`;
+  - from an invoker: `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/<script_name>.py`;
+  - from a mise task: by its repo path, `python3 .claude/skills/pywf-oss-base/scripts/<script_name>.py`.
 - `assets/` holds templates with placeholders. They are not valid Python, so ruff excludes them.
 
 ---
@@ -75,7 +84,7 @@ description: "How the pywf-oss skills themselves are written and maintained: the
    - each invoker's "Read" list;
    - the handoff table in the skill-family workflow reference.
    For a new or renamed skill, also update the skills table in `CLAUDE.md`.
-3. Run `python ${CLAUDE_SKILL_DIR}/scripts/check_skill_family.py --skills_dir .claude/skills`, adding `--forbid <name>` for each project name that must not appear (for example, the demo package of the seed repo). It checks that:
+3. Run `python ${CLAUDE_SKILL_DIR}/scripts/check_skill_family.py --skills_dir .claude/skills`, adding `--forbid <forbidden_name>` for each project name that must not appear (for example, the demo package of the seed repo). It checks that:
    - every skill's frontmatter is well formed;
    - every `../pywf-oss-base/...` path resolves;
    - every cited reference exists;

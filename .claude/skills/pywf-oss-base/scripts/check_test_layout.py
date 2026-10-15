@@ -10,7 +10,7 @@ import sys
 from pathlib import Path
 
 SKIP_DIRS = {"vendor", "tests", "docs", "__pycache__"}
-SKIP_FILES = {"__init__.py", "paths.py", "_version.py", "cli.py"}
+SKIP_FILES = {"__init__.py", "paths.py", "cli.py"}
 RE_PROJECT_NAME = re.compile(r'^name\s*=\s*"([^"]+)"', re.MULTILINE)
 RE_COV_CALL = re.compile(
     r"run_cov_test\(\s*(?:script=)?__file__\s*,\s*(?:module=)?[\"']([\w.]+)[\"']",

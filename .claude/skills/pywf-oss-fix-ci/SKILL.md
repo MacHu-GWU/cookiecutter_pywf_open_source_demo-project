@@ -14,7 +14,7 @@ Read ../pywf-oss-base/SKILL.md, then:
 
 ## Steps
 
-1. **Find which service is red, and get the log,** with the commands in the matching reference. Quote the decisive log lines to the user.
+1. **Find which service is red, and get the log,** with the commands in `18-github-actions.md`, `19-codecov.md`, or `20-readthedocs.md`. Quote the decisive log lines to the user.
 2. **Reproduce locally** where possible: `mise run cov` for tests, `mise run build-doc` for docs. If it passes locally, compare the environments:
    - OS and Python version;
    - which extras are installed (`uv sync --extra test` in CI, versus `--all-extras` locally);
@@ -24,10 +24,11 @@ Read ../pywf-oss-base/SKILL.md, then:
    - Never narrow the matrix permanently to hide a failure.
 4. **Verify.**
    - Rerun locally.
-   - Then, after the user's yes, push the fix. Or, for an infrastructure flake, run `gh run rerun <id> --failed`.
+   - Then, after the user's yes, push the fix. Or, for an infrastructure flake, run `gh run rerun <run_id> --failed`.
    - Check the new run with `gh run view`.
 
 ## Boundaries
 
 - Reading logs and runs is free. Pushing, rerunning, deleting caches, and rerunning setup tasks each need the user's yes.
-- If the cause is a dependency, hand off to `pywf-oss-upgrade-deps`.
+
+Next step: `pywf-oss-upgrade-deps` when the cause is a dependency, or after a Python version change that lifts or adds caps; then `pywf-oss-changelog` to record a Python version change.

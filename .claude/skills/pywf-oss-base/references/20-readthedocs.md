@@ -34,4 +34,4 @@ description: "Read the Docs hosting: how .readthedocs.yml builds the docs with u
 
 - **Reproduce locally** with `mise run build-doc`.
 - **Fails only on Read the Docs:** a package is missing from the `doc` extra but is present locally through another extra (`05-uv-dependencies.md`), or the build Python differs from the local one.
-- **A notebook needs credentials:** commit its outputs, and set `nbsphinx_execute = "never"`.
+- **A notebook needs credentials:** see the execution rules in `17-nbsphinx.md`.

@@ -5,7 +5,6 @@ omit =
     cookiecutter_pywf_open_source_demo/docs/*
     cookiecutter_pywf_open_source_demo/tests/*
     cookiecutter_pywf_open_source_demo/vendor/*
-    cookiecutter_pywf_open_source_demo/_version.py
     cookiecutter_pywf_open_source_demo/cli.py
     cookiecutter_pywf_open_source_demo/paths.py
 

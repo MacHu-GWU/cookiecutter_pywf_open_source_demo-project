@@ -11,21 +11,24 @@ Read ../pywf-oss-base/SKILL.md, then:
 ## Step 1: Gather state
 
 ```bash
+git status --short               # uncommitted work is invisible to git log
 git describe --tags --abbrev=0   # last published tag: the baseline
 grep '^version' pyproject.toml   # target version: the source of truth
 ```
 
+If `git status` shows uncommitted changes to code, tests, or dependencies, they would be missed. Show them, and ask for the user's yes to commit them first (or to write the changelog from the working tree as well).
+
 ## Step 2: Read the changes
 
 ```bash
-git log {LAST_TAG}..HEAD --oneline
-git diff {LAST_TAG}..HEAD --stat
-git diff {LAST_TAG}..HEAD -- '*.py'
+git log <last_tag>..HEAD --oneline
+git diff <last_tag>..HEAD --stat
+git diff <last_tag>..HEAD -- '*.py'
 ```
 
 - These outputs are the ground truth.
 - Pay special attention to the `api.py` diff: added names are features; removed or renamed names are breaking changes.
-- Changes to `pyproject.toml` dependencies are classified with the category table in the reference.
+- Changes to `pyproject.toml` dependencies and Python versions are classified with the category table in `21-versioning-and-changelog.md`.
 
 ## Step 3: Read the current file
 
@@ -34,7 +37,7 @@ Run `head -100 release-history.rst`, to see the exact formatting this repo uses.
 ## Step 4: Write
 
 - **The section exists:** compare it with git history. Add what is missing, remove what git does not support, and sharpen vague entries.
-- **The section is missing:** insert `VERSION (YYYY-MM-DD)`, with today's date, directly below the Backlog block. Use the format and category order from the reference, and omit empty categories.
+- **The section is missing:** insert `VERSION (YYYY-MM-DD)`, with today's date, directly below the Backlog block. Use the format, the category table, and the plain-text entry style of `21-versioning-and-changelog.md`, and omit empty categories.
 
 Edit the file directly. It is tracked by git, so it needs no confirmation.
 

@@ -16,10 +16,11 @@ Read ../pywf-oss-base/SKILL.md, then:
 
 1. **Preflight.**
    - Run the token True/False check. If any token is `False`, stop and hand off to `pywf-oss-setup-machine`.
-   - Run `git remote -v`, and read `[project].name` from `pyproject.toml`.
-   - Show the GitHub repo URL, the Read the Docs slug, and the docs URL that the tasks will use (`.mise/tasks/utils.py` derives them from these two values), and ask the user to confirm them.
+   - Read `[project].name` from `pyproject.toml`, and run `git remote -v`.
+   - If there is no `origin` yet, propose the GitHub owner and the repo name `<package_name>-project`, and wait for the user to confirm them. Step 3 creates the repo and the remote.
+   - If `origin` exists, show the GitHub repo URL, the Read the Docs slug, and the docs URL that the tasks will use (`.mise/tasks/utils.py` derives them from `origin` and the project name), and ask the user to confirm them.
 2. **Local green.** Run `mise run inst`, `mise run cov`, `mise run lint`, and `mise run build-doc`. Fix any failure before going online. Template-fresh code should pass as it is.
-3. **GitHub repo.** If no remote repo exists, propose `gh repo create <owner>/<repo> --public --source . --push`. The repo name must match the `git remote` URL. Run it after the user's yes.
+3. **GitHub repo.** If no remote repo exists, propose `gh repo create <owner>/<repo> --public --source . --remote origin --push`, and run it after the user's yes. Then show the URL, slug, and docs URL derived from the new `origin`.
 4. **GitHub metadata.** `mise run update-github-metadata`, after the user's yes.
 5. **Codecov.** `mise run setup-codecov`, after the user's yes. Then confirm the secret with `gh secret list`, which shows names only.
 6. **Read the Docs.** `mise run setup-readthedocs`, after the user's yes.
@@ -27,9 +28,10 @@ Read ../pywf-oss-base/SKILL.md, then:
    - Show the change that enables the `push` and `pull_request` triggers in `.github/workflows/main.yml`.
    - Commit and push it after the user's yes.
    - Watch the run with `gh run list` and `gh run view`.
-8. **Confirm.** Report the CI run, the Codecov project, and the docs build as green or red. For anything red, diagnose it as in the matching reference, or hand off to `pywf-oss-fix-ci`.
+8. **Confirm.** Report the CI run, the Codecov project, and the docs build as green or red. For anything red, diagnose it with `18-github-actions.md`, `19-codecov.md`, or `20-readthedocs.md`, or hand off to `pywf-oss-fix-ci`.
 
 ## Boundaries
 
 - Never change repo visibility, branch protection, or any repo setting not listed in these steps.
-- Next steps: `pywf-oss-add-module` to start coding, and `pywf-oss-release` for the first version.
+
+Next steps: `pywf-oss-add-module` to start coding, and `pywf-oss-release` for the first version.

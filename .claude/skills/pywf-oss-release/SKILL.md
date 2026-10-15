@@ -19,7 +19,7 @@ Read ../pywf-oss-base/SKILL.md, then:
 2. **Changelog.** Check that `release-history.rst` has a section for the target version. If it is missing or stale, run the `pywf-oss-changelog` steps first.
 3. **Checks.**
    - `mise run cov`, `mise run lint`, and `mise run build-doc` pass.
-   - `git status` is clean, apart from the version and changelog edits.
+   - `git status` is clean, apart from the version bump (`pyproject.toml`, `uv.lock`) and the changelog edit.
    - Report any failure, and stop.
 4. **Commit and push.** Show the commit message. Commit and push to `main` after the user's yes.
 5. **Publish.** Ask: "Publish `<package_name>` `<version>` to PyPI?" After the user's yes, run `mise run publish`.

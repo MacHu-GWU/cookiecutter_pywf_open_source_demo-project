@@ -1,5 +1,5 @@
 ---
-description: "The special files inside the package: api.py as the only public API, paths.py with absolute paths, private _ modules, vendor/ for copied code, the test helpers in <package_name>/tests/, doc data in <package_name>/docs/, the optional _version.py, and a python-fire cli.py. Read when adding a public name, a path, a CLI, or anything that is not an ordinary module."
+description: "The special files inside the package: api.py as the only public API, paths.py with absolute paths, private _ modules, vendor/ for copied code, the test helpers in <package_name>/tests/, doc data in <package_name>/docs/, the single source of the version, and a python-fire cli.py. Read when adding a public name, a path, a CLI, or anything that is not an ordinary module."
 ---
 
 # Special Files in the Package
@@ -9,7 +9,6 @@ description: "The special files inside the package: api.py as the only public AP
 ├── __init__.py      # minimal
 ├── api.py           # THE public API
 ├── paths.py         # every project path, absolute
-├── _version.py      # optional: __version__ and metadata
 ├── cli.py           # optional: python-fire CLI
 ├── module_name.py   # ordinary modules
 ├── _module_name.py  # private modules
@@ -43,7 +42,6 @@ description: "The special files inside the package: api.py as the only public AP
 
 - A subpackage that forms a coherent unit gets its own `subpackage/api.py`. The top-level `api.py` exposes it as a module, as in the last line above.
 - **Anything not in `api.py` is internal**, and may change in any release.
-- Adding a name to `api.py` is a feature; removing or renaming one is a breaking change.
 - `tests/test_api.py` touches every exported name, so a broken re-export fails CI.
 
 ---
@@ -80,19 +78,19 @@ description: "The special files inside the package: api.py as the only public AP
 
 ## 6. Version
 
-- `pyproject.toml` `[project].version` is the single source of truth.
-- If `_version.py` exists, its `__version__` must equal it. Change both together.
+- `pyproject.toml` `[project].version` is the only place the version is written. The package has no `_version.py` and no hard-coded `__version__`.
+- Code that needs the version at runtime reads it from the installed metadata: `importlib.metadata.version("<package_name>")`.
 
 ---
 
 ## 7. `cli.py` (only if the package has a command line interface)
 
-- **Use [python-fire](https://github.com/google/python-fire).** `cli.py` has a class whose public methods are the subcommands, and a `main()` that calls `fire.Fire(TheClass)`.
-- Register the command in `[project.scripts]`, for example `cli-name = "<package_name>.cli:main"`, and add `fire` to `dependencies`.
+- **Use [python-fire](https://github.com/google/python-fire).** `cli.py` has a class whose public methods are the subcommands, and a `main()` that calls `fire.Fire(ClassName)`.
+- Register the command in `[project.scripts]`, for example `<cli_name> = "<package_name>.cli:main"`, and add `fire` to `dependencies`.
 - Keep `cli.py` thin. It parses arguments and calls functions in ordinary modules, so the logic stays testable.
 
 ---
 
 ## 8. Excluded from coverage and from the API docs
 
-`paths.py`, `_version.py`, `cli.py`, `vendor/`, `tests/`, and `docs/`. The test, coverage, and docs references rely on this list.
+`paths.py`, `cli.py`, `vendor/`, `tests/`, and `docs/`. The test, coverage, and docs references rely on this list. The same list appears in `.coveragerc` `[run] omit` and in `ignore_patterns` of `docs/source/conf.py`; keep the three in sync.

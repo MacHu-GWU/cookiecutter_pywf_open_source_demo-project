@@ -18,7 +18,7 @@ Record each finding with: the file, the rule broken (reference file and section)
 2. **Lint.**
    - `mise.toml` has the `format` and `lint` tasks, and `pyproject.toml` has `[tool.ruff]` and `[tool.pytest]`.
    - `mise run lint` passes.
-   - `uvx ruff format --check <package_name> tests .mise/tasks .claude/skills` passes. This check is read-only; never run `mise run format` during an audit.
+   - `uvx ruff format --check` on the paths of the `format` task in `mise.toml` passes. This check is read-only; never run `mise run format` during an audit.
 3. **Code style**, sampled in about 10 source files and the recently touched areas, against `09-code-style.md`:
    - the file header;
    - one name per import, and the five-group order;

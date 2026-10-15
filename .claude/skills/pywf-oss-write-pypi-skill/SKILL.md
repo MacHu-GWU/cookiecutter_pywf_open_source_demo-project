@@ -20,7 +20,7 @@ Read `pyproject.toml` at the working-directory root and extract:
 
 - `[project].name` is `<package_name>`: the import package directory and the skill's name, `/<package_name>`.
 - `[project].version`: record it for the skill header.
-- `[project.scripts]`: if present, the library exposes a CLI. Note the entry point, for example `cli-name = "<package_name>.cli:main"`, and the executable name (the key on the left).
+- `[project.scripts]`: if present, the library exposes a CLI. Note the entry point, for example `<cli_name> = "<package_name>.cli:main"`, and the executable name (the key on the left).
 
 ## Step 2: Walk the public API
 
@@ -74,7 +74,7 @@ Required sections:
   - Function or method: typed signature and a one-line summary.
   - Dataclass: fields and a one-line summary, then method and property signatures, one per line.
   - Constant: value or type, and a one-line summary.
-- **CLI** (only when applicable): one short paragraph: command is typically `.venv/bin/<cli-name>`; run `<cli-name> -h` to discover subcommands; full args live in `ref/cli.md`. **Do not enumerate subcommands here.** Keep this section small: CLI use is infrequent, so its details load lazily.
+- **CLI** (only when applicable): one short paragraph: command is typically `.venv/bin/<cli_name>`; run `<cli_name> -h` to discover subcommands; full args live in `ref/cli.md`. **Do not enumerate subcommands here.** Keep this section small: CLI use is infrequent, so its details load lazily.
 - **More detail:** pointers: "For full API docs see `ref/public-api.md`. For full CLI args see `ref/cli.md`."
 
 ### `ref/public-api.md`: full API reference (loaded on demand)

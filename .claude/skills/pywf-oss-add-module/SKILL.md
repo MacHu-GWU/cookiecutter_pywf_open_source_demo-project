@@ -38,4 +38,6 @@ Read ../pywf-oss-base/SKILL.md, then:
 
 ## Output
 
-List the files you created, the `api.py` lines you added, and the layout-check result. Next step: `pywf-oss-write-test`, once the logic is written.
+List the files you created, the `api.py` lines you added, and the layout-check result.
+
+Next step: `pywf-oss-write-test`, once the logic is written.

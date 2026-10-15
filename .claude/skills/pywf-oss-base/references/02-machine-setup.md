@@ -28,7 +28,7 @@ Check with `mise --version`, `uv --version`, and `gh auth status`. In each repo,
 
 ## 2. The secrets file
 
-Create `$HOME/home_secret.toml` with the key paths listed in `01-secrets.md` section 1, then restrict it to the owner:
+Create `$HOME/home_secret.toml`. It needs one key path per variable in `01-secrets.md` section 1, and the paths must match the `hst get <key_path>` commands in the repos' `mise.toml`. Then restrict it to the owner:
 
 ```bash
 chmod 600 ~/home_secret.toml
@@ -59,7 +59,7 @@ chmod 600 ~/home_secret.toml
 2. Replace the value in `home_secret.toml` (the user does this).
 3. Run the True/False check in `01-secrets.md`.
 
-A new Codecov API token does not change the upload secrets already stored in each GitHub repo.
+A new Codecov API token does not change the upload secrets already stored in each GitHub repo. Rerun `mise run setup-codecov` only for a repo whose CI upload fails.
 
 ---
 

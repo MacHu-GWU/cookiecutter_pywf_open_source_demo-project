@@ -18,14 +18,15 @@ Read ../pywf-oss-base/SKILL.md, then:
 2. **Install what is missing.** Show the `brew install ...` lines, and run them after the user's yes. `gh auth login` is interactive; run it only if the user asks.
 3. **Secrets file.**
    - Check only that the file exists, and its permissions: `ls -l ~/home_secret.toml`. Never read its content.
-   - If it is missing, show the key paths for the user to fill in, and the `chmod 600` line.
+   - If it is missing, list the key paths that `mise.toml` `[env]` uses (read them from `mise.toml`), say what each value is for, and show the `chmod 600` line.
 4. **Tokens.** For each token, give the creation URL and the exact scopes. The user creates each token and writes it into the file. Never ask for a token in the chat.
 5. **Verify.**
    - In a template repo, run `mise trust` if needed, then `mise run inst`.
    - Run the True/False check.
-   - Report each variable as present or missing. For a missing one, name its key path.
+   - Report each variable as present or missing. For a missing one, name its key path from `mise.toml`.
 
 ## Boundaries
 
 - Account-level settings, such as connecting GitHub in Read the Docs, are done by the user in the browser. Give the link and say what to click.
-- Next step for a new repo: `pywf-oss-setup-repo`.
+
+Next step for a new repo: `pywf-oss-setup-repo`.

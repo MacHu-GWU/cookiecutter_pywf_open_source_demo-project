@@ -4,7 +4,7 @@ description: "How source code under <package_name>/ is written: the file header,
 
 # Code Style
 
-These rules apply to source code under `<package_name>/`. Test files have their own import order (see the test-writing reference). Layout files are covered in `08-package-files.md`.
+These rules apply to source code under `<package_name>/`. Test files use a different import order. Layout files are covered in `08-package-files.md`.
 
 ---
 
@@ -68,7 +68,7 @@ from pathlib import Path
 
 import third_party_lib
 
-from sibling_lib.api import func_name
+from sibling_lib.api import sibling_func
 
 from ...subpackage.module_name import CONSTANT_NAME
 from ..module_name import ClassName

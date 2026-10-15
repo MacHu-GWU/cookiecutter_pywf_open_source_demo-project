@@ -37,16 +37,16 @@ Start from the log, never from a guess.
 
 ```bash
 gh run list --limit 5                 # recent runs and their status
-gh run view <run-id> --log-failed     # only the log lines of the failed steps
-gh run rerun <run-id> --failed        # retry only the failed jobs (for flaky infrastructure)
+gh run view <run_id> --log-failed     # only the log lines of the failed steps
+gh run rerun <run_id> --failed        # retry only the failed jobs (for flaky infrastructure)
 gh workflow run main.yml              # start a run by hand (workflow_dispatch)
 ```
 
 | Symptom | Usual cause | Fix |
 | :--- | :--- | :--- |
 | Fails only on `windows-latest` | Hard-coded `/` paths, shell-only commands, file encoding, or a file still open when it is deleted | `pathlib` / `path_enum`, `encoding="utf-8"`, and close files with `with` |
-| Fails only on the newest Python | A dependency has no wheel for it yet, or a deprecated stdlib API was removed | Check the dependency's release notes. Cap or skip that Python until it ships. |
+| Fails only on the newest Python | A dependency has no wheel for it yet, or a deprecated stdlib API was removed | Check the dependency's release notes. Cap the dependency, or wait before adding that Python to the matrix. Never commit a narrowed matrix to hide the failure. |
 | `uv sync` fails | `uv.lock` is out of date with `pyproject.toml` | Run `uv lock` locally, then commit `uv.lock` |
 | Passes locally, fails in CI | It depends on local state: a file in `tmp/`, an environment variable, the working directory | Build the state inside the test (`tmp_path`, `path_enum`) |
-| `Ignoring existing virtual environment linked to non-existent Python interpreter`, then `Failed to spawn: pytest` | A `.venv` cached under an older Python patch release | The full-version cache key and `uv run --extra test` (section 1) prevent this. With an older workflow, delete the cache (`gh cache delete --all`) and rerun. |
+| `Ignoring existing virtual environment linked to non-existent Python interpreter`, then `Failed to spawn: pytest` | A `.venv` cached under an older Python patch release points at an interpreter that is gone; `uv run` rebuilds it with only the project, without the `test` extra | The full-version cache key and `uv run --extra test` (section 1) prevent this. With an older workflow, delete the cache (`gh cache delete --all`) and rerun. |
 | Any other stale `.venv` | The cache key does not cover what changed | `gh cache delete --all`, then rerun |

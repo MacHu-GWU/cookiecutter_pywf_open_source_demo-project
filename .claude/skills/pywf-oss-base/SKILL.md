@@ -28,7 +28,7 @@ The references are numbered in project-lifecycle order, from the machine to main
 - **Repository Layout**: `references/07-repo-layout.md`
   The top-level repository tree of a template repo: what each folder and config file is for, which outputs are generated, and which generated outputs are committed. Read when deciding where a new file goes, or when wondering what a file at the repo root is for.
 - **Special Files in the Package**: `references/08-package-files.md`
-  The special files inside the package: api.py as the only public API, paths.py with absolute paths, private _ modules, vendor/ for copied code, the test helpers in <package_name>/tests/, doc data in <package_name>/docs/, the optional _version.py, and a python-fire cli.py. Read when adding a public name, a path, a CLI, or anything that is not an ordinary module.
+  The special files inside the package: api.py as the only public API, paths.py with absolute paths, private _ modules, vendor/ for copied code, the test helpers in <package_name>/tests/, doc data in <package_name>/docs/, the single source of the version, and a python-fire cli.py. Read when adding a public name, a path, a CLI, or anything that is not an ordinary module.
 - **Code Style**: `references/09-code-style.md`
   How source code under <package_name>/ is written: the file header, one imported name per statement, the five-group import order with relative self-imports, Python 3.11+ type hints, naming, docstrings, # fmt: off for one field per line in dataclass, pydantic and ORM models with trailing #: field docs, and plain explicit code. Read before writing or reviewing any source code in the package.
 - **Test Layout**: `references/10-test-layout.md`
@@ -54,7 +54,7 @@ The references are numbered in project-lifecycle order, from the machine to main
 - **Read the Docs**: `references/20-readthedocs.md`
   Read the Docs hosting: how .readthedocs.yml builds the docs with uv and the doc extra, project creation with the setup-readthedocs task and GitHub metadata with update-github-metadata, the project slug and URLs, and how to diagnose a failed hosted build. Read when setting up docs hosting for a repo, or when the hosted docs build fails or differs from the local build.
 - **Versioning and Changelog**: `references/21-versioning-and-changelog.md`
-  Semantic versioning rules tied to api.py, where the version lives, and the release-history.rst changelog: its format, the untouchable Backlog section, the category order, and how entries are written. Read when deciding a version number, or when writing or reviewing release notes.
+  Semantic versioning rules tied to api.py, where the version lives, and the release-history.rst changelog: its format, the untouchable Backlog section, the category order with a table of which change goes where, and plain-text entries. Read when deciding a version number, or when writing or reviewing release notes.
 - **Release**: `references/22-release.md`
   The release sequence from a finished change to a version on PyPI with a GitHub tag and release: who does each step, the publish and release mise tasks, and the approval gates in front of every public step. Read when publishing a new version.
 - **Dependency Upgrades**: `references/23-dependency-upgrades.md`
@@ -68,15 +68,15 @@ The references are numbered in project-lifecycle order, from the machine to main
 
 ## Scripts and assets
 
-From this skill, run a script with `python ${CLAUDE_SKILL_DIR}/scripts/<name>.py`. From an invoker, use `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/<name>.py`. `mise run lint` calls `check_one_import_per_line.py` by its repo path.
+From this skill, run a script with `python ${CLAUDE_SKILL_DIR}/scripts/<script_name>.py`. From an invoker, use `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/<script_name>.py`. `mise run lint` calls `check_one_import_per_line.py` by its repo path.
 
 | File | What it does |
 | :--- | :--- |
-| `scripts/check_test_layout.py` | `--project_root .` lists missing, orphan, and mismatched test files. `--source <file>` prints the expected test path and module for one file. |
-| `scripts/check_one_import_per_line.py` | `--paths <package_name> tests` lists import statements that bring in more than one name. `--fix` splits them. |
+| `scripts/check_test_layout.py` | `--project_root .` lists missing, orphan, and mismatched test files. `--source <source_path>` prints the expected test path and module for one file. |
+| `scripts/check_one_import_per_line.py` | `--paths <path> [<path> ...]` lists import statements that bring in more than one name. `--fix` splits them. `mise run lint` runs it on the same paths as ruff. |
 | `scripts/check_doc_xrefs.py` | Lists cross-references in the built docs that rendered as plain code because their target is missing. Sphinx does not warn about these. `--include_api` also scans the API pages. |
 | `scripts/update_skill_index.py` | Regenerates the References index above from each reference's H1 and `description`. `--check` only verifies it. |
-| `scripts/check_skill_family.py` | Checks the skill family itself: frontmatter, resolvable paths, cited references, backward-only citations, and forbidden project names (`--forbid <name>`). |
+| `scripts/check_skill_family.py` | Checks the skill family itself: frontmatter, resolvable paths, cited references, backward-only citations, and forbidden project names (`--forbid <forbidden_name>`). |
 | `assets/raw-rst-cell.json` | A copy-ready raw reStructuredText notebook cell |
 | `assets/notebook-page-template.ipynb` | A minimal notebook docs page: raw title cell, intro, code cell, cross-reference cell |
 
@@ -95,7 +95,7 @@ Each invoker does one job, and loads this base by itself. When the job is unclea
 | `pywf-oss-release` | A version must be bumped, published to PyPI, and tagged on GitHub. | "release 1.2.0" | `01-secrets.md`, `03-mise.md`, `21-versioning-and-changelog.md`, `22-release.md` |
 | `pywf-oss-write-pypi-skill` | After a release, to generate an Agent Skill that documents this library's public API for other projects. | "make a skill for this library" | `08-package-files.md` |
 | `pywf-oss-fix-ci` | GitHub Actions, the Codecov upload, or the Read the Docs build is red or shows warnings, or a Python version must be added or dropped. | "CI fails on Windows" | `04-python-versions.md`, `18-github-actions.md`, `19-codecov.md`, `20-readthedocs.md`, `24-python-release-cycle.md` |
-| `pywf-oss-upgrade-deps` | Dependencies must be upgraded, an upgrade judged, or an unmaintained package replaced. | "is the new pytest worth it?" | `04-python-versions.md`, `05-uv-dependencies.md`, `23-dependency-upgrades.md`, `scripts/check_doc_xrefs.py` |
+| `pywf-oss-upgrade-deps` | Dependencies must be upgraded, an upgrade judged, or an unmaintained package replaced. | "is the new pytest worth it?" | `04-python-versions.md`, `05-uv-dependencies.md`, `13-sphinx.md`, `15-furo.md`, `23-dependency-upgrades.md`, `scripts/check_doc_xrefs.py` |
 | `pywf-oss-audit` | A repo must be checked against these conventions, for example an older repo being brought up to the current template. It changes no source file. | "audit this repo" | all references, `scripts/check_test_layout.py`, `scripts/check_one_import_per_line.py`, `scripts/check_doc_xrefs.py` |
 
 The order in which the invokers usually run, and what each hands to the next, is in `references/25-skill-family-workflow.md`.

@@ -53,7 +53,7 @@ This differs from source files:
 2. `import pytest` and `import typing as T`, if needed.
 3. Standard library.
 4. Third party.
-5. Other modules of this package, as absolute imports (`from <package_name>.x import y`).
+5. Other modules of this package, as absolute imports (`from <package_name>.x import y`), including helpers from `<package_name>.tests`.
 
 Test files always use absolute imports, never relative ones. One imported name per statement still applies (see `09-code-style.md`).
 

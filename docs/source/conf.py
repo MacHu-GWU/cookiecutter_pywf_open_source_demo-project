@@ -254,5 +254,6 @@ docfly.ApiDocGenerator(
         f"{package_name}.vendor",
         # Module
         f"{package_name}.paths",
+        f"{package_name}.cli",
     ],
 ).fly()
