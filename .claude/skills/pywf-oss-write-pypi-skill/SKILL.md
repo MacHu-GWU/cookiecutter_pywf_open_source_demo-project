@@ -10,48 +10,40 @@ Read ../pywf-oss-base/SKILL.md, then:
 
 ## Where to write the output
 
-Default to `~/.claude/skills/<package_name>/` (personal: usable in every project where the library is installed). If the user clearly wants project-only, use `.claude/skills/<package_name>/` instead.
-
-If the target directory already exists, ask the user whether to overwrite before proceeding.
+Default to `~/.claude/skills/<package_name>/` (personal: usable in every project that installs the library). If the user clearly wants it project-only, use `.claude/skills/<package_name>/`. If the target directory exists, ask before overwriting.
 
 ## Step 1: Inspect the project
 
-Read `pyproject.toml` at the working-directory root and extract:
+From `pyproject.toml` at the working-directory root, take:
 
-- `[project].name` is `<package_name>`: the import package directory and the skill's name, `/<package_name>`.
-- `[project].version`: record it for the skill header.
-- `[project.scripts]`: if present, the library exposes a CLI. Note the entry point, for example `<cli_name> = "<package_name>.cli:main"`, and the executable name (the key on the left).
+- `[project].name`: `<package_name>`, which is also the skill's name.
+- `[project].version`: for the skill header.
+- `[project.scripts]`, if present: the CLI entry point (such as `<cli_name> = "<package_name>.cli:main"`) and its executable name, the key.
 
 ## Step 2: Walk the public API
 
-The library's stable public surface lives at `<package_name>/api.py`. Read it top to bottom: **each `from ... import X` line is one public symbol**.
+Read `<package_name>/api.py` top to bottom: **each `from ... import X` line is one public symbol**. For each, open its defining module:
 
-For each symbol, find where it actually lives, then:
+- **Constant or function:** signature, docstring, and return value.
+- **Class or dataclass:** also every non-underscore method and property, each with its signature and a one-line summary, and a dataclass's fields.
+- **Subpackage API** (`from .subpackage import api as subpackage`): recurse into its `api.py` with the same rules. Users refer to its symbols as `subpackage.ClassName`.
 
-- **Constant or function:** open its source. Record signature, docstring, and what it returns.
-- **Class or dataclass:** also list its non-underscore methods and properties. For each: signature + one-line docstring summary. For dataclasses, list the fields too.
-- **Subpackage API** (for example `from .subpackage import api as subpackage`): recurse into that subpackage's `api.py`, and apply the same rules. The user refers to its symbols as `subpackage.ClassName`.
-
-Skip anything starting with `_`: it is internal and out of scope.
-
-Users always import through `api.py`, and never reach into internal modules. Document only these two canonical forms:
+Skip every name starting with `_`. Document only the two canonical import forms:
 
 ```python
 from <package_name>.api import X
 import <package_name>.api as <package_name>     # then <package_name>.X
 ```
 
-## Step 3: Pull usage examples from `tests/`
+## Step 3: Take usage examples from `tests/`
 
-Grep `tests/` for each public symbol. The shortest passing test that exercises a symbol is usually the cleanest example. Extract it for the docs, trimmed to the essentials; never paste whole test files.
+Grep `tests/` for each public symbol. The shortest passing test that exercises it is usually the cleanest example: trim it to the essentials, never paste whole test files.
 
 ## Step 4: Inspect the CLI (only when `[project.scripts]` exists)
 
-Resolve the entry-point module from `[project.scripts]` and read it. Walk the command tree fully: every subcommand, every flag, every default. You'll need all of this for `ref/cli.md`.
+Read the entry-point module, and walk the whole command tree: every subcommand, flag, and default. All of it goes into `ref/cli.md`.
 
 ## Step 5: Write the skill
-
-Create this layout under the chosen base directory:
 
 ```
 <base>/<package_name>/
@@ -61,53 +53,35 @@ Create this layout under the chosen base directory:
     └── cli.md          # only if the library has a CLI
 ```
 
-### SKILL.md: concise overview (always loaded)
+### SKILL.md: overview, always loaded
 
-Goal: be sufficient for common tasks **without** loading anything under `ref/`. Aim for 50 to 150 lines.
+It must suffice for common tasks **without** `ref/`, in 50 to 150 lines:
 
-Required sections:
-
-- **Frontmatter `description`:** name the library, state what it does in one sentence, and name the top public symbols. The router uses this to surface the skill on matching queries.
-- **One-paragraph purpose:** what the library is for.
+- **Frontmatter `description`:** the library name, what it does in one sentence, and its top public symbols, so the skill surfaces on matching requests.
+- **Purpose:** one paragraph.
 - **Import:** the two canonical forms above, nothing else.
-- **Public API:** a flat list, one entry per public symbol:
-  - Function or method: typed signature and a one-line summary.
-  - Dataclass: fields and a one-line summary, then method and property signatures, one per line.
-  - Constant: value or type, and a one-line summary.
-- **CLI** (only when applicable): one short paragraph: command is typically `.venv/bin/<cli_name>`; run `<cli_name> -h` to discover subcommands; full args live in `ref/cli.md`. **Do not enumerate subcommands here.** Keep this section small: CLI use is infrequent, so its details load lazily.
-- **More detail:** pointers: "For full API docs see `ref/public-api.md`. For full CLI args see `ref/cli.md`."
+- **Public API:** a flat list, one entry per symbol: a function or method with its typed signature and a one-line summary; a dataclass with its fields and summary, then its method and property signatures, one per line; a constant with its value or type and summary.
+- **CLI** (only if any): one short paragraph. The command is usually `.venv/bin/<cli_name>`, `<cli_name> -h` lists the subcommands, and `ref/cli.md` has every argument. **Do not list subcommands here:** CLI use is rare, so its detail loads lazily.
+- **More detail:** "For full API docs see `ref/public-api.md`. For full CLI args see `ref/cli.md`."
 
-### `ref/public-api.md`: full API reference (loaded on demand)
+### `ref/public-api.md`: full API reference, loaded on demand
 
-Audience: an engineer **using** the library, not maintaining it.
+Written for an engineer **using** the library, not maintaining it. For each public symbol: the full typed signature; parameter and return semantics, with the *why* only when non-obvious (invariants, gotchas, constraints the caller must respect); and a short usage example, preferably trimmed from `tests/`. No walkthroughs of internal code.
 
-For each public symbol:
+### `ref/cli.md`: full CLI reference, loaded on demand
 
-- Full typed signature.
-- Parameter and return semantics. State the *what*; state the *why* only when non-obvious (invariants, gotchas, design constraints the user must respect). Don't lecture on internals.
-- A short usage example, preferably lifted (and trimmed) from `tests/`.
+It loads when the user mentions the CLI, so it must make `--help` unnecessary: for each subcommand, a short description, every flag with type and default (a small table reads well), and one short example. Complete, not verbose.
 
-Skip line-by-line walkthroughs of internal code; the reader has the source.
+## Keep it short
 
-### `ref/cli.md`: full CLI reference (loaded on demand)
-
-Audience needs to use the CLI **without** running `--help`. This file loads when the user mentions the CLI, so it must be complete:
-
-- For each subcommand: short description, every flag with type and default, one short example.
-- A small table per subcommand reads well.
-
-Stay terse: complete is not the same as verbose.
-
-## Conciseness discipline
-
-Every line in `SKILL.md` stays in the conversation once invoked, so it is a recurring token cost. Prefer signatures, tables, and short examples over prose. The same discipline applies (less strictly) to `ref/*` since they are lazy-loaded.
+Every line of `SKILL.md` stays in the conversation once the skill is invoked, so it costs tokens on every use. Prefer signatures, tables, and short examples to prose; the same holds, less strictly, for the lazily loaded `ref/` files.
 
 ## Verify before finishing
 
-Sanity-check that documented symbols actually exist. For 2–3 representative symbols, run:
+For 2 or 3 representative symbols, check that the import works:
 
 ```bash
 .venv/bin/python -c "from <package_name>.api import ClassName"
 ```
 
-If any import fails, the public API docs are wrong. Fix them before reporting done.
+If one fails, the docs are wrong. Fix them before reporting done.

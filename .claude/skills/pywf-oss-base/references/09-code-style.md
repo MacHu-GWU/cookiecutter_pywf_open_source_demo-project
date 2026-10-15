@@ -1,10 +1,10 @@
 ---
-description: "How source code under <package_name>/ is written: the file header, one imported name per statement, the five-group import order with relative self-imports, Python 3.11+ type hints, naming, docstrings, # fmt: off for one field per line in dataclass, pydantic and ORM models with trailing #: field docs, and plain explicit code. Read before writing or reviewing any source code in the package."
+description: "How package source code is written: file header, one imported name per statement, the five-group import order, Python 3.11+ type hints, naming, docstrings and #: comments, one field per line in declarative models, and plain explicit code. Read before writing or reviewing source code in the package."
 ---
 
 # Code Style
 
-These rules apply to source code under `<package_name>/`. Test files use a different import order. Layout files are covered in `08-package-files.md`.
+These rules apply to source code under `<package_name>/`. Special files are in `08-package-files.md`; test files use a different import order.
 
 ---
 
@@ -16,7 +16,7 @@ Every `.py` file starts with:
 # -*- coding: utf-8 -*-
 ```
 
-An executable script puts its shebang on line 1 and this line on line 2. A module docstring, if any, comes next, then `from __future__ import annotations` (section 4).
+An executable script puts its shebang on line 1 and this on line 2. Then come the module docstring, if any, and `from __future__ import annotations` (section 4).
 
 ---
 
@@ -37,8 +37,8 @@ from .module_name import (
 )
 ```
 
-- **Why:** each line is one name. Diffs, `git blame`, and commenting a name in or out all touch exactly one line, and `api.py` reads as a list of public names.
-- A single long import that the formatter wraps into `from x import (\n    name,\n)` is still one name, and is fine.
+- **Why:** diffs, `git blame`, and commenting a name in or out each touch exactly one line, and `api.py` reads as a list of public names.
+- One long import that the formatter wraps into `from x import (\n    name,\n)` is still one name, and is fine.
 - `mise run lint` checks this rule (see `06-ruff.md`).
 
 ---
@@ -50,8 +50,8 @@ Five groups, in this order, with one blank line between groups:
 1. **Special first:** `import typing as T`. This is the only way typing is imported.
 2. **Standard library.**
 3. **Third party.**
-4. **Close relatives:** distributions from the same ecosystem as this one, such as the author's other libraries this one builds on, or sibling distributions of one large project.
-5. **This package, relative imports only, farthest first:** `from ...x import`, then `from ..y import`, then `from .z import`. Distant modules are more like third-party code; the nearest ones are "my own" code and come last.
+4. **Close relatives:** distributions from the same ecosystem, such as the author's other libraries this one builds on, or sibling distributions of one large project.
+5. **This package, relative imports only, farthest first:** `from ...x import`, then `from ..y import`, then `from .z import`. Distant modules are closer to third-party code; the nearest are "my own" code and come last.
 
 ```python
 # -*- coding: utf-8 -*-
@@ -78,7 +78,7 @@ if T.TYPE_CHECKING:  # pragma: no cover
     from third_party_lib import TypeOnlyClass
 ```
 
-- Inside `<package_name>/`, the package's own modules are always imported relatively. Never write `from <package_name>.x import y` there. That ties the code to its position in the tree, not to the package name.
+- Inside `<package_name>/`, never write `from <package_name>.x import y`. Relative imports tie the code to its position in the tree, not to the package name.
 - Imports needed only for type hints go under `if T.TYPE_CHECKING:  # pragma: no cover`, after all other imports.
 
 ---
@@ -102,13 +102,11 @@ if T.TYPE_CHECKING:  # pragma: no cover
 
 ## 6. Docstrings and comments
 
-- **Every public module, class, function, and method has a docstring.** At least one line. The API docs list only names that have one.
-- **Constants and fields are documented with a `#:` comment.**
-  - A constant: on the line above.
-  - A field: trailing, on the same line (section 7).
+- **Every public module, class, function, and method has a docstring** of at least one line. The API docs list only names that have one.
+- **Constants and fields are documented with a `#:` comment:** above a constant, trailing on the same line for a field (section 7).
 - **Docstrings use reStructuredText fields:** `:param name:`, `:returns:`, `:raises ExcType:`.
-- **Keep docstrings thin.** Say what the signature cannot say: behavior, side effects, raised errors, non-obvious constraints.
-- Use a `>>>` example only when it shows something non-obvious, and keep it runnable.
+- **Keep docstrings thin:** say what the signature cannot (behavior, side effects, raised errors, non-obvious constraints).
+- Add a `>>>` example only when it shows something non-obvious, and keep it runnable.
 - Comments explain why, not what.
 - Version history belongs in the changelog, not in code. When a public behavior changes, use `.. versionadded:: x.y.z` or `.. versionchanged:: x.y.z` in the docstring.
 
@@ -116,9 +114,7 @@ if T.TYPE_CHECKING:  # pragma: no cover
 
 ## 7. One field per line in declarative models
 
-In a dataclass, a pydantic model, an ORM model, an attrs class, or any similar declarative schema, **each field definition stays on one line**, however long it is.
-
-The fields are read as a table: one line per field. A field that the formatter wraps over five lines breaks that table. So fence the fields with `# fmt: off` / `# fmt: on`, at the indentation of the class body. Keep the methods outside the fence, so the formatter still handles them:
+In a dataclass, pydantic model, ORM model, attrs class, or any similar declarative schema, **each field definition stays on one line**, however long. The fields read as a table, and a field the formatter wraps over five lines breaks it. So fence the fields with `# fmt: off` / `# fmt: on` at the indentation of the class body, and keep the methods outside, where the formatter still handles them:
 
 ```python
 @dataclasses.dataclass
@@ -132,10 +128,10 @@ class ClassName:
         return f"{self.attr_name}"
 ```
 
-- Fence the fields even when they fit on one line today, so a long field added later does not reflow the block.
+- Fence the fields even when they fit today, so a long field added later does not reflow the block.
 - Only field definitions go inside the fence: no methods, no validators.
 - Document each field with a **trailing** `#:` comment, so it stays on one line and still appears in the API docs.
-- Also fence other hand-aligned blocks: lookup tables, matrices, column-aligned test cases.
+- Other hand-aligned blocks (lookup tables, matrices, column-aligned test cases) are fenced the same way.
 
 ---
 

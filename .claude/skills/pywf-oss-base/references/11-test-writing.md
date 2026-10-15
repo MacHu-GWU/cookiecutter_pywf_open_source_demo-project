@@ -1,10 +1,10 @@
 ---
-description: "How test code is written: the test file template, its import order with the subject under test first and absolute imports only, test naming and grouping, parametrize, short test docstrings, and independence from order and working directory. Read when writing or reviewing the body of a test file."
+description: "How a test file body is written: the template, imports with the subject under test first, naming and grouping, parametrize, docstrings, and independence from order and working directory. Read when writing or reviewing the test functions inside a test file."
 ---
 
 # Writing Tests
 
-Where test files live and how they end is in `10-test-layout.md`. This file is about what goes between the header and the `run_cov_test` block.
+Where test files live and how they end is in `10-test-layout.md`. This file covers what goes between the header and the `run_cov_test` block.
 
 ---
 
@@ -49,20 +49,20 @@ if __name__ == "__main__":
 
 This differs from source files:
 
-1. **The subject under test, first.** These are the names from the module this file maps to, imported absolutely from that exact module. They are the protagonists of the file, so they go on top.
+1. **The subject under test, first:** the names from the module this file maps to, imported absolutely from that exact module. They are the file's protagonists.
 2. `import pytest` and `import typing as T`, if needed.
 3. Standard library.
 4. Third party.
 5. Other modules of this package, as absolute imports (`from <package_name>.x import y`), including helpers from `<package_name>.tests`.
 
-Test files always use absolute imports, never relative ones. One imported name per statement still applies (see `09-code-style.md`).
+Test files use absolute imports only. One imported name per statement still applies (`09-code-style.md`).
 
 ---
 
 ## 3. Writing good tests
 
-- **Naming.** Name test functions after what they test: `test_func_name`, or `test_func_name_case`. Group the tests of one class in `class TestClassName:`.
-- **Docstrings.** A test docstring is one or two lines: what is verified, and why it matters. Skip it when the name says it all.
-- **Parametrize.** Use `pytest.mark.parametrize` for tests that differ only in data, instead of near-duplicate functions.
-- **Independence.** Tests never depend on the order they run in, or on the current working directory. Use `path_enum` or `tmp_path` for files.
-- **Behavior over lines.** Target behavior and edge cases. Coverage is the check, not the goal.
+- **Naming:** `test_func_name` or `test_func_name_case`. Group the tests of one class in `class TestClassName:`.
+- **Docstrings:** one or two lines on what is verified and why it matters; none when the name says it all.
+- **Parametrize** tests that differ only in data, instead of writing near-duplicate functions.
+- **Independence:** never depend on run order or the working directory. Use `path_enum` or `tmp_path` for files.
+- **Behavior over lines:** target behavior and edge cases. Coverage is the check, not the goal.

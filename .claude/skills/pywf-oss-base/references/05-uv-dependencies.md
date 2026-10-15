@@ -1,16 +1,16 @@
 ---
-description: "How dependencies are declared and installed with uv: runtime dependencies and the dev, test, doc and mise extras, the version constraint policy (tested floor, next-major cap, exact pins for themes, caps for the Python floor), the uv.lock and requirements*.txt generated files, and running Python through .venv. Read when adding, removing, or constraining a dependency."
+description: "Runtime dependencies and the dev, test, doc and mise extras in uv, the version constraint policy, the generated uv.lock and requirements*.txt, and running Python through .venv. Read when adding or removing a dependency, or writing a version constraint."
 ---
 
 # uv and Dependencies
 
-uv manages packages, and `.venv/` is the only environment. Never `pip install`. Run Python as `.venv/bin/python` and pytest as `.venv/bin/pytest`.
+uv manages packages, and `.venv/` is the only environment. Never `pip install`. Run `.venv/bin/python` and `.venv/bin/pytest`.
 
 ---
 
 ## 1. Where dependencies are declared
 
-All of them live in `pyproject.toml`:
+All in `pyproject.toml`:
 
 | Group | What goes in it |
 | :--- | :--- |
@@ -31,8 +31,8 @@ All of them live in `pyproject.toml`:
 | Visual theme (any release changes the look) | exact pin | `"third_party_lib==2025.12.19"` |
 | Needs a fix or a security patch | raise the floor to the fixed version | `"third_party_lib>=9.0.3"` |
 
-- **The floor is a version that was actually tested.** That is normally the version in `uv.lock` after the last upgrade.
-- **Every dependency, including the extras, supports every Python version in `requires-python`.** When the newest release of a package drops a version the repo still supports, cap the constraint below that release, and say why in the comment.
+- **The floor is a tested version,** normally the one in `uv.lock` after the last upgrade.
+- **Every dependency, extras included, supports every Python in `requires-python`.** When a package's newest release drops a Python the repo still supports, cap below that release, and say why in the comment.
 - Every line ends with a comment saying why the package is there: `"pytest>=9.1.1,<10.0.0", # Testing framework`.
 
 ---
@@ -40,7 +40,7 @@ All of them live in `pyproject.toml`:
 ## 3. Applying a change
 
 1. Edit `pyproject.toml`.
-2. Run `mise run inst`. This runs `uv sync --all-extras`, which updates `uv.lock` and `.venv`.
-3. Run `mise run export`. This regenerates the `requirements*.txt` files from `uv.lock`.
+2. `mise run inst` (`uv sync --all-extras`): updates `uv.lock` and `.venv`.
+3. `mise run export`: regenerates `requirements*.txt` from `uv.lock`.
 
 `uv.lock` and `requirements*.txt` are generated files. Never edit them by hand.

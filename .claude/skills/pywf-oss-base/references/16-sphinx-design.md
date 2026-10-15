@@ -1,23 +1,21 @@
 ---
-description: "The sphinx-design extension: its widgets (grid, card, tabs, code tabs, dropdown, badge, button, icon) with one copy-ready reStructuredText example each, the syntax rules that break them silently, and which widget fits which page pattern. Read when a docs page needs layout or visual elements beyond plain text: a landing page, install instructions, an FAQ, a feature overview, or a call to action."
+description: "The widgets (grid, card, tabs, code tabs, dropdown, badge, button, icon) with a copy-ready example each, the syntax rules that break them silently, and which widget fits which page. Read when a docs page needs more than plain text, such as a landing page, install tabs, or an FAQ."
 ---
 
 # sphinx-design
 
-[sphinx-design](https://sphinx-design.readthedocs.io/) (enabled in `conf.py`) adds responsive layout and UI widgets to reStructuredText (see `13-sphinx.md`). The sample page `docs/source/03-Sample-Sphinx-Design-Gallery/index.rst` of a template repo renders every example below; check your result against it.
-
-The directives work in any reStructuredText, including a notebook's raw reStructuredText cells.
+[sphinx-design](https://sphinx-design.readthedocs.io/) (enabled in `conf.py`) adds responsive layout and UI widgets to reStructuredText (`13-sphinx.md`), including a notebook's raw reStructuredText cells. The sample page `docs/source/03-Sample-Sphinx-Design-Gallery/index.rst` of a template repo renders every example below; check your result against it.
 
 ---
 
 ## 1. Rules that break widgets silently
 
-- **Indent with 4 spaces.** Child directives are indented under their parent. One wrong indent ends the parent early and renders the rest as plain text, often with no warning.
-- **Options go directly under the directive line, then one blank line, then the content.** A blank line between the directive and an option turns the option into body text.
-- **Colors** are semantic names: `primary`, `secondary`, `success`, `info`, `warning`, `danger`, `muted`, `light`, `dark`. Avoid `light`, `dark`, `white`, and `black` for text: they disappear in dark mode or light mode (see `15-furo.md`).
-- **Icons:** use `:octicon:` or `:material-regular:` (bundled). Never use the FontAwesome roles (`:fas:`, ...): this template does not load FontAwesome, so they render as nothing.
-- **Links inside widgets:** `:link:` takes a label with `:link-type: ref`, a document path without extension with `:link-type: doc`, or a URL (the default). Prefer `ref`, so links survive renames. A `doc` path is relative to the current page; start it with `/` to go from `docs/source/` (`/api/<package_name>/__init__`).
-- **Do not decorate for its own sake.** Use a widget only when the reader gains something: a choice between alternatives (tabs), optional detail (dropdown), a map of pages (cards), or status (badges).
+- **Indent child directives 4 spaces under their parent.** One wrong indent ends the parent early and renders the rest as plain text, often with no warning.
+- **Options go directly under the directive line, then one blank line, then the content.** A blank line before an option turns it into body text.
+- **Colors** are semantic names: `primary`, `secondary`, `success`, `info`, `warning`, `danger`, `muted`, `light`, `dark`. Avoid `light`, `dark`, `white`, and `black` for text: they vanish in one of the two modes (`15-furo.md`).
+- **Icons:** `:octicon:` or `:material-regular:` (bundled). Never the FontAwesome roles (`:fas:`, ...): the template does not load FontAwesome, so they render as nothing.
+- **Links inside widgets:** `:link:` takes a label with `:link-type: ref`, a document path without extension with `:link-type: doc`, or a URL (the default). Prefer `ref`, which survives renames. A `doc` path is relative to the current page, or to `docs/source/` when it starts with `/` (`/api/<package_name>/__init__`).
+- **Do not decorate for its own sake.** Use a widget only when the reader gains something: a choice (tabs), optional detail (dropdown), a map of pages (cards), or status (badges).
 
 ---
 
@@ -42,8 +40,8 @@ The directives work in any reStructuredText, including a notebook's raw reStruct
         Every public class and function.
 ```
 
-- `1 2 2 3` is the number of columns at the xs / sm / md / lg screen widths. A single number applies to all widths.
-- A card with `:link:` is clickable as a whole. Do not put other links inside it.
+- `1 2 2 3` is the column count at the xs / sm / md / lg widths; a single number applies to all.
+- A card with `:link:` is clickable as a whole, so put no other links inside it.
 
 ### Card with header and footer
 
@@ -58,7 +56,7 @@ The directives work in any reStructuredText, including a notebook's raw reStruct
     Footer: see :class:`~<package_name>.module_name.ClassName`.
 ```
 
-`^^^` ends the header and `+++` starts the footer. Both are optional. The directive argument is the card title.
+`^^^` ends the optional header and `+++` starts the optional footer. The directive argument is the card title.
 
 ### Tabs: alternatives the reader chooses between
 
@@ -80,7 +78,7 @@ The directives work in any reStructuredText, including a notebook's raw reStruct
             uv add <package_name>
 ```
 
-Tab items with the same `:sync:` key switch together across every tab-set on the page. Use this for an OS or package-manager choice that repeats.
+Tab items with the same `:sync:` key switch together across every tab-set on the page: use it for an OS or package-manager choice that repeats.
 
 ### Code tabs: the same thing in several languages
 
@@ -96,7 +94,7 @@ Tab items with the same `:sync:` key switch together across every tab-set on the
         python -c 'from <package_name>.api import func_name; print(func_name("Alice"))'
 ```
 
-Each tab is labeled with the language of its code block. `literalinclude` works inside, too.
+Each tab is labeled with its code block's language. `literalinclude` works inside, too.
 
 ### Dropdown: optional detail, FAQ, long output
 
@@ -118,7 +116,7 @@ Add `:open:` to start expanded. `:icon:` takes an octicon name.
 :bdg-ref-info:`see the sample <sample-rst-document>`
 ```
 
-The roles are `:bdg-<color>:` (filled), `:bdg-<color>-line:` (outlined), `:bdg-link-<color>:` (URL), and `:bdg-ref-<color>:` (label). Badges work in table cells and headings.
+Roles: `:bdg-<color>:` (filled), `:bdg-<color>-line:` (outlined), `:bdg-link-<color>:` (URL), `:bdg-ref-<color>:` (label). Badges work in table cells and headings.
 
 ### Buttons: one clear call to action
 
@@ -137,7 +135,7 @@ The roles are `:bdg-<color>:` (filled), `:bdg-<color>-line:` (outlined), `:bdg-l
     :octicon:`mark-github` Source
 ```
 
-Use at most one or two per page.
+At most one or two per page.
 
 ### Icons
 
@@ -146,7 +144,7 @@ Use at most one or two per page.
 :material-regular:`warning;1.2em;sd-text-warning` careful
 ```
 
-The syntax is `name;size;classes`. Find names at <https://primer.style/octicons/> and <https://fonts.google.com/icons>.
+Syntax: `name;size;classes`. Names: <https://primer.style/octicons/>, <https://fonts.google.com/icons>.
 
 ---
 

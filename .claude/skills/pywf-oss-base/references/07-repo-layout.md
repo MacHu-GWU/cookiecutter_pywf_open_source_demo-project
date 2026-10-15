@@ -1,5 +1,5 @@
 ---
-description: "The top-level repository tree of a template repo: what each folder and config file is for, which outputs are generated, and which generated outputs are committed. Read when deciding where a new file goes, or when wondering what a file at the repo root is for."
+description: "The top-level tree of a template repo: what each folder and config file is for, which outputs are generated and which are committed, and the two blocks of CLAUDE.md. Read when deciding where a new top-level file or folder goes, what a root file is for, or whether a generated file is committed."
 ---
 
 # Repository Layout
@@ -40,13 +40,11 @@ description: "The top-level repository tree of a template repo: what each folder
 | `docs/source/api/` | yes, and regenerated on every docs build |
 | `htmlcov/`, `docs/build/`, `dist/`, `build/`, `tmp/`, `*.egg-info` | no |
 
-Never edit a generated file by hand. Change its source instead, and regenerate it.
+Never edit a generated file by hand. Change its source, and regenerate it.
 
 ---
 
 ## 3. `CLAUDE.md`
 
-`CLAUDE.md` has two blocks:
-
 - **The project block** holds facts about this library. Edit it freely.
-- **The template block** sits between `<!-- BEGIN pywf-oss template block -->` and its END marker. It is shared by every repo built from the template, and is replaced as a whole on a template upgrade. Do not edit it per repo.
+- **The template block,** between the `<!-- BEGIN pywf-oss template block` and `<!-- END pywf-oss template block -->` markers, is shared by every template repo and replaced as a whole on a template upgrade. Do not edit it per repo.

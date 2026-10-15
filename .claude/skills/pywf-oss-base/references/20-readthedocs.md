@@ -1,5 +1,5 @@
 ---
-description: "Read the Docs hosting: how .readthedocs.yml builds the docs with uv and the doc extra, project creation with the setup-readthedocs task and GitHub metadata with update-github-metadata, the project slug and URLs, and how to diagnose a failed hosted build. Read when setting up docs hosting for a repo, or when the hosted docs build fails or differs from the local build."
+description: "The uv-based build in .readthedocs.yml, the setup-readthedocs and update-github-metadata tasks, the slug and URLs, and diagnosing a failed hosted build. Read when setting up docs hosting, or when the hosted build fails or differs from the local one."
 ---
 
 # Read the Docs
@@ -8,18 +8,17 @@ description: "Read the Docs hosting: how .readthedocs.yml builds the docs with u
 
 ## 1. Build
 
-- `.readthedocs.yml` installs uv, runs `uv sync --extra doc` into the Read the Docs virtualenv, and builds Sphinx from `docs/source/conf.py` (`13-sphinx.md`).
-- The Python version comes from `build.tools.python` (`04-python-versions.md`).
-- Read the Docs builds on every push to `main`. It has no secrets, so notebooks must ship with committed outputs (`17-nbsphinx.md`).
+- `.readthedocs.yml` installs uv, runs `uv sync --extra doc` into the Read the Docs virtualenv, and builds Sphinx from `docs/source/conf.py` (`13-sphinx.md`), with the Python of `build.tools.python` (`04-python-versions.md`).
+- It builds on every push to `main`, without secrets, so notebooks ship with committed outputs (`17-nbsphinx.md`).
 
 ---
 
 ## 2. Project setup
 
-- **Slug:** the project name, with `_` replaced by `-`. The docs URL is `https://<slug>.readthedocs.io/`.
-- `mise run setup-readthedocs` creates the Read the Docs project from the GitHub repo. It is idempotent.
-- `mise run update-github-metadata` sets the GitHub repo description (from `pyproject.toml`) and its homepage (the docs URL).
-- Both change external services, so each runs only after the user's yes (`03-mise.md`).
+- **Slug:** the project name with `_` replaced by `-`. The docs URL is `https://<slug>.readthedocs.io/`.
+- `mise run setup-readthedocs` creates the Read the Docs project from the GitHub repo (idempotent).
+- `mise run update-github-metadata` sets the GitHub repo description (from `pyproject.toml`) and homepage (the docs URL).
+- Each runs only after the user's yes (`03-mise.md`).
 
 ---
 
@@ -33,5 +32,5 @@ description: "Read the Docs hosting: how .readthedocs.yml builds the docs with u
   ```
 
 - **Reproduce locally** with `mise run build-doc`.
-- **Fails only on Read the Docs:** a package is missing from the `doc` extra but is present locally through another extra (`05-uv-dependencies.md`), or the build Python differs from the local one.
+- **Fails only on Read the Docs:** a package missing from the `doc` extra is present locally through another extra (`05-uv-dependencies.md`), or the build Python differs from the local one.
 - **A notebook needs credentials:** see the execution rules in `17-nbsphinx.md`.

@@ -1,6 +1,6 @@
 ---
 name: pywf-oss-setup-repo
-description: "Take a freshly generated pywf open-source Python library repo live: verify it locally, create and push the GitHub repo, set its metadata, connect Codecov and Read the Docs, enable CI, and confirm all three are green, asking for the user's yes before each external step. Use when the user has a new repo from the template and wants it on GitHub with CI, coverage, and hosted docs."
+description: "Take a freshly generated pywf open-source Python library repo live: verify it locally, create and push the GitHub repo, set its metadata, connect Codecov and Read the Docs, enable CI, and confirm all are green, with the user's yes before each external step. Use when the user has a new repo from the template and wants it on GitHub with CI, coverage, and hosted docs."
 ---
 
 Turn a local repo generated from the template into a live project, with GitHub, CI, Codecov, and Read the Docs all green. Each external step waits for the user's yes; one yes covers one step.
@@ -17,18 +17,15 @@ Read ../pywf-oss-base/SKILL.md, then:
 1. **Preflight.**
    - Run the token True/False check. If any token is `False`, stop and hand off to `pywf-oss-setup-machine`.
    - Read `[project].name` from `pyproject.toml`, and run `git remote -v`.
-   - If there is no `origin` yet, propose the GitHub owner and the repo name `<package_name>-project`, and wait for the user to confirm them. Step 3 creates the repo and the remote.
-   - If `origin` exists, show the GitHub repo URL, the Read the Docs slug, and the docs URL that the tasks will use (`.mise/tasks/utils.py` derives them from `origin` and the project name), and ask the user to confirm them.
-2. **Local green.** Run `mise run inst`, `mise run cov`, `mise run lint`, and `mise run build-doc`. Fix any failure before going online. Template-fresh code should pass as it is.
-3. **GitHub repo.** If no remote repo exists, propose `gh repo create <owner>/<repo> --public --source . --remote origin --push`, and run it after the user's yes. Then show the URL, slug, and docs URL derived from the new `origin`.
+   - No `origin` yet: propose the GitHub owner and the repo name `<package_name>-project`, and wait for the user to confirm. Step 3 creates the repo and remote.
+   - `origin` exists: show the GitHub repo URL, the Read the Docs slug, and the docs URL the tasks will use (`.mise/tasks/utils.py` derives them from `origin` and the project name), and ask the user to confirm.
+2. **Local green.** `mise run inst`, `mise run cov`, `mise run lint`, and `mise run build-doc` pass; template-fresh code should. Fix any failure before going online.
+3. **GitHub repo.** If none exists, propose `gh repo create <owner>/<repo> --public --source . --remote origin --push`, and run it after the user's yes. Then show the URL, slug, and docs URL derived from the new `origin`.
 4. **GitHub metadata.** `mise run update-github-metadata`, after the user's yes.
-5. **Codecov.** `mise run setup-codecov`, after the user's yes. Then confirm the secret with `gh secret list`, which shows names only.
+5. **Codecov.** `mise run setup-codecov`, after the user's yes. Confirm the secret with `gh secret list` (names only).
 6. **Read the Docs.** `mise run setup-readthedocs`, after the user's yes.
-7. **CI.**
-   - Show the change that enables the `push` and `pull_request` triggers in `.github/workflows/main.yml`.
-   - Commit and push it after the user's yes.
-   - Watch the run with `gh run list` and `gh run view`.
-8. **Confirm.** Report the CI run, the Codecov project, and the docs build as green or red. For anything red, diagnose it with `18-github-actions.md`, `19-codecov.md`, or `20-readthedocs.md`, or hand off to `pywf-oss-fix-ci`.
+7. **CI.** Show the change that enables the `push` and `pull_request` triggers in `.github/workflows/main.yml`, commit and push it after the user's yes, and watch the run with `gh run list` and `gh run view`.
+8. **Confirm.** Report the CI run, the Codecov project, and the docs build as green or red. Diagnose anything red with `18-github-actions.md`, `19-codecov.md`, or `20-readthedocs.md`, or hand off to `pywf-oss-fix-ci`.
 
 ## Boundaries
 

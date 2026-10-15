@@ -1,10 +1,10 @@
 ---
-description: "mise as the single entry point of a repo: the [tools], [tasks] and [env] blocks of mise.toml, the full task list and what each task runs, and which tasks change external services and need the user's yes. Read before running any project command, or when adding or changing a mise task."
+description: "mise as the single entry point of a repo: the mise.toml blocks, every task and what it runs, and which tasks change external services and need the user's yes. Read when unsure which mise task runs what, before running a task that changes an external service, or when adding or changing a task."
 ---
 
 # mise
 
-mise runs everything in a repo. Prefer a mise task over the raw command it wraps, because tasks carry their dependencies: for example, `cov` runs `inst` first.
+mise runs everything in a repo. Prefer a task over the raw command it wraps: tasks carry their dependencies (`cov` runs `inst` first).
 
 ---
 
@@ -12,9 +12,9 @@ mise runs everything in a repo. Prefer a mise task over the raw command it wraps
 
 | Block | What it holds |
 | :--- | :--- |
-| `[tools]` | The dev Python, `uv`, `claude`, and `pandoc`. mise installs each version once per machine and shares it across repos. |
-| `[tasks.*]` | Every workflow command. List them with `mise tasks ls`. Each task's `description` says what it does. Longer tasks are Python scripts in `.mise/tasks/`. |
-| `[env]` | Secrets, loaded as described in `01-secrets.md`. |
+| `[tools]` | The dev Python, `uv`, `claude`, and `pandoc`, installed once per machine and shared across repos |
+| `[tasks.*]` | Every workflow command, listed by `mise tasks ls` with its `description`. Longer tasks are Python scripts in `.mise/tasks/`. |
+| `[env]` | Secrets, loaded as in `01-secrets.md` |
 
 Run a task with `mise run <task>`.
 
@@ -40,4 +40,4 @@ Run a task with `mise run <task>`.
 
 ## 3. Tasks that change external services
 
-`publish`, `release`, `update-github-metadata`, `setup-codecov`, and `setup-readthedocs` act on GitHub, PyPI, Codecov, or Read the Docs. Run each one only after the user's yes. One yes covers one task. Never run one as a side effect of another job.
+`publish`, `release`, `update-github-metadata`, `setup-codecov`, and `setup-readthedocs` act on GitHub, PyPI, Codecov, or Read the Docs. Run each only after the user's yes; one yes covers one task. Never run one as a side effect of another job.

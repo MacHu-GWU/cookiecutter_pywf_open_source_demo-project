@@ -15,15 +15,15 @@ Read ../pywf-oss-base/SKILL.md, then:
 
 1. **Version.**
    - Show the last tag and the current `pyproject.toml` version.
-   - If they are equal, propose a bump (PATCH, MINOR, or MAJOR), with a one-line reason based on the `api.py` diff. Apply it after the user's yes.
-2. **Changelog.** Check that `release-history.rst` has a section for the target version. If it is missing or stale, run the `pywf-oss-changelog` steps first.
+   - If they are equal, propose a bump (PATCH, MINOR, or MAJOR) with a one-line reason from the `api.py` diff, and apply it after the user's yes.
+2. **Changelog.** If `release-history.rst` has no section for the target version, or a stale one, run the `pywf-oss-changelog` steps first.
 3. **Checks.**
    - `mise run cov`, `mise run lint`, and `mise run build-doc` pass.
    - `git status` is clean, apart from the version bump (`pyproject.toml`, `uv.lock`) and the changelog edit.
-   - Report any failure, and stop.
-4. **Commit and push.** Show the commit message. Commit and push to `main` after the user's yes.
+   - On any failure, report it and stop.
+4. **Commit and push.** Show the commit message; commit and push to `main` after the user's yes.
 5. **Publish.** Ask: "Publish `<package_name>` `<version>` to PyPI?" After the user's yes, run `mise run publish`.
-6. **GitHub release.** Ask, then run `mise run release` after the user's yes.
+6. **GitHub release.** Ask, and run `mise run release` after the user's yes.
 7. **Report.** Give the PyPI URL (printed by `publish`) and the release URL.
 
 Next step (optional): `pywf-oss-write-pypi-skill`.

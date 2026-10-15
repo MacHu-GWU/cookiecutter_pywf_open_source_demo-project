@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""Regenerate the references index in a skill's SKILL.md from each reference's H1 and description."""
+"""Regenerate the references index in a skill's SKILL.md from each reference's H1 and the "Read when" part of its description."""
 
 from __future__ import annotations
 
@@ -14,10 +14,14 @@ END = "<!-- END references index -->"
 RE_FRONTMATTER = re.compile(r"\A---\n(.*?)\n---\n", re.DOTALL)
 RE_DESCRIPTION = re.compile(r'^description:\s*"(.*)"\s*$', re.MULTILINE)
 RE_H1 = re.compile(r"^# (.+)$", re.MULTILINE)
+RE_TRIGGER = re.compile(r"\bRead (?:when|before)\b.*$")
 
 
 def read_entry(path: Path) -> tuple[str, str]:
-    """Return (H1 title, description) of one reference file; raise ValueError if either is missing."""
+    """Return (H1 title, trigger) of one reference file; raise ValueError if either is missing.
+
+    The trigger is the part of the description from "Read when" or "Read before" to the end.
+    """
     text = path.read_text(encoding="utf-8")
     frontmatter = RE_FRONTMATTER.match(text)
     if frontmatter is None:
@@ -25,20 +29,24 @@ def read_entry(path: Path) -> tuple[str, str]:
     description = RE_DESCRIPTION.search(frontmatter.group(1))
     if description is None:
         raise ValueError(f'{path}: frontmatter has no double-quoted description: "..."')
+    trigger = RE_TRIGGER.search(description.group(1).strip())
+    if trigger is None:
+        raise ValueError(
+            f'{path}: description has no "Read when ..." or "Read before ..." part'
+        )
     title = RE_H1.search(text[frontmatter.end() :])
     if title is None:
         raise ValueError(f"{path}: no H1 title after the frontmatter")
-    return title.group(1).strip(), description.group(1).strip()
+    return title.group(1).strip(), trigger.group(0)
 
 
 def render_index(skill_dir: Path) -> str:
     """Render the index block for every references/*.md, in file name order."""
     lines = [BEGIN, ""]
     for path in sorted((skill_dir / "references").glob("*.md")):
-        title, description = read_entry(path)
+        title, trigger = read_entry(path)
         rel = path.relative_to(skill_dir).as_posix()
-        lines.append(f"- **{title}**: `{rel}`")
-        lines.append(f"  {description}")
+        lines.append(f"- **{title}** (`{rel}`): {trigger}")
     lines.extend(["", END])
     return "\n".join(lines)
 
@@ -82,7 +90,7 @@ def _main(skill_dir: Path, check: bool = False) -> int:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="update_skill_index",
-        description="Regenerate the references index in SKILL.md from each reference's H1 and description.",
+        description="Regenerate the references index in SKILL.md from each reference's H1 and the Read when part of its description.",
     )
     parser.add_argument(
         "--skill_dir",

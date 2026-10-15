@@ -1,5 +1,5 @@
 ---
-description: "The release sequence from a finished change to a version on PyPI with a GitHub tag and release: who does each step, the publish and release mise tasks, and the approval gates in front of every public step. Read when publishing a new version."
+description: "The release sequence from a finished change to PyPI and a GitHub tag and release: who does each step, the publish and release tasks, and the approval gate before each public step. Read when publishing a new version."
 ---
 
 # Release
@@ -21,6 +21,6 @@ description: "The release sequence from a finished change to a version on PyPI w
 
 ## 2. Rules
 
-- **Steps 5 and 6 are irreversible and public.** They follow the approval rule in `03-mise.md` section 3: one yes per step, so a yes to publish is not a yes to release.
-- **Never delete or move a published tag or PyPI release.** A bad release is fixed with a new PATCH version.
+- **Steps 5 and 6 are irreversible and public.** One yes per step (`03-mise.md` section 3): a yes to publish is not a yes to release.
+- **Never delete or move a published tag or PyPI release.** Fix a bad release with a new PATCH version.
 - **A missing or rejected token** is reported by its variable name, and the release stops there (`01-secrets.md`).
