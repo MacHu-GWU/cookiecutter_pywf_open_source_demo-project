@@ -58,7 +58,7 @@ Run a task with `mise run <task>`. Prefer a task over the raw command it wraps, 
   - `test`: `pytest` and `pytest-cov`.
   - `doc`: Sphinx, furo, nbsphinx, docfly, and related packages.
   - `mise`: libraries used by `.mise/tasks/*.py`.
-- Every pin is a bounded range with a trailing comment saying why the package is there: `"pytest>=8.2.2,<9.0.0", # Testing framework`.
+- Every pin is a bounded range with a trailing comment saying why the package is there: `"pytest>=9.0.3,<10.0.0", # Testing framework`.
 - To add a dependency, edit `pyproject.toml`, then run `mise run inst`. That updates `uv.lock` and `.venv`. Run `mise run export` afterwards if the `requirements*.txt` files must stay in sync.
 - `uv.lock` and `requirements*.txt` are generated files. Never edit them by hand.
 - Run Python through the venv: `.venv/bin/python`, `.venv/bin/pytest`.
