@@ -8,17 +8,23 @@ How the `pywf-oss-*` skills fit together, and what each one hands to the next.
 
 ---
 
-## 1. Skills
+## 1. Handoffs
 
-| Skill | Job | Hands off to |
-| :--- | :--- | :--- |
-| `pywf-oss-add-module` | Create a module or subpackage, with its test file, its `all.py`, and its `api.py` export | `pywf-oss-write-test` once the code exists |
-| `pywf-oss-write-test` | Write or fix the tests for an existing module, and reach full coverage on it | `pywf-oss-write-doc` if the feature is user-facing |
-| `pywf-oss-write-doc` | Write or update an `.rst` or `.ipynb` docs page | `pywf-oss-changelog` |
-| `pywf-oss-changelog` | Write the target version's section of `release-history.rst` from git history | `pywf-oss-release` |
-| `pywf-oss-release` | Bump the version, verify, then publish and tag, with the user's approval at each public step | `pywf-oss-write-pypi-skill` (optional) |
-| `pywf-oss-write-pypi-skill` | Generate an Agent Skill that documents this library's public API and CLI | — |
-| `pywf-oss-audit` | Check a repo against these conventions, and report what to fix and which skill fixes it | any of the above |
+What each skill does, and when to use it, is in the "Which skill to use" table of `../SKILL.md`. This table only says who comes next.
+
+| Skill | Hands off to |
+| :--- | :--- |
+| `pywf-oss-setup-machine` | `pywf-oss-setup-repo` for a new repo |
+| `pywf-oss-setup-repo` | `pywf-oss-add-module` to start coding; `pywf-oss-fix-ci` if a service stays red |
+| `pywf-oss-add-module` | `pywf-oss-write-test` once the code exists |
+| `pywf-oss-write-test` | `pywf-oss-write-doc` if the feature is user-facing |
+| `pywf-oss-write-doc` | `pywf-oss-changelog` |
+| `pywf-oss-changelog` | `pywf-oss-release` |
+| `pywf-oss-release` | `pywf-oss-write-pypi-skill` (optional) |
+| `pywf-oss-write-pypi-skill` | — |
+| `pywf-oss-fix-ci` | `pywf-oss-upgrade-deps` when the cause is a dependency |
+| `pywf-oss-upgrade-deps` | `pywf-oss-changelog`, then `pywf-oss-release` |
+| `pywf-oss-audit` | any of the above, per finding |
 
 ---
 
@@ -31,6 +37,16 @@ How the `pywf-oss-*` skills fit together, and what each one hands to the next.
 **Bug fix**
 
 Fix the code → `write-test` (add the regression test) → `changelog` → `release`
+
+**New machine, then new repo**
+
+`setup-machine` (once per machine) → `setup-repo` (once per repo) → `release` for the first version
+
+**Maintenance**
+
+- A service is red: `fix-ci`.
+- Every few months, or when a security fix lands: `upgrade-deps` → `changelog` → `release`.
+- Each October (new CPython, oldest one reaches end of life): `fix-ci` (Python version changes) → `upgrade-deps` (caps that existed only for the old floor) → `changelog` → `release`.
 
 **Bring an older repo up to the current template**
 

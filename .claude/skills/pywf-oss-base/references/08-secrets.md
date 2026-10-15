@@ -38,6 +38,7 @@ The template uses these variables:
 - Never write a secret value into a file, commit, log, notebook cell, or URL.
 - To add a new secret, add an `[env]` line to `mise.toml` with the `hst get <key.path>` command, and tell the user which key path to add to their `home_secret.toml`. The user fills in the value.
 - If a task fails for a missing or invalid token, report the variable name and stop. Do not try to work around it.
+- To check which tokens are loaded, use the True/False check in `00-machine-setup.md` section 4. It never prints a value.
 
 ---
 

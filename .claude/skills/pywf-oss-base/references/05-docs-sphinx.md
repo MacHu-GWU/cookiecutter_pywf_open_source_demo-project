@@ -84,7 +84,7 @@ Rules:
 - `~` keeps only the last name. Use it when the context already makes the module obvious.
 - `title <target>` sets the displayed text to anything you like. For a method, use `ClassName.method_name`, because a bare `method_name` loses its class.
 - Use the role that matches the object type: `:meth:` for methods, `:func:` for functions, `:attr:` for constants and attributes. Sphinx may still resolve a mismatched role, but the rendering (for example, trailing `()`) will be wrong.
-- A target resolves only if the object is on an API page. That means it needs a docstring. A module-level constant needs a `#:` doc comment above it, and a dataclass, pydantic, or ORM field needs a trailing `#:` comment on its line (see section 4). An unresolved target renders as plain code, not a link, and Sphinx gives **no warning**. So after building, check that every reference you wrote is a link.
+- A target resolves only if the object is on an API page. That means it needs a docstring. A module-level constant needs a `#:` doc comment above it, and a dataclass, pydantic, or ORM field needs a trailing `#:` comment on its line (see section 4). An unresolved target renders as plain code, not a link, and Sphinx gives **no warning**. So after building, run `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_doc_xrefs.py`; it lists every reference that is not a link.
 
 ### 3.2 Pages, sections, and the standard library
 
@@ -106,6 +106,7 @@ Rules:
   ```python
   #: Greeting used when no name is given.
   DEFAULT_NAME = "World"
+
 
   class Greeter:
       # fmt: off

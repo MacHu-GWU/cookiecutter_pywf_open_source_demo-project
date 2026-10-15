@@ -27,7 +27,7 @@ Templates: ../pywf-oss-base/assets/notebook-page-template.ipynb and ../pywf-oss-
    - no new warnings,
    - no undefined labels,
    - the page is in the sidebar with the right title,
-   - API references render as links. Plain-text code means the target has no docstring or the path is wrong.
+   - API references render as links: `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_doc_xrefs.py` reports 0 unresolved. An unresolved reference means the target has no docstring or `#:` comment, or the path is wrong.
 
 ## Boundaries
 

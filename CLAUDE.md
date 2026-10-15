@@ -35,12 +35,17 @@ This repo follows the pywf open-source Python library template. **Before creatin
 
 | Job | Skill |
 | :--- | :--- |
+| Set up a new machine or rotate a token | `pywf-oss-setup-machine` |
+| Take a new repo live (GitHub, Codecov, Read the Docs) | `pywf-oss-setup-repo` |
 | Add a module or subpackage | `pywf-oss-add-module` |
 | Write or fix tests | `pywf-oss-write-test` |
 | Write a docs page or notebook | `pywf-oss-write-doc` |
 | Update the changelog | `pywf-oss-changelog` |
 | Release a version | `pywf-oss-release` |
+| Fix a red CI run, Codecov upload, or docs build | `pywf-oss-fix-ci` |
+| Upgrade or replace dependencies | `pywf-oss-upgrade-deps` |
 | Check the repo against the template | `pywf-oss-audit` |
+| Not sure which | `pywf-oss-base` |
 | Generate a skill for this library's API | `pywf-oss-write-pypi-skill` |
 
 <!-- END pywf-oss template block -->

@@ -12,7 +12,9 @@ Read ../pywf-oss-base/SKILL.md, then every file in ../pywf-oss-base/references/.
 Run these, and record each finding with its file, the rule broken (reference file and section), and the fixing skill:
 
 1. **Test layout.** Run `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_test_layout.py --project_root .`. It finds missing, orphan, and mismatched test files, and `all.py` without `is_folder=True`.
-2. **Python versions.** Check that `requires-python`, the classifiers, the CI matrix, `USING_COVERAGE`, the mise `python`, and `.readthedocs.yml` agree with `01-toolchain.md` section 2 (floor 3.11, every non-end-of-life version, Windows plus Ubuntu).
+2. **Python versions and dependencies.**
+   - Run `uv tree --outdated --depth 1` and list the outdated packages; the fix goes to `pywf-oss-upgrade-deps`.
+   - Check that `requires-python`, the classifiers, the CI matrix, `USING_COVERAGE`, the mise `python`, and `.readthedocs.yml` agree with `01-toolchain.md` section 2 (floor 3.11, every non-end-of-life version, Windows plus Ubuntu); the fix goes to `pywf-oss-fix-ci`.
 3. **Lint.**
    - Check that `mise.toml` has the `format` and `lint` tasks, and that `[tool.ruff]` exists in `pyproject.toml`. If they are missing, run the commands from `01-toolchain.md` section 4 directly.
    - `mise run lint`: ruff check plus the one-import-per-statement check.
@@ -32,12 +34,13 @@ Run these, and record each finding with its file, the rule broken (reference fil
    - Folders follow `NN-Title`.
    - Headings use 78-character underlines.
    - `mise run build-doc` reports no warnings.
+   - `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_doc_xrefs.py` reports 0 unresolved cross-references.
    - Notebooks have committed outputs.
 7. **Changelog.** The Backlog block is present, and the latest version section matches the `pyproject.toml` version or the last tag.
 
 ## Report
 
-Group the findings by the fixing skill: `pywf-oss-write-test`, `pywf-oss-add-module`, `pywf-oss-write-doc`, `pywf-oss-changelog`, or "direct edit" for config and style. Within each group, list the findings in order of severity:
+Group the findings by the fixing skill: `pywf-oss-write-test`, `pywf-oss-add-module`, `pywf-oss-write-doc`, `pywf-oss-changelog`, `pywf-oss-fix-ci` (Python versions and CI config), `pywf-oss-upgrade-deps` (outdated or unmaintained dependencies), or "direct edit" for config and style. Within each group, list the findings in order of severity:
 
 1. breaks CI or the release,
 2. breaks a convention that tools rely on,
