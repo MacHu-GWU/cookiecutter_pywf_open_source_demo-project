@@ -1,3 +1,5 @@
+.. _sample-rst-document:
+
 Sample RestructuredText Document
 ==============================================================================
 

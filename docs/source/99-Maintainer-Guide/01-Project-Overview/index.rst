@@ -47,6 +47,12 @@ This means Claude can:
 
 No more copy-pasting boilerplate into every chat. The ``.claude/`` directory holds additional context files that keep the agent grounded in this project's specific conventions.
 
+The template's conventions themselves (layout, import order, test mapping, docs, CI, release) are written down once, as the ``pywf-oss-*`` skill family in `.claude/skills/ <https://github.com/MacHu-GWU/cookiecutter_pywf_open_source_demo-project/tree/main/.claude/skills>`_:
+
+- ``pywf-oss-base`` holds every convention as a reference file (``references/*.md``), plus a script that checks the source-to-test mapping. It is the authoritative source; this page is only an overview.
+- The action skills load the base and do one job each: ``pywf-oss-add-module``, ``pywf-oss-write-test``, ``pywf-oss-write-doc``, ``pywf-oss-changelog``, ``pywf-oss-release``, ``pywf-oss-audit``, ``pywf-oss-write-pypi-skill``.
+- ``CLAUDE.md`` has two blocks. The template block lists the rules that are easy to break silently and points to the skills; it is replaced as a whole when a repo upgrades to a newer template. The project block holds facts about the library itself.
+
 
 Unit Testing — pytest + Codecov
 ------------------------------------------------------------------------------
