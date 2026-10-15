@@ -29,7 +29,7 @@ What each file and folder is for, which ones are special, and which ones are gen
 ├── tests_load/                # optional: load tests
 ├── docs/source/               # Sphinx source (see 05-docs-sphinx.md)
 ├── .mise/tasks/*.py           # Python scripts behind mise tasks
-├── .claude/                   # Claude Code settings and skills
+├── .claude/                   # Claude Code settings, skills, and launch.json (docs preview server)
 ├── .github/workflows/main.yml # CI
 ├── pyproject.toml             # metadata, dependencies, ruff config
 ├── mise.toml                  # tools, tasks, env vars

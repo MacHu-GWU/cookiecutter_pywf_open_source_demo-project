@@ -133,3 +133,5 @@ mise run view-doc    # open it
 ```
 
 A doc change is done when `build-doc` finishes with no new warnings, and the new page shows up in the sidebar with the right title and order.
+
+**Visual check by an AI.** In the Claude desktop app, open the built site with the browser pane's `preview_start` and the `docs-html` configuration in `.claude/launch.json`. It serves `docs/build/html` over HTTP on the port the pane assigns. Do not open the files with `file://`: the pane then shows a static snapshot without CSS, so widgets and the theme cannot be judged. Humans keep using `mise run view-doc`. Their browser loads CSS from `file://` just fine.

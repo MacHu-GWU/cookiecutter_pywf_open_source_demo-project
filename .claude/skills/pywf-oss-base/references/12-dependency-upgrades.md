@@ -65,7 +65,7 @@ Upgrade coupled packages together: Sphinx with furo, sphinx-design, and nbsphinx
 | Code | `mise run lint` |
 | Docs build | `mise run build-doc` shows no new warnings |
 | Docs links | `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_doc_xrefs.py --html_dir docs/build/html` reports 0 unresolved cross-references. Sphinx itself is silent about these. |
-| Docs widgets | The three sample pages (`01` reST, `02` notebook, `03` sphinx-design gallery) render correctly: tabs switch, dropdowns open, the jinja table is filled, and notebook raw cells render. Check dark mode for theme upgrades. |
+| Docs widgets | The three sample pages (`01` reST, `02` notebook, `03` sphinx-design gallery) render correctly: tabs switch, dropdowns open, the jinja table is filled, and notebook raw cells render. Check dark mode for theme upgrades. An AI opens them with the `docs-html` preview (see `05-docs-sphinx.md` section 6). |
 | CI | After pushing, the whole matrix (Ubuntu and Windows, every Python version) passes, and Codecov receives the report (see `09-ci-and-hosting.md`). |
 
 Record the upgrade under **Miscellaneous** in `release-history.rst` (see `10-release.md`). Note a dependency change that affects users (a runtime dependency, or a new Python floor) under **Breaking Changes** or **Minor Improvements**.

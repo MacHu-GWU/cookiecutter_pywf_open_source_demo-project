@@ -14,13 +14,14 @@ GitHub Actions runs the tests, codecov.io tracks coverage, and Read the Docs hos
 - **Steps**:
   1. checkout,
   2. setup-python,
-  3. setup-uv,
+  3. setup-uv, with its own cache turned off, because the next step caches the whole `.venv`,
   4. restore the cached `.venv` (keyed on OS + Python + `uv.lock`),
   5. `uv sync --extra test`,
   6. `uv run pytest tests --cov=<package> --cov-report=xml`,
   7. upload `coverage.xml` to Codecov for the versions listed in `USING_COVERAGE`.
 - CI uses **uv, not mise**: the `[env]` block of `mise.toml` reads local secrets that do not exist on the runner.
 - **Triggers** are set in the `on:` block. A template-fresh repo may only have `workflow_dispatch`. Enable `push` / `pull_request` on `main` once the repo is live.
+- **Action versions**: keep every action on its latest major version. Old majors get warnings first (for example, a Node.js runtime deprecation, or removed inputs such as codecov's `file`, now `files`), and later they break. Use the floating major tag (`@v7`) where the action publishes one; setup-uv does not, so pin its full version (`@v10.3.0`). Check the run's Annotations panel after each change.
 - **Quick debugging**: the workflow keeps commented-out single-OS and single-version lines. Swap them in temporarily, and never commit the narrowed matrix.
 
 ---

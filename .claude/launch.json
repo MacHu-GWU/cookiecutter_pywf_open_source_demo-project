@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "docs-html",
-      "runtimeExecutable": ".venv/bin/python",
-      "runtimeArgs": ["-m", "http.server", "8765", "--directory", "docs/build/html"],
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "exec .venv/bin/python -m http.server \"${PORT:-8765}\" --directory docs/build/html"],
       "port": 8765
     }
   ]

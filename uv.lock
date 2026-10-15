@@ -333,7 +333,7 @@ requires-dist = [
     { name = "nbsphinx", marker = "extra == 'doc'", specifier = ">=0.8.12,<1.0.0" },
     { name = "pygithub", marker = "extra == 'mise'", specifier = ">=2.8.0,<3.0.0" },
     { name = "pygments", marker = "extra == 'doc'", specifier = ">=2.18.0,<3.0.0" },
-    { name = "pytest", marker = "extra == 'test'", specifier = ">=9.0.3,<10.0.0" },
+    { name = "pytest", marker = "extra == 'test'", specifier = ">=9.1.1,<10.0.0" },
     { name = "pytest-cov", marker = "extra == 'test'", specifier = ">=7.1.0,<8.0.0" },
     { name = "rich", marker = "extra == 'dev'", specifier = ">=14.3.4,<15.0.0" },
     { name = "rstobj", marker = "extra == 'doc'", specifier = "==2.0.0" },
