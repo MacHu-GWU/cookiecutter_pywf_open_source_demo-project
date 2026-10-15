@@ -14,7 +14,7 @@ mise runs everything in a repo. Prefer a task over the raw command it wraps: tas
 | :--- | :--- |
 | `[tools]` | The dev Python, `uv`, `claude`, and `pandoc`, installed once per machine and shared across repos |
 | `[tasks.*]` | Every workflow command, listed by `mise tasks ls` with its `description`. Longer tasks are Python scripts in `.mise/tasks/`. |
-| `[env]` | Secrets, loaded as in `01-secrets.md` |
+| `[env]` | Secrets, loaded as in `01-secrets.md`, and `UV_PYTHON`, which makes uv use the `[tools]` Python |
 
 Run a task with `mise run <task>`.
 

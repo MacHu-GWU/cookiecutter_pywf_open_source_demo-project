@@ -8,7 +8,7 @@ description: "The uv-based build in .readthedocs.yml, the setup-readthedocs and 
 
 ## 1. Build
 
-- `.readthedocs.yml` installs uv, runs `uv sync --extra doc` into the Read the Docs virtualenv, and builds Sphinx from `docs/source/conf.py` (`13-sphinx.md`), with the Python of `build.tools.python` (`04-python-versions.md`).
+- `.readthedocs.yml` installs uv, runs `uv sync --extra doc` into the Read the Docs virtualenv, and builds Sphinx from `docs/source/conf.py` (`13-sphinx.md`), with the dev Python that it reads from `mise.toml` `[tools] python` (`04-python-versions.md`).
 - It builds on every push to `main`, without secrets, so notebooks ship with committed outputs (`17-nbsphinx.md`).
 
 ---

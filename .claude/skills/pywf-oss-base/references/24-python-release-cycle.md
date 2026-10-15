@@ -22,5 +22,5 @@ A new CPython is released every October, and the oldest supported one reaches en
 1. Remove it from the CI matrix, `USING_COVERAGE`, and the classifiers.
 2. Raise the `requires-python` floor.
 3. Lift the dependency caps that existed only for the old floor (`05-uv-dependencies.md` section 2), through the process in `23-dependency-upgrades.md`.
-4. Keep the `mise.toml` dev Python and `.readthedocs.yml` inside the range (`04-python-versions.md`).
+4. Keep the `mise.toml` dev Python inside the range; `.readthedocs.yml` follows it (`04-python-versions.md`).
 5. Record it in the changelog as a Breaking Change (`21-versioning-and-changelog.md`): users on that Python get no new releases.

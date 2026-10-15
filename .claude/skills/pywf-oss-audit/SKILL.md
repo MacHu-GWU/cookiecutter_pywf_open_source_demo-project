@@ -13,7 +13,7 @@ Record each finding with the file, the rule broken (reference file and section),
 
 1. **Python versions and dependencies.**
    - `uv tree --outdated --depth 1` (fixed by `pywf-oss-upgrade-deps`).
-   - The five Python version locations agree with `04-python-versions.md` (fixed by `pywf-oss-fix-ci`).
+   - The four Python version locations agree with `04-python-versions.md` (fixed by `pywf-oss-fix-ci`).
    - Dependency constraints follow `05-uv-dependencies.md`.
 2. **Lint.**
    - `mise.toml` has the `format` and `lint` tasks, and `pyproject.toml` has `[tool.ruff]` and `[tool.pytest]`.
