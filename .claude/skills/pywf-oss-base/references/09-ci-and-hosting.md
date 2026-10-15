@@ -15,9 +15,9 @@ GitHub Actions runs the tests, codecov.io tracks coverage, and Read the Docs hos
   1. checkout,
   2. setup-python,
   3. setup-uv, with its own cache turned off, because the next step caches the whole `.venv`,
-  4. restore the cached `.venv` (keyed on OS + Python + `uv.lock`),
-  5. `uv sync --extra test`,
-  6. `uv run pytest tests --cov=<package> --cov-report=xml`,
+  4. restore the cached `.venv`, keyed on the OS, the **full** Python version (for example 3.13.15), and `uv.lock`,
+  5. `uv sync --extra test`, skipped on a cache hit (that skip is what makes the cache worth having),
+  6. `uv run --extra test pytest tests --cov=<package> --cov-report=xml`,
   7. upload `coverage.xml` to Codecov for the versions listed in `USING_COVERAGE`.
 - CI uses **uv, not mise**: the `[env]` block of `mise.toml` reads local secrets that do not exist on the runner.
 - **Triggers** are set in the `on:` block. A template-fresh repo may only have `workflow_dispatch`. Enable `push` / `pull_request` on `main` once the repo is live.
@@ -78,7 +78,8 @@ gh workflow run main.yml              # start a run by hand (workflow_dispatch)
 | Fails only on the newest Python | A dependency has no wheel for it yet, or a deprecated stdlib API was removed | Check the dependency's release notes; cap or skip that version until it ships |
 | `uv sync` fails | `uv.lock` is out of date with `pyproject.toml` | `uv lock` locally, then commit `uv.lock` |
 | Passes locally, fails in CI | It depends on local state: a file in `tmp/`, an env var, the current working directory | Build the state inside the test (`tmp_path`, `path_enum`) |
-| A stale `.venv` cache | The cache key is keyed on `uv.lock`, so a change outside the lock does not invalidate it | Delete the cache with `gh cache delete --all`, then rerun |
+| `Ignoring existing virtual environment linked to non-existent Python interpreter`, then `Failed to spawn: pytest` | The runner image moved to a new Python patch release. The `.venv` cached under the old one points at an interpreter that is gone, and uv rebuilds it without the `test` extra. | The cache key uses the full version from `steps.setup-python.outputs.python-version`, so a new patch release never hits the old cache. pytest runs with `uv run --extra test`, so even a rebuilt `.venv` gets pytest. If an old workflow still fails this way, delete the cache with `gh cache delete --all` and rerun. |
+| A stale `.venv` cache for another reason | The cache key covers only the OS, the Python version, and `uv.lock`, so a change outside them does not invalidate it | Delete the cache with `gh cache delete --all`, then rerun |
 
 ### Codecov
 
