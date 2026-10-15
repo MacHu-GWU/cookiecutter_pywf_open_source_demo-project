@@ -43,7 +43,7 @@ import typing as T
 import json
 from pathlib import Path
 
-import httpx
+import httpx2
 
 from func_args.api import REQ
 

@@ -48,16 +48,18 @@ Run a script from this skill with `python ${CLAUDE_SKILL_DIR}/scripts/<name>.py`
 | `assets/raw-rst-cell.json` | A copy-ready raw reStructuredText notebook cell. |
 | `assets/notebook-page-template.ipynb` | A minimal notebook docs page: raw title cell, intro, code cell, cross-reference cell. |
 
-## Which skill for which job
+## Which skill to use
 
-| Skill | Reads from this base |
-| :--- | :--- |
-| `pywf-oss-add-module` | `02-repo-layout.md`, `03-code-style.md`, `04-testing.md`, `scripts/check_test_layout.py`, `scripts/check_one_import_per_line.py` |
-| `pywf-oss-write-test` | `04-testing.md`, `03-code-style.md`, `scripts/check_test_layout.py`, `scripts/check_one_import_per_line.py` |
-| `pywf-oss-write-doc` | `05-docs-sphinx.md`, `06-docs-sphinx-design.md`, `07-docs-notebook.md`, `assets/*` |
-| `pywf-oss-changelog` | `10-release.md` |
-| `pywf-oss-release` | `10-release.md`, `01-toolchain.md`, `08-secrets.md`, `09-ci-and-hosting.md` |
-| `pywf-oss-write-pypi-skill` | `02-repo-layout.md` (section 2, `api.py`), `01-toolchain.md` (section 5, CLI) |
-| `pywf-oss-audit` | all references, `scripts/check_test_layout.py`, `scripts/check_one_import_per_line.py` |
+Each action skill does one job and loads this base by itself. When the job is unclear, or when the question is about a convention rather than an action, stay in this base: read the reference that covers it, then name the skill that fits.
 
-The flow between these skills is in `references/11-skill-family-workflow.md`.
+| Skill | Use it when | Example request | Reads from this base |
+| :--- | :--- | :--- | :--- |
+| `pywf-oss-add-module` | A new module, subpackage, or feature area must be created, with its test file and its `api.py` export. | "add a `core/copy.py` module" | `02-repo-layout.md`, `03-code-style.md`, `04-testing.md`, `scripts/check_test_layout.py` |
+| `pywf-oss-write-test` | An existing module needs tests, more coverage, or fixed tests. | "cover `core/copy.py` to 100%" | `04-testing.md`, `03-code-style.md`, `scripts/check_test_layout.py` |
+| `pywf-oss-write-doc` | A docs page, guide, tutorial, or notebook must be written or fixed. | "write a quick-start page" | `05-docs-sphinx.md`, `06-docs-sphinx-design.md`, `07-docs-notebook.md`, `assets/*` |
+| `pywf-oss-changelog` | The next version's release notes in `release-history.rst` must be written from git history. | "update the changelog" | `10-release.md` |
+| `pywf-oss-release` | A version must be bumped, published to PyPI, and tagged on GitHub. The user must invoke it by hand. | "release 1.2.0" | `10-release.md`, `01-toolchain.md`, `08-secrets.md`, `09-ci-and-hosting.md` |
+| `pywf-oss-write-pypi-skill` | After a release, to generate an Agent Skill documenting this library's public API for other projects. The user must invoke it by hand. | "make a skill for this library" | `02-repo-layout.md` (section 2), `01-toolchain.md` (section 5) |
+| `pywf-oss-audit` | A repo must be checked against these conventions, for example an older repo being brought up to the current template. It reports only. | "audit this repo" | all references, both `check_*` scripts |
+
+The order in which these skills usually run, and what each hands to the next, is in `references/11-skill-family-workflow.md`.

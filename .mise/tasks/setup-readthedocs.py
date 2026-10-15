@@ -16,9 +16,9 @@ import os
 import sys
 
 try:
-    import httpx
+    import httpx2
 except ImportError:
-    print("Error: httpx not installed. Run: uv sync --extra mise")
+    print("Error: httpx2 not installed. Run: uv sync --extra mise")
     sys.exit(1)
 
 from utils import get_github_repo_url
@@ -53,7 +53,7 @@ def main():
 
     # Check if project already exists (idempotent)
     check_url = f"{endpoint}/projects/{project_slug}/"
-    with httpx.Client(timeout=30) as client:
+    with httpx2.Client(timeout=30) as client:
         response = client.get(check_url, headers=headers)
 
         if response.status_code == 200:
