@@ -1,6 +1,10 @@
+---
+description: "Jupyter notebook docs pages under nbsphinx: raw reStructuredText cells for titles, cross-references and directives (with the exact cell JSON), the page skeleton, code cell style, and how to execute and commit outputs. Read when creating or editing a .ipynb docs page."
+---
+
 # Documentation: Jupyter Notebooks with nbsphinx
 
-A docs page can be `index.ipynb` instead of `index.rst`. nbsphinx renders it, and docfly's `.. autotoctree::` picks it up like any other page. Read `docs-sphinx.md` first, because folder naming, labels, and cross-reference syntax are the same.
+A docs page can be `index.ipynb` instead of `index.rst`. nbsphinx renders it, and docfly's `.. autotoctree::` picks it up like any other page. Read `05-docs-sphinx.md` first, because folder naming, labels, and cross-reference syntax are the same.
 
 Use a notebook when the page teaches by running code and the reader benefits from seeing real output. Use `.rst` for concepts, design notes, and maintainer docs.
 

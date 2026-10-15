@@ -1,3 +1,7 @@
+---
+description: "The pywf-oss skills, what each one does, the typical flows that chain them, and the handoffs between them. Read when choosing which pywf-oss skill fits a job, or when one skill finishes and the next step is unclear."
+---
+
 # Family Workflow
 
 How the `pywf-oss-*` skills fit together, and what each one hands to the next.

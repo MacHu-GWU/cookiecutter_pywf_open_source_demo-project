@@ -19,6 +19,7 @@ This repo follows the pywf open-source Python library template. **Before creatin
 - Run everything through mise: `mise run inst` (install), `mise run cov` (tests and coverage), `mise run build-doc` (docs). Use `.venv/bin/python`; never `pip install`.
 - Python 3.11+ only: `X | None`, `list[str]`; never `T.Optional` / `T.List`. `import typing as T` is the only way typing is imported.
 - Every `.py` file starts with `# -*- coding: utf-8 -*-`.
+- One imported name per statement: `from abc import e` and `from abc import f` on two lines, never `from abc import e, f`.
 - Import order in source files: `typing as T`, then stdlib, then third party, then close-relative libraries, then this package's own modules, always as relative imports, farthest (`...`) before nearest (`.`).
 - Public API = `<package>/api.py`, one re-exported name per line. Every public name has a docstring, or it is missing from the API docs.
 - Test path mirrors source path, with the directory path as a file-name prefix: `<package>/a/b/c.py` maps to `tests/a/b/test_a_b_c.py`. Every tested folder has an `all.py` with `is_folder=True`.

@@ -22,12 +22,10 @@ except ImportError:
     print("Error: httpx not installed. Run: uv sync --extra mise")
     sys.exit(1)
 
-from utils import (
-    get_github_repo_url,
-    get_project_name,
-    get_readthedocs_slug,
-    get_readthedocs_url,
-)
+from utils import get_github_repo_url
+from utils import get_project_name
+from utils import get_readthedocs_slug
+from utils import get_readthedocs_url
 
 
 def main():

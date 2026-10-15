@@ -1,6 +1,10 @@
+---
+description: "The file header, one imported name per statement, the five-group import order with relative imports, Python 3.11+ type hints, privacy rules, and docstring and formatting conventions. Read before writing or reviewing any source code in the package."
+---
+
 # Code Style
 
-These rules apply to source code under `<package>/`. Test files follow a different import order, described in `testing.md`.
+These rules apply to source code under `<package>/`. Test files follow a different import order, described in `04-testing.md`.
 
 ---
 
@@ -54,7 +58,26 @@ if T.TYPE_CHECKING:  # pragma: no cover
 Rules:
 
 - Inside `<package>/`, always use relative imports for the package's own modules. Never write `from <package>.x import y` there. That keeps the code tied to its position in the tree, not to the package name.
-- Prefer one imported name per line: `from .model import Record` and `from .model import Field` on separate lines. In `api.py` this is required.
+- **One imported name per statement**, everywhere: source, tests, `.mise/tasks`, and scripts.
+
+  ```python
+  # yes
+  from .model import Record
+  from .model import Field
+  from github import Auth
+  from github import Github
+
+  # no
+  from .model import Record, Field
+  from github import (
+      Auth,
+      Github,
+  )
+  ```
+
+  - Why: each line is one name, so diffs, `git blame`, and commenting a name in or out touch exactly one line, and `api.py` reads as a list of public names.
+  - When a single long import is wrapped by `ruff format` into `from x import (\n    name,\n)`, that is still one name, and it is fine.
+  - ruff cannot enforce this rule without also re-sorting imports and breaking the group order above. Check it, or split violations automatically, with `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_one_import_per_line.py --paths <package> tests [--fix]`.
 - Put imports needed only for type hints under `if T.TYPE_CHECKING:  # pragma: no cover`, after all other imports.
 
 ---
@@ -88,5 +111,5 @@ Rules:
 
 ## 6. Formatting
 
-- `uvx ruff format` decides layout. Do not fight it, except with `# fmt: off` / `# fmt: on` around hand-aligned blocks (see `toolchain.md`).
+- `uvx ruff format` decides layout. Do not fight it, except with `# fmt: off` / `# fmt: on` around hand-aligned blocks (see `01-toolchain.md`).
 - Prefer plain, explicit code: named temporaries, explicit `if` / `else`, bare `raise` to re-raise, `raise NewError(...) from e` to convert.

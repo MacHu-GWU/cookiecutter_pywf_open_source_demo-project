@@ -9,8 +9,8 @@ disable-model-invocation: true
 Generate an Agent Skill that lets future Claude sessions use the local Python library through its public API, without re-loading the source.
 
 Read ../pywf-oss-base/SKILL.md, then:
-- ../pywf-oss-base/references/repo-layout.md (section 2: how `api.py` defines the public API)
-- ../pywf-oss-base/references/toolchain.md (section 5: how a CLI is built with python-fire)
+- ../pywf-oss-base/references/02-repo-layout.md (section 2: how `api.py` defines the public API)
+- ../pywf-oss-base/references/01-toolchain.md (section 5: how a CLI is built with python-fire)
 
 ## Where to write the output
 

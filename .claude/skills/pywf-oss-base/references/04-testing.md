@@ -1,3 +1,7 @@
+---
+description: "The source-to-test path mapping, the test file template and its import order, the run_cov_test block, all.py per folder, how to run tests, and coverage rules with # pragma: no cover. Read when creating, moving, or writing tests, or when checking coverage."
+---
+
 # Testing
 
 Tests use pytest and pytest-cov. Every source module has exactly one test file, and every test file can run on its own as a script to report the coverage of just its module.
@@ -136,7 +140,7 @@ While developing a module, run its own test file and aim for 100% on that module
   - defensive code for impossible states,
   - code that only runs against real external services.
 - Never use it to hide logic you simply have not tested.
-- Coverage is uploaded to codecov.io from CI (see `ci-and-hosting.md`).
+- Coverage is uploaded to codecov.io from CI (see `08-ci-and-hosting.md`).
 
 ---
 

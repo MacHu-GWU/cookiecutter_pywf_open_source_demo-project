@@ -29,7 +29,9 @@ import os
 import sys
 
 try:
-    from github import Github, GithubException, Auth
+    from github import Github
+    from github import GithubException
+    from github import Auth
     import httpx
 except ImportError:
     print("Error: PyGithub or httpx not installed. Run: uv sync --extra mise")

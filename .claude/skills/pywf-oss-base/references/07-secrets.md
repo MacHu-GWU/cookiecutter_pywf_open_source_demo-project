@@ -1,3 +1,7 @@
+---
+description: "How secrets reach a repo through mise [env] and home-secret-toml from $HOME/home_secret.toml, which tokens the tasks use, and the hard rules that forbid reading or printing them. Read before running any task that needs a token, adding a new secret, or debugging an auth failure."
+---
+
 # Secrets and Environment Variables
 
 The maintainer runs hundreds of repos on one machine. Instead of a `.env` file per repo, every secret lives in one file, `$HOME/home_secret.toml`, read through the `home-secret-toml` CLI (`hst`).
@@ -39,4 +43,4 @@ The template uses these variables:
 
 ## 3. CI is different
 
-GitHub Actions does not use mise or `home_secret.toml`. It gets secrets from repository secrets (for example `secrets.CODECOV_TOKEN`), which the `setup-*` tasks create. See `ci-and-hosting.md`.
+GitHub Actions does not use mise or `home_secret.toml`. It gets secrets from repository secrets (for example `secrets.CODECOV_TOKEN`), which the `setup-*` tasks create. See `08-ci-and-hosting.md`.

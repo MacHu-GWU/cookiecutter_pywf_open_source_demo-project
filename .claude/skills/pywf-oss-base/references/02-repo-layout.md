@@ -1,3 +1,7 @@
+---
+description: "The repository tree and what each file is for: the special package files api.py, paths.py, vendor/, <package>/tests/ and <package>/docs/, private modules, generated files, and the version source of truth. Read when deciding where new code or files go, changing the public API, or adding a project path."
+---
+
 # Repository Layout
 
 What each file and folder is for, which ones are special, and which ones are generated.
@@ -13,17 +17,17 @@ What each file and folder is for, which ones are special, and which ones are gen
 │   ├── api.py                 # THE public API (see section 2)
 │   ├── paths.py               # PathEnum: every project path as an absolute Path
 │   ├── _version.py            # optional: __version__ and metadata, must match pyproject.toml
-│   ├── cli.py                 # optional: python-fire CLI (see toolchain.md)
+│   ├── cli.py                 # optional: python-fire CLI (see 01-toolchain.md)
 │   ├── <module>.py            # normal modules
 │   ├── _<module>.py           # private modules: importable inside the package, never exported by api.py
 │   ├── <subpackage>/          # each subpackage may have its own api.py
 │   ├── vendor/                # third-party code copied in verbatim
 │   ├── tests/                 # test HELPERS shipped with the source (run_cov_test, fixtures)
 │   └── docs/                  # doc_data for sphinx-jinja
-├── tests/                     # unit tests, mirroring <package>/ (see testing.md)
+├── tests/                     # unit tests, mirroring <package>/ (see 04-testing.md)
 ├── tests_int/                 # optional: integration tests (real external services)
 ├── tests_load/                # optional: load tests
-├── docs/source/               # Sphinx source (see docs-sphinx.md)
+├── docs/source/               # Sphinx source (see 05-docs-sphinx.md)
 ├── .mise/tasks/*.py           # Python scripts behind mise tasks
 ├── .claude/                   # Claude Code settings and skills
 ├── .github/workflows/main.yml # CI
@@ -34,7 +38,7 @@ What each file and folder is for, which ones are special, and which ones are gen
 ├── .coveragerc / codecov.yml  # coverage config
 ├── .readthedocs.yml           # Read the Docs build
 ├── README.rst                 # short: what, install, a few examples, links
-├── release-history.rst        # changelog (see release.md)
+├── release-history.rst        # changelog (see 09-release.md)
 ├── AUTHORS.rst / LICENSE.txt
 └── CLAUDE.md                  # project guide for AI (template block + project block)
 ```

@@ -6,8 +6,8 @@ description: "Write or update a Sphinx documentation page of a pywf open-source 
 Write or update one docs page under `docs/source/`, so that it builds cleanly, appears in the sidebar, and links correctly to the API reference and other pages.
 
 Read ../pywf-oss-base/SKILL.md, then:
-- ../pywf-oss-base/references/docs-sphinx.md
-- ../pywf-oss-base/references/docs-notebook.md (only for notebook pages)
+- ../pywf-oss-base/references/05-docs-sphinx.md
+- ../pywf-oss-base/references/06-docs-notebook.md (only for notebook pages)
 
 Templates: ../pywf-oss-base/assets/notebook-page-template.ipynb and ../pywf-oss-base/assets/raw-rst-cell.json.
 

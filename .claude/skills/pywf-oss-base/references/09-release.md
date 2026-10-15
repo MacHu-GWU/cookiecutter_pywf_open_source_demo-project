@@ -1,3 +1,7 @@
+---
+description: "Semantic versioning rules, the release-history.rst changelog format and its Backlog section, and the release sequence with its approval gates. Read when bumping a version, writing release notes, or publishing a release."
+---
+
 # Versioning, Changelog, and Release
 
 ---

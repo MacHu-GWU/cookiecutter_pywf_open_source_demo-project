@@ -12,10 +12,11 @@ Read ../pywf-oss-base/SKILL.md, then every file in ../pywf-oss-base/references/.
 Run these, and record each finding with its file, the rule broken (reference file and section), and the fixing skill:
 
 1. **Test layout.** Run `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_test_layout.py --project_root .`. It finds missing, orphan, and mismatched test files, and `all.py` without `is_folder=True`.
-2. **Python versions.** Check that `requires-python`, the classifiers, the CI matrix, `USING_COVERAGE`, the mise `python`, and `.readthedocs.yml` agree with `toolchain.md` section 2 (floor 3.11, every non-end-of-life version, Windows plus Ubuntu).
+2. **Python versions.** Check that `requires-python`, the classifiers, the CI matrix, `USING_COVERAGE`, the mise `python`, and `.readthedocs.yml` agree with `01-toolchain.md` section 2 (floor 3.11, every non-end-of-life version, Windows plus Ubuntu).
 3. **Lint.**
    - `uvx ruff check --select F401,F821,F841 <package> tests`
    - `uvx ruff format --check <package> tests`
+   - `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_one_import_per_line.py --paths <package> tests .mise/tasks`
    - Check that `[tool.ruff]` exists in `pyproject.toml`.
 4. **Code style**, sampled in about 10 source files and the touched areas:
    - the file header,

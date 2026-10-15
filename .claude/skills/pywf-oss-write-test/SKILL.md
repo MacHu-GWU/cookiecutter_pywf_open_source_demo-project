@@ -6,12 +6,12 @@ description: "Write, extend, or fix the unit tests for a module of a pywf open-s
 Write the tests for one module (or every module of one subpackage), so that its own test file reports full coverage and `mise run cov` passes.
 
 Read ../pywf-oss-base/SKILL.md, then:
-- ../pywf-oss-base/references/testing.md
-- ../pywf-oss-base/references/code-style.md
+- ../pywf-oss-base/references/04-testing.md
+- ../pywf-oss-base/references/03-code-style.md
 
 ## Steps
 
-1. **Locate.** Read the source module. Get its test path from `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_test_layout.py --project_root . --source <file>`. If the test file is missing, create it from the template in `testing.md`. Do not invent another location.
+1. **Locate.** Read the source module. Get its test path from `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_test_layout.py --project_root . --source <file>`. If the test file is missing, create it from the template in `04-testing.md`. Do not invent another location.
 2. **Baseline.** Run `.venv/bin/python tests/<...>/test_<...>.py` and note the missing lines in the `term-missing` report.
 3. **Write the tests.**
    - Import the subject under test at the top of the file.
@@ -23,6 +23,7 @@ Read ../pywf-oss-base/SKILL.md, then:
    - Run `mise run cov`; the whole suite must pass.
    - Run the layout check with no `--source`; it must report 0 problems.
    - Run `uvx ruff format` and `uvx ruff check --select F401,F821,F841` on the touched files.
+   - Run `python ${CLAUDE_SKILL_DIR}/../pywf-oss-base/scripts/check_one_import_per_line.py --paths <files>`; it must report nothing.
 
 ## Boundaries
 

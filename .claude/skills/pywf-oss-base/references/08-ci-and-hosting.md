@@ -1,3 +1,7 @@
+---
+description: "The GitHub Actions workflow and its Windows plus Ubuntu matrix, the Codecov and Read the Docs setup tasks, and the setup order for a new repo. Read when changing CI, debugging a failed CI run or coverage upload, or wiring up a new repo's hosting."
+---
+
 # CI and Hosting
 
 GitHub Actions runs the tests, codecov.io tracks coverage, and Read the Docs hosts the docs. mise tasks wire up all three for a new repo.
@@ -6,7 +10,7 @@ GitHub Actions runs the tests, codecov.io tracks coverage, and Read the Docs hos
 
 ## 1. GitHub Actions (`.github/workflows/main.yml`)
 
-- **Matrix**: `ubuntu-latest` and `windows-latest`, times every supported Python version (3.11 and up; see `toolchain.md` section 2). Libraries must pass on both Windows and Ubuntu. That is why code uses `pathlib` and `path_enum`, never hard-coded `/` paths or shell-only commands.
+- **Matrix**: `ubuntu-latest` and `windows-latest`, times every supported Python version (3.11 and up; see `01-toolchain.md` section 2). Libraries must pass on both Windows and Ubuntu. That is why code uses `pathlib` and `path_enum`, never hard-coded `/` paths or shell-only commands.
 - **Steps**:
   1. checkout,
   2. setup-python,
@@ -23,7 +27,7 @@ GitHub Actions runs the tests, codecov.io tracks coverage, and Read the Docs hos
 
 ## 2. Codecov (codecov.io)
 
-- `codecov.yml` holds the report settings. `.coveragerc` holds what is measured (see `testing.md`).
+- `codecov.yml` holds the report settings. `.coveragerc` holds what is measured (see `04-testing.md`).
 - One-time setup: run `mise run setup-codecov`. It uses `CODECOV_TOKEN` (the Codecov API token) to fetch the repo's upload token, and stores that upload token as the `CODECOV_TOKEN` secret of the GitHub repo.
 - If CI fails at "Upload coverage to Codecov", the secret is missing or stale. Rerun the setup task; it is idempotent.
 
@@ -32,7 +36,7 @@ GitHub Actions runs the tests, codecov.io tracks coverage, and Read the Docs hos
 ## 3. Read the Docs (readthedocs.org)
 
 - `.readthedocs.yml` builds with uv: `uv sync --extra doc` into the Read the Docs virtualenv, then Sphinx with `docs/source/conf.py`.
-- Read the Docs builds on every push to `main`. It has no secrets, so notebooks must ship with committed outputs (see `docs-notebook.md`).
+- Read the Docs builds on every push to `main`. It has no secrets, so notebooks must ship with committed outputs (see `06-docs-notebook.md`).
 - One-time setup:
   - `mise run setup-readthedocs` creates the Read the Docs project. It is idempotent.
   - `mise run update-github-metadata` sets the GitHub repo description (from `pyproject.toml`) and homepage (the docs URL).

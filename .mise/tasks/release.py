@@ -21,15 +21,15 @@ import os
 import sys
 
 try:
-    from github import Github, GithubException, Auth
+    from github import Github
+    from github import GithubException
+    from github import Auth
 except ImportError:
     print("Error: PyGithub not installed. Run: uv sync --extra mise")
     sys.exit(1)
 
-from utils import (
-    get_github_repo_info,
-    config,
-)
+from utils import get_github_repo_info
+from utils import config
 
 
 def get_package_version() -> str:

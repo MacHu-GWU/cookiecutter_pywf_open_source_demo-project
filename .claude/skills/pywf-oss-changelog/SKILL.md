@@ -6,7 +6,7 @@ description: "Write or correct the section for the upcoming version in release-h
 Keep the target version's section of `release-history.rst` accurate and complete, based on git history. Never touch the `x.y.z (Backlog)` section.
 
 Read ../pywf-oss-base/SKILL.md, then:
-- ../pywf-oss-base/references/release.md (section 2 has the format and the rules)
+- ../pywf-oss-base/references/09-release.md (section 2 has the format and the rules)
 
 ## Step 1: Gather state
 
@@ -32,7 +32,7 @@ These outputs are the ground truth. Pay special attention to `api.py` diffs: add
 ## Step 4: Write
 
 - **The section exists**: compare it with git history. Add what is missing, remove what git does not support, and sharpen vague entries.
-- **The section is missing**: insert `VERSION (YYYY-MM-DD)` (today's date) directly below the Backlog block, using the format and category order in `release.md`. Omit empty categories.
+- **The section is missing**: insert `VERSION (YYYY-MM-DD)` (today's date) directly below the Backlog block, using the format and category order in `09-release.md`. Omit empty categories.
 
 Edit the file directly. It is tracked by git, so no confirmation is needed.
 
