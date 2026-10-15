@@ -15,8 +15,10 @@ The maintainer runs hundreds of repos on one machine, so instead of a `.env` fil
 
   ```toml
   [env]
-  GITHUB_TOKEN = "{{ exec(command='uvx --from home-secret-toml hst get <key_path>') }}"
+  GITHUB_TOKEN = "{{ exec(command='uvx --from home-secret-toml hst get <key_path> || true') }}"
   ```
+
+  The `|| true` fallback matters: a failed `exec` aborts every mise command in the repo, not only the tasks that need the secret. With it, an unreadable secret is an empty string, which scripts treat as not set, and the `hst` error printed on each mise command names the missing key.
 
   `mise.toml` is the only place that maps a variable to its key path. Read it there; never assume a path.
 
