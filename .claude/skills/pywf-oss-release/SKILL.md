@@ -7,10 +7,10 @@ disable-model-invocation: true
 Take the repo from "code is done" to "version is on PyPI and tagged on GitHub". Stop for approval before every step that cannot be undone.
 
 Read ../pywf-oss-base/SKILL.md, then:
-- ../pywf-oss-base/references/09-release.md
+- ../pywf-oss-base/references/10-release.md
 - ../pywf-oss-base/references/01-toolchain.md (section 1, mise tasks)
-- ../pywf-oss-base/references/08-ci-and-hosting.md
-- ../pywf-oss-base/references/07-secrets.md
+- ../pywf-oss-base/references/09-ci-and-hosting.md
+- ../pywf-oss-base/references/08-secrets.md
 
 ## Steps
 
@@ -30,5 +30,5 @@ Read ../pywf-oss-base/SKILL.md, then:
 ## Boundaries
 
 - One approval covers one step. A yes to publish is not a yes to release.
-- If a token is missing or rejected, name the variable and stop. Never inspect `home_secret.toml` (see `07-secrets.md`).
+- If a token is missing or rejected, name the variable and stop. Never inspect `home_secret.toml` (see `08-secrets.md`).
 - Never delete or move an existing tag or PyPI release. A bad release is fixed with a new PATCH version.

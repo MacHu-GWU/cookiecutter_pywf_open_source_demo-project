@@ -140,7 +140,7 @@ While developing a module, run its own test file and aim for 100% on that module
   - defensive code for impossible states,
   - code that only runs against real external services.
 - Never use it to hide logic you simply have not tested.
-- Coverage is uploaded to codecov.io from CI (see `08-ci-and-hosting.md`).
+- Coverage is uploaded to codecov.io from CI (see `09-ci-and-hosting.md`).
 
 ---
 

@@ -43,4 +43,4 @@ The template uses these variables:
 
 ## 3. CI is different
 
-GitHub Actions does not use mise or `home_secret.toml`. It gets secrets from repository secrets (for example `secrets.CODECOV_TOKEN`), which the `setup-*` tasks create. See `08-ci-and-hosting.md`.
+GitHub Actions does not use mise or `home_secret.toml`. It gets secrets from repository secrets (for example `secrets.CODECOV_TOKEN`), which the `setup-*` tasks create. See `09-ci-and-hosting.md`.

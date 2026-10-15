@@ -16,7 +16,7 @@ In every reference file, `<package>` means the import package directory, such as
 
 - `[tools]`: the dev Python, `uv`, `claude`, `pandoc`. mise installs each version once per machine and shares it across repos.
 - `[tasks.*]`: every workflow command. List them with `mise tasks ls`. Each task's `description` says what it does.
-- `[env]`: secrets, loaded through `home-secret-toml`. See `07-secrets.md`.
+- `[env]`: secrets, loaded through `home-secret-toml`. See `08-secrets.md`.
 
 Run a task with `mise run <task>`. Prefer a task over the raw command it wraps, because tasks carry dependencies (for example, `cov` depends on `inst`).
 
@@ -31,7 +31,7 @@ Run a task with `mise run <task>`. Prefer a task over the raw command it wraps, 
 | `export` | Regenerate `requirements*.txt` from `uv.lock` |
 | `build` / `publish` | Build wheel and sdist / upload to PyPI |
 | `release` | Create the GitHub tag and release for the current version |
-| `setup-codecov` / `setup-readthedocs` / `update-github-metadata` | One-time project setup (see `08-ci-and-hosting.md`) |
+| `setup-codecov` / `setup-readthedocs` / `update-github-metadata` | One-time project setup (see `09-ci-and-hosting.md`) |
 
 `publish`, `release`, and the `setup-*` tasks act on external services. Never run them without the user's explicit go-ahead.
 

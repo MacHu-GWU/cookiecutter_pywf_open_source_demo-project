@@ -74,11 +74,11 @@ test = [
 # Documentation build dependenceies
 # ------------------------------------------------------------------------------
 doc = [
-    "Sphinx>=7.4.7,<8.0.0",
+    "Sphinx>=8.2.3,<9.0.0",
     "sphinx-copybutton>=0.5.2,<1.0.0", # add copy button to code block
-    "sphinx-design>=0.6.1,<1.0.0", # add additional design pattern to sphinx
+    "sphinx-design>=0.7.0,<1.0.0", # add additional design pattern to sphinx
     "sphinx-jinja>=2.0.2,<3.0.0", # enable jinja syntax in reStructuredText
-    "furo==2024.8.6", # the furo sphinx theme
+    "furo==2025.12.19", # the furo sphinx theme
     "pygments>=2.18.0,<3.0.0", # syntax highlight
     "ipython>=8.18.1,<8.19.0", # interactive Python
     "ipykernel>=7.3.0,<8.0.0", # Jupyter kernel, to execute docs notebooks locally

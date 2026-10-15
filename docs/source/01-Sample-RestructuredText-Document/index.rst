@@ -137,29 +137,7 @@ This table is generated from ``doc_data`` in ``cookiecutter_pywf_open_source_dem
 
 Layout (sphinx-design)
 ------------------------------------------------------------------------------
-.. tab-set::
-
-    .. tab-item:: pip
-
-        .. code-block:: bash
-
-            pip install cookiecutter-pywf-open-source-demo
-
-    .. tab-item:: uv
-
-        .. code-block:: bash
-
-            uv add cookiecutter-pywf-open-source-demo
-
-.. grid:: 2
-
-    .. grid-item-card:: Guide
-
-        Start with :ref:`sample-jupyter-notebook-document`.
-
-    .. grid-item-card:: API
-
-        Browse :mod:`cookiecutter_pywf_open_source_demo.example_module_1`.
+Grids, cards, tabs, dropdowns, badges, buttons, and icons are shown in :ref:`sample-sphinx-design-gallery`.
 
 
 Images

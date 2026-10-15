@@ -36,7 +36,7 @@ GitHub Actions runs the tests, codecov.io tracks coverage, and Read the Docs hos
 ## 3. Read the Docs (readthedocs.org)
 
 - `.readthedocs.yml` builds with uv: `uv sync --extra doc` into the Read the Docs virtualenv, then Sphinx with `docs/source/conf.py`.
-- Read the Docs builds on every push to `main`. It has no secrets, so notebooks must ship with committed outputs (see `06-docs-notebook.md`).
+- Read the Docs builds on every push to `main`. It has no secrets, so notebooks must ship with committed outputs (see `07-docs-notebook.md`).
 - One-time setup:
   - `mise run setup-readthedocs` creates the Read the Docs project. It is idempotent.
   - `mise run update-github-metadata` sets the GitHub repo description (from `pyproject.toml`) and homepage (the docs URL).

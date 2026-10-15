@@ -21,15 +21,17 @@ The references are numbered in project-lifecycle order, from setting up the envi
   The source-to-test path mapping, the test file template and its import order, the run_cov_test block, all.py per folder, how to run tests, and coverage rules with # pragma: no cover. Read when creating, moving, or writing tests, or when checking coverage.
 - **Documentation: Sphinx, reStructuredText, furo, docfly**: `references/05-docs-sphinx.md`
   The docs page tree with numbered folders and autotoctree, reStructuredText heading and label rules, the exact :mod: / :class: / :meth: / :func: / :attr: cross-reference forms, the docfly API reference and its docstring requirement, and the docs build. Read when writing or fixing any documentation page or docstring cross-reference.
-- **Documentation: Jupyter Notebooks with nbsphinx**: `references/06-docs-notebook.md`
+- **Documentation: sphinx-design Widgets**: `references/06-docs-sphinx-design.md`
+  The sphinx-design widgets (grid, card, tabs, code tabs, dropdown, badge, button, icon) with one copy-ready reStructuredText example each, the syntax rules that break them silently, and which widget fits which page pattern. Read when a docs page needs layout or visual elements beyond plain text: a landing page, install instructions, an FAQ, a feature overview, or a call to action.
+- **Documentation: Jupyter Notebooks with nbsphinx**: `references/07-docs-notebook.md`
   Jupyter notebook docs pages under nbsphinx: raw reStructuredText cells for titles, cross-references and directives (with the exact cell JSON), the page skeleton, code cell style, and how to execute and commit outputs. Read when creating or editing a .ipynb docs page.
-- **Secrets and Environment Variables**: `references/07-secrets.md`
+- **Secrets and Environment Variables**: `references/08-secrets.md`
   How secrets reach a repo through mise [env] and home-secret-toml from $HOME/home_secret.toml, which tokens the tasks use, and the hard rules that forbid reading or printing them. Read before running any task that needs a token, adding a new secret, or debugging an auth failure.
-- **CI and Hosting**: `references/08-ci-and-hosting.md`
+- **CI and Hosting**: `references/09-ci-and-hosting.md`
   The GitHub Actions workflow and its Windows plus Ubuntu matrix, the Codecov and Read the Docs setup tasks, and the setup order for a new repo. Read when changing CI, debugging a failed CI run or coverage upload, or wiring up a new repo's hosting.
-- **Versioning, Changelog, and Release**: `references/09-release.md`
+- **Versioning, Changelog, and Release**: `references/10-release.md`
   Semantic versioning rules, the release-history.rst changelog format and its Backlog section, and the release sequence with its approval gates. Read when bumping a version, writing release notes, or publishing a release.
-- **Family Workflow**: `references/10-skill-family-workflow.md`
+- **Family Workflow**: `references/11-skill-family-workflow.md`
   The pywf-oss skills, what each one does, the typical flows that chain them, and the handoffs between them. Read when choosing which pywf-oss skill fits a job, or when one skill finishes and the next step is unclear.
 
 <!-- END references index -->
@@ -52,10 +54,10 @@ Run a script from this skill with `python ${CLAUDE_SKILL_DIR}/scripts/<name>.py`
 | :--- | :--- |
 | `pywf-oss-add-module` | `02-repo-layout.md`, `03-code-style.md`, `04-testing.md`, `scripts/check_test_layout.py`, `scripts/check_one_import_per_line.py` |
 | `pywf-oss-write-test` | `04-testing.md`, `03-code-style.md`, `scripts/check_test_layout.py`, `scripts/check_one_import_per_line.py` |
-| `pywf-oss-write-doc` | `05-docs-sphinx.md`, `06-docs-notebook.md`, `assets/*` |
-| `pywf-oss-changelog` | `09-release.md` |
-| `pywf-oss-release` | `09-release.md`, `01-toolchain.md`, `07-secrets.md`, `08-ci-and-hosting.md` |
+| `pywf-oss-write-doc` | `05-docs-sphinx.md`, `06-docs-sphinx-design.md`, `07-docs-notebook.md`, `assets/*` |
+| `pywf-oss-changelog` | `10-release.md` |
+| `pywf-oss-release` | `10-release.md`, `01-toolchain.md`, `08-secrets.md`, `09-ci-and-hosting.md` |
 | `pywf-oss-write-pypi-skill` | `02-repo-layout.md` (section 2, `api.py`), `01-toolchain.md` (section 5, CLI) |
 | `pywf-oss-audit` | all references, `scripts/check_test_layout.py`, `scripts/check_one_import_per_line.py` |
 
-The flow between these skills is in `references/10-skill-family-workflow.md`.
+The flow between these skills is in `references/11-skill-family-workflow.md`.

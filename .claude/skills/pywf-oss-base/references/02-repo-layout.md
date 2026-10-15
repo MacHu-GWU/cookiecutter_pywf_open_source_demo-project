@@ -38,7 +38,7 @@ What each file and folder is for, which ones are special, and which ones are gen
 ├── .coveragerc / codecov.yml  # coverage config
 ├── .readthedocs.yml           # Read the Docs build
 ├── README.rst                 # short: what, install, a few examples, links
-├── release-history.rst        # changelog (see 09-release.md)
+├── release-history.rst        # changelog (see 10-release.md)
 ├── AUTHORS.rst / LICENSE.txt
 └── CLAUDE.md                  # project guide for AI (template block + project block)
 ```
