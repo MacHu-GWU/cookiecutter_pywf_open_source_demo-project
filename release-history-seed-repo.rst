@@ -18,6 +18,13 @@ x.y.z (Backlog)
 **Miscellaneous**
 
 
+3.0.2 (2026-10-23)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Miscellaneous**
+
+- No changes to the seed; this version changes the template repo only.
+
+
 3.0.1 (2026-10-23)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Miscellaneous**
