@@ -18,6 +18,13 @@ x.y.z (Backlog)
 **Miscellaneous**
 
 
+3.0.1 (2026-10-23)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Miscellaneous**
+
+- No changes to what generated projects get; this version re-tags the seed after ``3.0.0``, so the tag includes this changelog.
+
+
 3.0.0 (2026-10-23)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 First release recorded in this file. The version jumps from ``1.0.5`` to ``3.0.0`` because the seed and the template repo now share one version number, starting above both previous versions (seed ``1.0.5``, template ``2.1.0``). Nothing generated projects receive is incompatible with the previous release. This section describes everything a project generated from this seed gets.
